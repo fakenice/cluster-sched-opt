@@ -1,5 +1,7 @@
 # Trace-driven GPU cluster scheduling: can an optimiser beat FIFO?
 
+Repo: <https://github.com/fakenice/cluster-sched-opt> · 中文一页结论：[`一页结论.md`](一页结论.md)
+
 Replaying a **real** production GPU-cluster arrival stream under three scheduling policies —
 FIFO with head-of-line blocking, EASY backfill, and a time-indexed integer program solved with
 HiGHS — and measuring what reordering work actually buys: queueing delay, throughput, wasted
