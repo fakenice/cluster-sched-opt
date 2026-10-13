@@ -1,0 +1,6 @@
+numpy>=2.0
+pandas>=2.2
+scipy>=1.11          # HiGHS MILP backend via scipy.optimize.milp
+matplotlib>=3.8
+nbformat>=5.9
+nbclient>=0.8        # only needed to re-execute the notebook

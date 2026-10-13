@@ -1,0 +1,9 @@
+# Large inputs are downloadable (run_all.py --fetch verifies them against the trace's
+# published sha256); everything that defines or reports the experiment is committed on
+# purpose, so a reader never has to take a number in the README on trust.
+data/raw/
+data/processed/jobs.csv
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store

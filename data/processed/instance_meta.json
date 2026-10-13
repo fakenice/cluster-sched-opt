@@ -1,0 +1,308 @@
+[
+  {
+    "pool": "P100",
+    "seed": 20261013,
+    "target_rho": 0.4,
+    "achieved_rho": 0.4054,
+    "instance_file": "instance_P100_04_71.csv",
+    "n_jobs": 71,
+    "nested_subset_of_highest_tier": true,
+    "cluster_fixed_across_tiers": true,
+    "pool_gpu_jobs_total": 45946,
+    "gpu_request_cap_cards": 20.0,
+    "gpu_request_cap_quantile": 0.9,
+    "pool_jobs_excluded_as_too_big": 3979,
+    "pool_gpu_jobs_dropped_by_service_cap": 3520,
+    "window_jobs_after_filters": 415,
+    "window_demand_gpu_hours": 1748.4,
+    "window_start_seconds_rel_trace": 3369600.0,
+    "window_hours": 6.0,
+    "horizon_hours": 14.0,
+    "slot_seconds": 600,
+    "n_slots": 84,
+    "ilp_binary_count_estimate": 5964,
+    "machine_spec": {
+      "gpu_per_machine": 2.0,
+      "cpu_cores_per_machine": 64.0,
+      "mem_gb_per_machine": 512.0,
+      "machines_available_in_pool": 798
+    },
+    "capacity": {
+      "machines": 22.0,
+      "gpu_cards": 44.0,
+      "cpu_cores": 1408.0,
+      "mem_gb": 11264.0
+    },
+    "cluster_sizing": {
+      "machines_for_load_target": 22,
+      "machines_for_largest_request": 10,
+      "chosen": 22,
+      "clamped_to_pool": false
+    },
+    "demand": {
+      "gpu_card_hours": 249.7,
+      "service_seconds_median": 796.0,
+      "service_seconds_p90": 6820.0,
+      "gpu_cards_per_job_median": 1.0,
+      "gpu_cards_per_job_max": 20.0,
+      "cpu_cores_per_job_median": 8.0,
+      "mem_gb_per_job_median": 29.296875,
+      "unique_users": 33
+    }
+  },
+  {
+    "pool": "P100",
+    "seed": 20261013,
+    "target_rho": 0.6,
+    "achieved_rho": 0.6389,
+    "instance_file": "instance_P100_06_106.csv",
+    "n_jobs": 106,
+    "nested_subset_of_highest_tier": true,
+    "cluster_fixed_across_tiers": true,
+    "pool_gpu_jobs_total": 45946,
+    "gpu_request_cap_cards": 20.0,
+    "gpu_request_cap_quantile": 0.9,
+    "pool_jobs_excluded_as_too_big": 3979,
+    "pool_gpu_jobs_dropped_by_service_cap": 3520,
+    "window_jobs_after_filters": 415,
+    "window_demand_gpu_hours": 1748.4,
+    "window_start_seconds_rel_trace": 3369600.0,
+    "window_hours": 6.0,
+    "horizon_hours": 14.0,
+    "slot_seconds": 600,
+    "n_slots": 84,
+    "ilp_binary_count_estimate": 8904,
+    "machine_spec": {
+      "gpu_per_machine": 2.0,
+      "cpu_cores_per_machine": 64.0,
+      "mem_gb_per_machine": 512.0,
+      "machines_available_in_pool": 798
+    },
+    "capacity": {
+      "machines": 22.0,
+      "gpu_cards": 44.0,
+      "cpu_cores": 1408.0,
+      "mem_gb": 11264.0
+    },
+    "cluster_sizing": {
+      "machines_for_load_target": 22,
+      "machines_for_largest_request": 10,
+      "chosen": 22,
+      "clamped_to_pool": false
+    },
+    "demand": {
+      "gpu_card_hours": 393.6,
+      "service_seconds_median": 627.0,
+      "service_seconds_p90": 6630.5,
+      "gpu_cards_per_job_median": 1.0,
+      "gpu_cards_per_job_max": 20.0,
+      "cpu_cores_per_job_median": 10.0,
+      "mem_gb_per_job_median": 29.296875,
+      "unique_users": 38
+    }
+  },
+  {
+    "pool": "P100",
+    "seed": 20261013,
+    "target_rho": 0.85,
+    "achieved_rho": 0.8469,
+    "instance_file": "instance_P100_085_150.csv",
+    "n_jobs": 150,
+    "nested_subset_of_highest_tier": false,
+    "cluster_fixed_across_tiers": true,
+    "pool_gpu_jobs_total": 45946,
+    "gpu_request_cap_cards": 20.0,
+    "gpu_request_cap_quantile": 0.9,
+    "pool_jobs_excluded_as_too_big": 3979,
+    "pool_gpu_jobs_dropped_by_service_cap": 3520,
+    "window_jobs_after_filters": 415,
+    "window_demand_gpu_hours": 1748.4,
+    "window_start_seconds_rel_trace": 3369600.0,
+    "window_hours": 6.0,
+    "horizon_hours": 14.0,
+    "slot_seconds": 600,
+    "n_slots": 84,
+    "ilp_binary_count_estimate": 12600,
+    "machine_spec": {
+      "gpu_per_machine": 2.0,
+      "cpu_cores_per_machine": 64.0,
+      "mem_gb_per_machine": 512.0,
+      "machines_available_in_pool": 798
+    },
+    "capacity": {
+      "machines": 22.0,
+      "gpu_cards": 44.0,
+      "cpu_cores": 1408.0,
+      "mem_gb": 11264.0
+    },
+    "cluster_sizing": {
+      "machines_for_load_target": 22,
+      "machines_for_largest_request": 10,
+      "chosen": 22,
+      "clamped_to_pool": false
+    },
+    "demand": {
+      "gpu_card_hours": 521.7,
+      "service_seconds_median": 679.0,
+      "service_seconds_p90": 6359.099999999999,
+      "gpu_cards_per_job_median": 1.0,
+      "gpu_cards_per_job_max": 20.0,
+      "cpu_cores_per_job_median": 6.0,
+      "mem_gb_per_job_median": 29.296875,
+      "unique_users": 47
+    }
+  },
+  {
+    "pool": "MISC",
+    "seed": 20261013,
+    "target_rho": 0.4,
+    "achieved_rho": 0.3903,
+    "instance_file": "instance_MISC_04_188.csv",
+    "n_jobs": 188,
+    "nested_subset_of_highest_tier": true,
+    "cluster_fixed_across_tiers": true,
+    "pool_gpu_jobs_total": 386657,
+    "gpu_request_cap_cards": 5.0,
+    "gpu_request_cap_quantile": 0.9,
+    "pool_jobs_excluded_as_too_big": 32908,
+    "pool_gpu_jobs_dropped_by_service_cap": 24088,
+    "window_jobs_after_filters": 2151,
+    "window_demand_gpu_hours": 2041.4,
+    "window_start_seconds_rel_trace": 6004800.0,
+    "window_hours": 6.0,
+    "horizon_hours": 14.0,
+    "slot_seconds": 600,
+    "n_slots": 84,
+    "ilp_binary_count_estimate": 15792,
+    "machine_spec": {
+      "gpu_per_machine": 8.0,
+      "cpu_cores_per_machine": 96.0,
+      "mem_gb_per_machine": 512.0,
+      "machines_available_in_pool": 280
+    },
+    "capacity": {
+      "machines": 5.0,
+      "gpu_cards": 40.0,
+      "cpu_cores": 480.0,
+      "mem_gb": 2560.0
+    },
+    "cluster_sizing": {
+      "machines_for_load_target": 5,
+      "machines_for_largest_request": 4,
+      "chosen": 5,
+      "clamped_to_pool": false
+    },
+    "demand": {
+      "gpu_card_hours": 218.5,
+      "service_seconds_median": 989.0,
+      "service_seconds_p90": 14100.200000000003,
+      "gpu_cards_per_job_median": 1.0,
+      "gpu_cards_per_job_max": 5.0,
+      "cpu_cores_per_job_median": 6.0,
+      "mem_gb_per_job_median": 29.296875,
+      "unique_users": 29
+    }
+  },
+  {
+    "pool": "MISC",
+    "seed": 20261013,
+    "target_rho": 0.6,
+    "achieved_rho": 0.5241,
+    "instance_file": "instance_MISC_06_282.csv",
+    "n_jobs": 282,
+    "nested_subset_of_highest_tier": true,
+    "cluster_fixed_across_tiers": true,
+    "pool_gpu_jobs_total": 386657,
+    "gpu_request_cap_cards": 5.0,
+    "gpu_request_cap_quantile": 0.9,
+    "pool_jobs_excluded_as_too_big": 32908,
+    "pool_gpu_jobs_dropped_by_service_cap": 24088,
+    "window_jobs_after_filters": 2151,
+    "window_demand_gpu_hours": 2041.4,
+    "window_start_seconds_rel_trace": 6004800.0,
+    "window_hours": 6.0,
+    "horizon_hours": 14.0,
+    "slot_seconds": 600,
+    "n_slots": 84,
+    "ilp_binary_count_estimate": 23688,
+    "machine_spec": {
+      "gpu_per_machine": 8.0,
+      "cpu_cores_per_machine": 96.0,
+      "mem_gb_per_machine": 512.0,
+      "machines_available_in_pool": 280
+    },
+    "capacity": {
+      "machines": 5.0,
+      "gpu_cards": 40.0,
+      "cpu_cores": 480.0,
+      "mem_gb": 2560.0
+    },
+    "cluster_sizing": {
+      "machines_for_load_target": 5,
+      "machines_for_largest_request": 4,
+      "chosen": 5,
+      "clamped_to_pool": false
+    },
+    "demand": {
+      "gpu_card_hours": 293.5,
+      "service_seconds_median": 941.0,
+      "service_seconds_p90": 13021.1,
+      "gpu_cards_per_job_median": 1.0,
+      "gpu_cards_per_job_max": 5.0,
+      "cpu_cores_per_job_median": 6.0,
+      "mem_gb_per_job_median": 29.296875,
+      "unique_users": 44
+    }
+  },
+  {
+    "pool": "MISC",
+    "seed": 20261013,
+    "target_rho": 0.85,
+    "achieved_rho": 0.7236,
+    "instance_file": "instance_MISC_085_400.csv",
+    "n_jobs": 400,
+    "nested_subset_of_highest_tier": false,
+    "cluster_fixed_across_tiers": true,
+    "pool_gpu_jobs_total": 386657,
+    "gpu_request_cap_cards": 5.0,
+    "gpu_request_cap_quantile": 0.9,
+    "pool_jobs_excluded_as_too_big": 32908,
+    "pool_gpu_jobs_dropped_by_service_cap": 24088,
+    "window_jobs_after_filters": 2151,
+    "window_demand_gpu_hours": 2041.4,
+    "window_start_seconds_rel_trace": 6004800.0,
+    "window_hours": 6.0,
+    "horizon_hours": 14.0,
+    "slot_seconds": 600,
+    "n_slots": 84,
+    "ilp_binary_count_estimate": 33600,
+    "machine_spec": {
+      "gpu_per_machine": 8.0,
+      "cpu_cores_per_machine": 96.0,
+      "mem_gb_per_machine": 512.0,
+      "machines_available_in_pool": 280
+    },
+    "capacity": {
+      "machines": 5.0,
+      "gpu_cards": 40.0,
+      "cpu_cores": 480.0,
+      "mem_gb": 2560.0
+    },
+    "cluster_sizing": {
+      "machines_for_load_target": 5,
+      "machines_for_largest_request": 4,
+      "chosen": 5,
+      "clamped_to_pool": false
+    },
+    "demand": {
+      "gpu_card_hours": 405.2,
+      "service_seconds_median": 759.5,
+      "service_seconds_p90": 14877.50000000001,
+      "gpu_cards_per_job_median": 1.0,
+      "gpu_cards_per_job_max": 5.0,
+      "cpu_cores_per_job_median": 6.0,
+      "mem_gb_per_job_median": 29.296875,
+      "unique_users": 57
+    }
+  }
+]

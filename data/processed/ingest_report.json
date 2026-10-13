@@ -1,0 +1,142 @@
+{
+  "units": {
+    "plan_cpu": "percent of one core (600 = 6 vCPU)",
+    "plan_mem": "GB",
+    "plan_gpu": "percent of one GPU card (50 = 0.5 card)",
+    "timestamps": "seconds since trace start"
+  },
+  "raw_counts": {
+    "jobs": 1055501,
+    "tasks": 1261050,
+    "machines": 1897,
+    "unique_job_names": 1055501
+  },
+  "job_status": {
+    "Terminated": 732355,
+    "Failed": 256555,
+    "Running": 62928,
+    "Waiting": 3663
+  },
+  "task_status": {
+    "Terminated": 885073,
+    "Failed": 256762,
+    "Running": 115501,
+    "Waiting": 3714
+  },
+  "task_filter": {
+    "kept_task_rows": 885073,
+    "dropped_nonterminated_or_badtime": 375977
+  },
+  "gpu_type_multiplicity": {
+    "jobs_requesting_gpu": 715261,
+    "jobs_spanning_more_than_one_gpu_type": 1182,
+    "policy": "kept under dominant type; flagged via gpu_type_multi flag"
+  },
+  "instance_filter": {
+    "after_join": 733981,
+    "dropped_no_submit_time": 2,
+    "dropped_bad_wait_or_run": 0,
+    "dropped_run_outside_1min_to_7d": 108210,
+    "usable_jobs": 625769
+  },
+  "cluster": {
+    "machines": 1897,
+    "gpu_cards_total": 6742.0,
+    "cpu_cores_total": 156576.0,
+    "mem_gb_total": 948224.0,
+    "by_gpu_type": [
+      {
+        "gpu_type": "CPU",
+        "machines": 83,
+        "cap_cpu_cores": 7968,
+        "cap_mem_gb": 42496,
+        "cap_gpu_cards": 0,
+        "cpu_per_machine": 96.0,
+        "gpu_per_machine": 0.0
+      },
+      {
+        "gpu_type": "MISC",
+        "machines": 280,
+        "cap_cpu_cores": 26880,
+        "cap_mem_gb": 143360,
+        "cap_gpu_cards": 2240,
+        "cpu_per_machine": 96.0,
+        "gpu_per_machine": 8.0
+      },
+      {
+        "gpu_type": "P100",
+        "machines": 798,
+        "cap_cpu_cores": 51072,
+        "cap_mem_gb": 408576,
+        "cap_gpu_cards": 1596,
+        "cpu_per_machine": 64.0,
+        "gpu_per_machine": 2.0
+      },
+      {
+        "gpu_type": "T4",
+        "machines": 497,
+        "cap_cpu_cores": 47712,
+        "cap_mem_gb": 254464,
+        "cap_gpu_cards": 994,
+        "cpu_per_machine": 96.0,
+        "gpu_per_machine": 2.0
+      },
+      {
+        "gpu_type": "V100",
+        "machines": 104,
+        "cap_cpu_cores": 9984,
+        "cap_mem_gb": 47488,
+        "cap_gpu_cards": 832,
+        "cpu_per_machine": 96.0,
+        "gpu_per_machine": 8.0
+      },
+      {
+        "gpu_type": "V100M32",
+        "machines": 135,
+        "cap_cpu_cores": 12960,
+        "cap_mem_gb": 51840,
+        "cap_gpu_cards": 1080,
+        "cpu_per_machine": 96.0,
+        "gpu_per_machine": 8.0
+      }
+    ]
+  },
+  "demand_summary": {
+    "jobs": 625769,
+    "gpu_jobs": 610703,
+    "cpu_only_jobs": 15066,
+    "unique_users": 1278,
+    "arrival_span_hours": 1641.29,
+    "run_seconds": {
+      "0.5": 1079.0,
+      "0.9": 14980.2,
+      "0.99": 76606.2,
+      "1.0": 600961.0
+    },
+    "gpu_card_request": {
+      "0.5": 1.0,
+      "0.9": 6.25,
+      "0.99": 32.0
+    },
+    "observed_wait_seconds": {
+      "0.5": 0.0,
+      "0.9": 0.0,
+      "0.99": 0.0
+    },
+    "gpu_share_by_type": {
+      "MISC": 883380.8,
+      "P100": 302281.4,
+      "T4": 413909.9,
+      "V100": 85038.0,
+      "V100M32": 50702.2
+    },
+    "jobs_by_gpu_type": {
+      "CPU": 15066,
+      "MISC": 386657,
+      "P100": 45946,
+      "T4": 153302,
+      "V100": 15951,
+      "V100M32": 8847
+    }
+  }
+}

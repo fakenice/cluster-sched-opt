@@ -1,0 +1,26 @@
+=== P100_rho0.41  jobs=71 slots=84 жд=600s cards=44 machines=22
+  FIFO                     mean_wait=    34.9m p90=    69.5m thr=  7.98/h idle_fix= 57.0% idle_busy= 32.4% miss= 60.6% pack=0.717
+  EASY-backfill            mean_wait=    28.2m p90=    56.4m thr=  7.98/h idle_fix= 57.0% idle_busy= 32.4% miss= 50.7% pack=0.7358
+  ILP-flow(offline)        mean_wait=     9.5m p90=    16.1m thr=  7.69/h idle_fix= 57.0% idle_busy= 34.8% miss=  4.2% pack=0.8545
+  ILP-makespan(offline)    mean_wait=   119.2m p90=   246.1m thr=  6.14/h idle_fix= 57.0% idle_busy= 48.0% miss= 77.5% pack=0.8033
+  ILP-rolling              mean_wait=    10.1m p90=     9.7m thr=  7.55/h idle_fix= 57.0% idle_busy= 36.0% miss=  2.8% pack=0.8929
+=== P100_rho0.64  jobs=106 slots=84 жд=600s cards=44 machines=22
+  FIFO                     mean_wait=   108.9m p90=   168.1m thr=  8.78/h idle_fix= 31.2% idle_busy= 20.2% miss= 92.5% pack=0.7083
+  EASY-backfill            mean_wait=    83.9m p90=   155.4m thr=  9.03/h idle_fix= 31.2% idle_busy= 18.0% miss= 71.7% pack=0.6429
+  ILP-flow(offline)        mean_wait=    15.8m p90=    17.7m thr=  8.01/h idle_fix= 31.2% idle_busy= 27.3% miss=  5.7% pack=0.8481
+  ILP-makespan(offline)    mean_wait=   179.4m p90=   468.5m thr=  7.91/h idle_fix= 31.2% idle_busy= 28.2% miss= 72.6% pack=0.8987
+  ILP-rolling              mean_wait=    19.1m p90=    22.2m thr=  8.32/h idle_fix= 31.2% idle_busy= 24.4% miss=  7.5% pack=0.8421
+=== P100_rho0.85  jobs=150 slots=84 жд=600s cards=44 machines=22
+  FIFO                     mean_wait=   237.7m p90=   378.3m thr= 11.05/h idle_fix=  8.9% idle_busy=  6.1% miss= 96.0% pack=0.679
+  EASY-backfill            mean_wait=   217.1m p90=   368.4m thr= 11.05/h idle_fix=  8.9% idle_busy=  6.1% miss= 86.7% pack=0.6296
+  ILP-flow(offline)        mean_wait=    57.6m p90=   238.3m thr= 11.05/h idle_fix=  8.9% idle_busy=  6.1% miss= 30.0% pack=0.6667
+  ILP-makespan(offline)    mean_wait=   262.3m p90=   508.5m thr= 11.05/h idle_fix=  8.9% idle_busy=  6.1% miss= 80.7% pack=0.6049
+  ILP-rolling              mean_wait=     8.4m p90=     9.2m thr= 17.50/h idle_fix=  8.9% idle_busy=-48.7% miss=  2.7% pack=0.3922
+=== MISC_rho0.39  jobs=188 slots=84 жд=600s cards=40 machines=5
+  FIFO                     mean_wait=    35.2m p90=    61.5m thr= 15.91/h idle_fix= 57.9% idle_busy= 50.2% miss= 64.9% pack=0.7714
+  EASY-backfill            mean_wait=    24.9m p90=    47.4m thr= 16.14/h idle_fix= 57.9% idle_busy= 49.5% miss= 50.5% pack=0.7391
+  ILP-flow(offline)        mean_wait=     8.7m p90=     9.5m thr= 14.48/h idle_fix= 57.9% idle_busy= 54.6% miss=  1.6% pack=0.9351
+  ILP-makespan(offline)    mean_wait=   140.5m p90=   359.7m thr= 13.44/h idle_fix= 57.9% idle_busy= 57.9% miss= 69.7% pack=0.878
+  ILP-rolling              mean_wait=     9.3m p90=    15.9m thr= 16.14/h idle_fix= 57.9% idle_busy= 49.5% miss=  4.3% pack=0.6957
+=== MISC_rho0.52  jobs=282 slots=84 жд=600s cards=40 machines=5
+exit=1
