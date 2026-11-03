@@ -2,10 +2,13 @@
 
 Repo: <https://github.com/fakenice/cluster-sched-opt> · 中文一页结论：[`一页结论.md`](一页结论.md)
 
-Replaying a **real** production GPU-cluster arrival stream under three scheduling policies —
-FIFO with head-of-line blocking, EASY backfill, and a time-indexed integer program solved with
-HiGHS — and measuring what reordering work actually buys: queueing delay, throughput, wasted
-GPU capacity, deadline misses, and the cost of the model's own relaxations.
+Replaying a **real** production GPU-cluster arrival stream under FIFO with head-of-line
+blocking, EASY backfill, a time-indexed integer program solved with HiGHS, its rolling online
+variant, and four request-only size-priority rules — and measuring what reordering work actually
+buys: replay wait, throughput, wasted GPU capacity, deadline misses, and the cost of the model's
+own relaxations. **The main result is that a one-line online priority rule captures 77–114 % of
+the optimiser's mean-wait gain at zero solve time; the optimiser's unique contribution is
+smaller than the headline "−71 to −88 %" suggests.**
 
 Everything runs from public data, one command, no cluster access:
 
@@ -79,10 +82,16 @@ dimensions (GPU cards, CPU cores, memory GB):
 | **ILP-flow (offline)** | clairvoyant: the whole window up front | HiGHS, 120–180 s, 2–5 % gap |
 | **ILP-makespan (offline)** | clairvoyant, different objective | as above |
 | **ILP-rolling** | online, 2 h lookahead, commits only the next 60 min | 15 s and 10 % gap per epoch |
+| **size-priority** | online; smallest requested GPU gang / CPU / memory first, optional aging | — |
+| **size-priority-short** | online placement but ordered by *actual* runtime (oracle control) | — |
 
 The rolling variant is the like-for-like comparison: FIFO and EASY get neither future knowledge nor a
 solver budget, and the offline optimum stays an upper bound. The LP relaxation of the flow-time model
-yields a **provable lower bound**, so the headline improvement carries an optimality gap.
+yields a **provable lower bound**, so the headline improvement carries an optimality gap. The four
+size-priority rules are the missing **strong online baseline**: they use only what a scheduler knows
+at submit time (the requested GPU/CPU/memory), cost nothing to compute, and are run through the same
+slot occupancy and capacity code as the other policies. The runtime-ordered variant is marked as an
+oracle and is not quoted as deployable.
 
 ## 3. Results
 
@@ -96,19 +105,20 @@ Machine-readable: [`results/metrics.csv`](results/metrics.csv) / `metrics.json`,
 **Findings**
 
 <!-- FINDINGS:START -->
-30 policy runs over 6 instances. **Every run respects GPU/CPU/memory capacity in every slot
-(`capacity_violation_slots = 0` in all 30 rows)**, so the deltas below are not artefacts of an
-infeasible plan.
+72 policy runs over 6 instances (30 original + 42 priority variants). **Every run respects
+GPU/CPU/memory capacity in every slot (`capacity_violation_slots = 0` in all 72 rows)**, so the
+deltas below are not artefacts of an infeasible plan.
 
 vs FIFO, per-policy range over the six instances:
 
-| | mean queueing delay | deadline misses | throughput | addressable idle waste |
+| | mean wait under replay | deadline misses | throughput | addressable idle waste |
 |---|---|---|---|---|
 | **EASY backfill** | −2 % … −29 % | −2.7 … −20.8 pp | 0 … +2.8 % | −2 % … −55 % |
+| **size-priority** (online, no aging) | **−59 % … −86 %** | −43.3 … −84.7 pp | −6.2 % … +11.3 % | **−100 %** (0 card·h) |
 | **ILP-rolling** (online) | −71 % … −87 %, **+29 %** at P100 ρ=0.85 | −46.0 … −84.9 pp | −36.1 % … +17.9 % | −5 % … −92 %, **+486 %** at P100 ρ=0.85 |
 | **ILP-flow** (offline) | −73 % … −88 % | −56.3 … −86.8 pp | −9.0 % … +17.9 % | −26 % … −91 % |
 
-1. **Reordering is worth an order of magnitude in waiting time.** Mean queueing delay drops from
+1. **Reordering is worth an order of magnitude in waiting time.** Mean replay wait drops from
    35–240 min under FIFO to 8.7–58.8 min offline and 9.3–22.5 min for the honest online variant;
    P90 waits fall even harder (e.g. P100 ρ=0.41: 69.5 → 9.7 min). The mechanism is head-of-line
    blocking: FIFO parks a large gang request in front of small ones that would fit right now.
@@ -138,6 +148,19 @@ vs FIFO, per-policy range over the six instances:
    hosts with first-fit-decrease (gang placement) gives ILP-flow packing feasibility of
    16.9 %–93.5 %; at the saturated MISC tier only 16.9 % of loaded slots pack, so fragmentation
    would eat an unknown but material part of the modelled gain there.
+9. **The gain belongs to the priority rule, not the solver.** A one-line online rule — start the
+   smallest requested GPU gang (or CPU / memory request) first, no future knowledge, no MILP —
+   reproduces **77–114 %** of ILP-flow's mean-wait gain across the six instances, cuts deadline
+   misses by 43–85 percentage points, drives *addressable* idle to exactly **0 card·h** (by
+   construction: the rule starts every arrived job that fits), and takes no solve time. At P100
+   ρ=0.85 it **beats the offline ILP** on mean wait (34.1 vs 58.8 min), and against the rolling
+   ILP it is within 1.0–1.5× on five instances, while at P100 ρ=0.85 the rolling ILP is 9× slower
+   (310.4 vs 34.1 min). P90 wait
+   also falls (46–86 %), but the tail is the catch: max wait rises to **2.9× FIFO** because large
+   gangs starve. Aging (a job waiting 1–4 h jumps the queue) trades mean wait for the tail; 1 h aging
+   at P100 ρ=0.85 still captures 103 % of the ILP gain but raises deadline misses to 46 %, so the
+   deployable recipe is "size priority + aging + a max-wait cap", not "run an ILP".
+   `results/priority_baselines.json`, `results/metrics_priority.csv`.
 
 One seed, one 6-hour window per pool: these are effect sizes, not statistical estimates.
 <!-- FINDINGS:END -->
@@ -168,6 +191,12 @@ This section is the part I would want to read before trusting any of the numbers
   window; `clamp_starts` is now an index guard only. The cost is visible as
   `jobs_running_past_horizon` / `deferred_jobs_past_horizon`, a longer makespan, and a worse
   in-window idle rate.
+* **The control group was too weak, and that changed the conclusion.** FIFO and EASY are both
+  head-of-line-blocking policies, so "ILP beats FIFO by 71–88 %" mostly measures the cost of the
+  blocking, not the value of optimisation. Adding request-only size-priority rules (script 07)
+  reproduces 77–114 % of that gain with no solver and no future knowledge; the ILP's unique
+  contribution is the remaining tail/robustness, not the average wait. Any scheduling paper that
+  reports only FIFO as the baseline is leaving this check out.
 * **Aggregate capacity is a relaxation.** Real GPUs live in discrete hosts, so every loaded slot is
   re-checked with first-fit-decrease against the actual machines (gang placement, host count = max over
   the GPU / CPU / memory dimensions). `packing_feasibility_rate` and `worst_fragmentation_loss` report
@@ -177,7 +206,7 @@ This section is the part I would want to read before trusting any of the numbers
 ## 5. Layout
 
 ```
-run_all.py                one-command pipeline (fetch -> ingest -> instance -> solve -> backlog -> report -> notebook)
+run_all.py                one-command pipeline (fetch -> ingest -> instance -> solve -> backlog -> priority -> report -> notebook)
 scripts/00_probe.py       inspect the raw archives (no header row, so names are assigned here)
 scripts/01_ingest.py      task -> job aggregation, pools, observed runtimes
 scripts/02_instance.py    busy-window choice, exclusions, host partition, nested load sweep
@@ -186,6 +215,7 @@ scripts/03_optimize.py    time-indexed MILP + LP bound + rolling-horizon replay
 scripts/04_report.py      tables, figures, summary.json
 scripts/05_notebook.py    generates AND executes the notebook
 scripts/06_backlog_idle.py idle-with-backlog recomputed from saved schedules (no solver rerun)
+scripts/07_priority_baselines.py request-only size/aging priorities replayed online (no solver)
 data/processed/           instances + instance_meta.json   (committed)
 results/                  metrics, tables, figures, schedules (committed)
 notebook/                 executed analysis
@@ -204,3 +234,6 @@ claim in this README on trust.
   experiment, so a job holding a card idle still counts as occupying it.
 * The natural extensions are a host-level assignment model (columns per machine) to pay for
   fragmentation properly, many windows and seeds for error bars, and preemptive/migrative variants.
+* The priority rules are evaluated on the same six windows as everything else, and the aging
+  thresholds (1 / 2 / 4 h) were chosen by inspection rather than tuned on a held-out window. They
+  establish that the mean-wait gain is not solver-specific; they do not establish the best threshold.

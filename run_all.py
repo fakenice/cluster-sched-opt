@@ -51,7 +51,7 @@ def run(script: str) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true", help="download the public trace archives")
-    ap.add_argument("--stage", choices=["fetch", "ingest", "instance", "solve", "backlog", "report", "notebook", "all"], default="all")
+    ap.add_argument("--stage", choices=["fetch", "ingest", "instance", "solve", "backlog", "priority", "report", "notebook", "all"], default="all")
     args = ap.parse_args()
 
     if args.fetch or args.stage == "fetch":
@@ -61,6 +61,7 @@ def main() -> None:
         "instance": "02_instance.py",
         "solve": "03_optimize.py",
         "backlog": "06_backlog_idle.py",
+        "priority": "07_priority_baselines.py",
         "report": "04_report.py",
         "notebook": "05_notebook.py",
     }

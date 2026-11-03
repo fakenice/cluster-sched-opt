@@ -370,5 +370,53 @@
       "capacity_violation_slots": 0,
       "gap_vs_lp_percent": null
     }
+  },
+  "priority_baselines": {
+    "instances": 6,
+    "deployable_policies": [
+      "priority-cpu",
+      "priority-gpu",
+      "priority-gpu-age1h",
+      "priority-gpu-age2h",
+      "priority-gpu-age4h",
+      "priority-mem"
+    ],
+    "best_deployable_per_instance": {
+      "P100_rho0.41": "priority-gpu",
+      "P100_rho0.64": "priority-cpu",
+      "P100_rho0.85": "priority-cpu",
+      "MISC_rho0.39": "priority-mem",
+      "MISC_rho0.52": "priority-mem",
+      "MISC_rho0.72": "priority-mem"
+    },
+    "captured_ilp_gain_range_deployable": [
+      0.5606,
+      1.1365
+    ],
+    "captured_ilp_gain_range_priority_only": [
+      0.7735,
+      1.1365
+    ],
+    "p90_change_range_deployable": [
+      -0.8638,
+      -0.2054
+    ],
+    "p90_change_range_priority_only": [
+      -0.8638,
+      -0.463
+    ],
+    "max_wait_change_range_deployable": [
+      -0.0884,
+      1.9454
+    ],
+    "max_wait_change_range_priority_only": [
+      0.0914,
+      1.9454
+    ],
+    "max_wait_multiplier_max_priority_only": 2.945,
+    "oracle_short_captured_ilp_gain_range": [
+      0.802,
+      1.1825
+    ]
   }
 }

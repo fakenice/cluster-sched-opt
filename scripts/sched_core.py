@@ -153,7 +153,58 @@ def first_fit_leftovers(inst: Instance, occ: Occupancy, pending: np.ndarray,
 
 
 # --------------------------------------------------------------------------- policies
-def run_fifo(inst: Instance, backfill: bool = False) -> np.ndarray:
+def run_priority_online(inst: Instance, key: str, aging_slots: int | None = None) -> np.ndarray:
+    """Online list scheduling with a request-only priority key.
+
+    At each slot, consider only jobs whose arrival has happened and that have not started;
+    start them in ascending `key` order whenever the three resources fit. This is the
+    implementable version of "smallest gang first": a job that has not arrived cannot jump
+    the queue, and the scheduler never uses actual runtime (only a submitted request
+    column such as gpu_cards / cpu_cores / mem_gb).
+
+    `aging_slots` puts any job that has waited at least that many slots ahead of the size
+    order (oldest first within that group), which trades some mean-wait gain for a bounded
+    tail. Mean wait can improve while large jobs starve, so p90 and max wait are reported
+    next to it; the policy is not claimed to be fair.
+    """
+    occ = Occupancy(inst)
+    n = len(inst.jobs)
+    starts = -np.ones(n, dtype=int)
+    keys = inst.jobs[key].to_numpy(float)
+    arrival = inst.jobs["arrival_rel"].to_numpy(float)
+    earliest = inst.earliest
+    horizon = window_slots(inst)
+    by_arrival = np.argsort(arrival, kind="stable")
+
+    for s in range(horizon):
+        waiting = [int(j) for j in by_arrival
+                   if earliest[j] <= s and starts[j] < 0]
+        if not waiting:
+            continue
+        # deterministic: priority, then arrival, then job index. Aging moves jobs that have
+        # waited past the threshold to the front, oldest first, before the size key applies.
+        if aging_slots is None:
+            waiting.sort(key=lambda j: (keys[j], arrival[j], j))
+        else:
+            waiting.sort(key=lambda j: (0 if s - earliest[j] >= aging_slots else 1,
+                                        arrival[j] if s - earliest[j] >= aging_slots else 0,
+                                        keys[j], arrival[j], j))
+        for j in waiting:
+            if occ.fits(j, s):
+                occ.reserve(j, s)
+                starts[j] = s
+
+    if (starts < 0).any():
+        extra, _ = first_fit_leftovers(inst, occ, np.where(starts < 0)[0])
+        miss = starts < 0
+        starts[miss] = extra[miss]
+    still = starts < 0
+    if still.any():
+        starts[still] = earliest[still]
+    return np.minimum(starts, horizon - 1).astype(int)
+
+
+def run_fifo(inst: Instance, backfill: bool = False, order: np.ndarray | None = None) -> np.ndarray:
     """Online scheduling in arrival order.
 
     backfill=False -> strict FIFO with head-of-line blocking: a job may never start
@@ -161,11 +212,16 @@ def run_fifo(inst: Instance, backfill: bool = False) -> np.ndarray:
     backfill=True  -> EASY backfill: when the head-of-line job is blocked, later jobs
                       are pulled forward only if they run to completion before the head
                       could start, so the head is never delayed.
+
+    `order` overrides the arrival queue (job indices). It exists so a request-only
+    priority rule (e.g. smallest GPU gang first) can be replayed through the identical
+    placement code, instead of growing a second simulator that might diverge.
     """
     occ = Occupancy(inst)
     n = len(inst.jobs)
     starts = -np.ones(n, dtype=int)
-    queue = np.argsort(inst.jobs["arrival_rel"].to_numpy(), kind="stable")
+    queue = (np.argsort(inst.jobs["arrival_rel"].to_numpy(), kind="stable")
+             if order is None else np.asarray(order, dtype=int))
     p = inst.p
     earliest = inst.earliest
 
