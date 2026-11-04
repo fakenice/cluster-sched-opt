@@ -135,7 +135,8 @@ vs FIFO, per-policy range over the six instances:
    is only a load check.
 5. **Offline optimality is real but not free:** the LP relaxation gives a lower bound and the MILP
    gap is 0.90–2.20 % on five instances — and **14.15 % at P100 ρ=0.85**, where the 150-job model
-   stops being nearly optimal inside the 180 s budget.
+   stops being nearly optimal inside its 120 s budget (the budget is 180 s only for the instances
+   with more than 200 jobs).
 6. **Where it loses, and why.** At P100 ρ=0.85 the *online* ILP is worse than FIFO on latency
    (+29 %, throughput −36 %) because bounded 2-hour lookahead with a 15 s/10 %-gap epoch budget
    defers 75 of 150 jobs past the planning horizon and hoards capacity waiting for a better plan;
@@ -147,7 +148,9 @@ vs FIFO, per-policy range over the six instances:
 8. **The pool-as-one-machine relaxation costs something.** Re-packing each loaded slot onto the real
    hosts with first-fit-decrease (gang placement) gives ILP-flow packing feasibility of
    16.9 %–93.5 %; at the saturated MISC tier only 16.9 % of loaded slots pack, so fragmentation
-   would eat an unknown but material part of the modelled gain there.
+   would eat an unknown but material part of the modelled gain there. *(That "unknown" is now
+   measured — see finding 12: at the optimum it is 0.02 %–0.68 %, but repairing an aggregate plan
+   into an executable one costs 1.27×–3.15× more waiting.)*
 9. **The gain belongs to the priority rule, not the solver.** A one-line online rule — start the
    smallest requested GPU gang (or CPU / memory request) first, no future knowledge, no MILP —
    reproduces **77–114 %** of ILP-flow's mean-wait gain across the six instances, cuts deadline
@@ -193,6 +196,81 @@ vs FIFO, per-policy range over the six instances:
     large gang it can see coming" is an interpretation the model does not output; the observable
     facts are the hoarded idle and the lower wait. **Size priority replaces rolling re-optimisation;
     it cannot replace an optimum that needs future information.**
+
+12. **The host-level model: fragmentation is cheap at the optimum, expensive to patch around.**
+    `scripts/09_host_level.py` builds the model the study listed as its next step — one column per
+    machine, a job's machine set fixed for its whole life (`sum_m z[j,m,t] = h_j·x[j,t]`,
+    per-machine capacity in every slot) — and measures three things on the committed six instances.
+
+    *Executability.* With one time-consistent host assignment, **83.0 %–95.7 %** of the jobs in a
+    committed schedule keep their scheduled start (ILP-flow: 90.8 %–95.7 %). The committed
+    `packing_feasibility_rate` (14.5 %–93.5 %) answers a *different* question — per slot, with the
+    host set re-decided every slot — so the two numbers must not be compared; a container is not
+    migrated, which is why the time-consistent count is the one that matters. Making a committed
+    schedule executable by delaying jobs in their original order costs **1.27×–1.52×** the mean wait
+    for ILP-flow and up to **3.15×** for ILP-rolling (MISC ρ=0.52); 0 jobs stay unplaceable and
+    0 host-slots are over capacity after the repair.
+
+    *The bill at the optimum.* Both models are solved on the **same** job set (the busiest 2-hour
+    window of each instance: 29–244 jobs), the same candidate slots and the same objective
+    (Σ completion time). **The host LP bound equals the aggregate LP bound in all six instances**
+    (385,237.5 / 528,902.5 / 738,633.5 / 2,448,762 / 3,650,490 / 5,471,069 s; five are identical
+    to the last digit, the sixth differs by 1e-9 s, i.e. floating-point noise):
+    fragmentation is invisible to the relaxation, so the bill is a pure integrality effect. The
+    proven optima differ by **+600 s** (P100 ρ=0.41), **+1,200 s** (P100 ρ=0.64) and **+600 s**
+    (MISC ρ=0.39) — 5.5–29 s per job, **0.02 %–0.23 %** of the objective — and by at most
+    **+4,200 / +4,200 / +37,200 s** (≤0.57 % / ≤0.12 % / ≤0.68 %) on the three instances where the
+    host MILP did not close inside 300 s (P100 ρ=0.85 / MISC ρ=0.52 / MISC ρ=0.72; for the first
+    two the dual bound still certifies a bill of at least 1,800 s and 600 s, for the third the
+    lower end is 0 and is therefore reported as uncertified rather than as "no bill").
+    Re-solving with machine columns costs ~2 % of mean wait (MISC ρ=0.39: 312.3 → 317.8 s);
+    *patching* the same aggregate plan into an executable one costs 1.55× (482.9 s). **Model the
+    hosts; do not repair the plan.**
+
+    *And the relaxation flatters the deployable rule more than it flatters the optimiser.* On the
+    same job sets the size-priority rule waits 1.00–1.64× the aggregate optimum but **1.69–2.08×**
+    the host-level optimum; the host constraint costs the rule ×1.29–1.72 of waiting and the
+    re-optimised optimum only ×1.02–1.20. So part of "one priority rule gets most of the ILP's
+    gain" is an artefact of modelling the pool as one machine: greedy placement and fragmentation
+    interact badly (the rule packs greedily and strands capacity). The rule is still 3.88–9.03×
+    faster than FIFO under real hosts (e.g. MISC ρ=0.52: priority-mem 17.3 min vs FIFO 156.4 min)
+    with **0** host-capacity violations in all 48 host-level runs, and deadline misses still collapse
+    (FIFO 73.2 %–97.3 % → priority-mem 2.7 %–31.0 %). One aggregate-model number does change:
+    the priority rules' "0 card·h of addressable idle" becomes **5.3–61.6 card·h** under the
+    stricter host-level definition (a job that fits the pool's spare capacity may fit on no single
+    host) — the zero was a property of the relaxed capacity, not of the rule.
+
+    *A solver caveat that applies to the committed numbers too.* HiGHS reports status 7
+    ("Optimal") both when it proves optimality **and** when it stops inside the requested
+    `mip_rel_gap`, and scipy maps both onto status 0 ("Optimization terminated successfully"). The
+    committed "offline optimum" is therefore an *incumbent within the tolerance* (2 %, 5 % for the
+    big instances): on the pilot sub-instances the committed tolerance returns an incumbent
+    **0.00 %–2.98 %** above the proven optimum. (The committed `gap_vs_lp_percent` figures are
+    unaffected — the six LP lower bounds reproduce exactly, re-derived and compared in
+    `results/host_level_lp_check.csv` — and no committed number was changed.)
+    `03_optimize.py` also read scipy's gap *result attribute* under its old name (`mip_rel_gap`,
+    renamed to `mip_gap` in scipy 1.18 — the solver *option* kept its name), so the per-solve gap
+    it recorded was silently always empty; it now records the gap and the dual bound.
+
+    *And the committed numbers themselves were checked, not assumed.* Re-running the committed
+    ILP-flow rows with the same tolerances reproduces **5 of 6 objectives exactly**
+    (`results/host_level_ilp_check.csv`, relative deviation 0.0). The sixth, P100 ρ=0.85, does
+    not: the re-run lands **2.02 % lower** (2,797,800 s vs the committed 2,855,400 s), i.e. on a
+    *better* incumbent, because both runs stopped on the wall clock rather than on the gap
+    (the committed row's own `gap_vs_lp_percent` is 14.15 %, the re-run's gap 11.41 %). The
+    committed value is **kept as published** — it is what the study reported — but it should be
+    read as "the incumbent this machine found in 120 s", not as a floor. Nothing else moved: the
+    six LP lower bounds re-derive with relative difference 0.0 (`results/host_level_lp_check.csv`).
+
+    Scope: the MILP pilot runs on the busiest-2-hour window, not on the full 6-hour instance — at
+    22 hosts (P100) the full instance does not fit a solve budget. The repair that makes a schedule
+    executable is a greedy, order-preserving one, so 1.27×–3.15× is an upper bound on that price.
+    The host footprint uses the study's own rule (`h_j` = max over the GPU / CPU / memory
+    dimensions), which the trace's `n_instances` never contradicts. `results/host_level_audit.csv`,
+    `results/host_level_metrics.csv`, `results/host_level_milp.csv`, `results/host_level_rules.csv`,
+    `results/host_level_lp_check.csv` (the committed LP lower bounds re-derived and compared —
+    all six reproduce with relative difference 0.0), `results/host_level_ilp_check.csv` (the
+    committed ILP-flow rows re-solved and compared — 5 of 6 identical, the sixth 2.02 % better).
 
 Statistical status: the committed study is one seed and one window per pool, so its numbers are
 effect sizes; the 72-instance grid in finding 10 is what turns the *direction* into a
@@ -252,6 +330,23 @@ This section is the part I would want to read before trusting any of the numbers
   the price of that relaxation instead of assuming it away. The sweep quantified the other side of it:
   the best online rule removes every reclaimable card·h and still leaves 59.54 card·h of fragmentation
   idle on the busiest instance, so the relaxation and the rule fail on the *same* dimension.
+* **"Aggregate capacity is a relaxation" was an excuse, so it got measured.** The per-slot
+  first-fit-decrease check re-decides the host set in every slot; a container is not migrated, so it
+  does not answer "is there one assignment that holds for the whole life of the job".
+  `scripts/09_host_level.py` answers that question (time-consistent assignment, machine set fixed at
+  the start slot) and prices it: 83.0 %–95.7 % of the jobs keep their scheduled start, and an
+  order-preserving repair that makes the schedule executable costs 1.27×–3.15× the mean wait. The
+  same script re-solves the offline optimum with one column per machine and finds the bill at the
+  optimum is 0.02 %–0.68 % of the flow objective — the relaxation was cheap in objective terms and
+  expensive in "can I run this?" terms, which is the opposite of what finding 8 assumed.
+* **"Optimal" in a solver message is not the same as "proven optimal".** HiGHS reports status 7 for
+  both a proven optimum and a run that stopped inside the requested `mip_rel_gap`; scipy maps both
+  onto status 0 with the message "Optimization terminated successfully". The committed study's
+  "offline optimum" is therefore an incumbent within its tolerance, and the per-solve gap it recorded
+  was empty because scipy renamed the attribute (`mip_rel_gap` → `mip_gap` in 1.18). Both are now
+  read correctly (`solver_gap_fields`), the dual bound is reported next to the incumbent, and the
+  committed LP lower bounds were re-verified to reproduce exactly (six of six), so no committed number
+  moved.
 * **One seed, one window per pool — for the committed six.** That is why `scripts/08_sweep.py`
   exists: the grid replays everything over 4 window ranks × 3 seeds and reports the spread
   (finding 10). What it does *not* provide is sampling error within an instance — the spread is
@@ -275,6 +370,12 @@ scripts/06_backlog_idle.py idle-with-backlog recomputed from saved schedules (no
 scripts/07_priority_baselines.py request-only size/aging priorities replayed online (no solver)
 scripts/08_sweep.py       the same policy set over 4 window ranks x 3 seeds x 2 pools x 3 load
                           tiers; the committed six instances are a subset and act as a positive control
+scripts/host_core.py      host-level primitives: per-host footprints, time-consistent assignment,
+                          host-aware repair, the online rules re-run on discrete hosts
+scripts/09_host_level.py  host-level pilot: audit of the committed schedules, the online policies
+                          under real hosts, and the offline MILP with one column per machine
+                          (results/host_level_*.csv; the lpcheck / ilpcheck stages re-derive the
+                          committed LP bounds and ILP rows and compare them)
 data/processed/           instances + instance_meta.json   (committed)
 data/processed/sweep/     sweep instances + their meta     (committed: they define the grid)
 results/                  metrics, tables, figures, schedules (committed)
@@ -294,20 +395,28 @@ claim in this README on trust.
   experiment, so a job holding a card idle still counts as occupying it.
 * The natural extensions are a host-level assignment model (columns per machine) to pay for
   fragmentation properly, and preemptive/migrative variants. The multi-window / multi-seed grid that
-  used to sit on this list is now finding 10 (`scripts/08_sweep.py`). The host-level model is the one
-  left standing, and the sweep sharpened *why*: the priority rule removes 100 % of reclaimable idle
-  but none of the fragmentation idle (59.54 card·h left on the verification instance), so the next
-  gain is in the packing dimension, not in the ordering. It is also the one that does not obviously
-  fit this machine: the *aggregate* model already exhausts its 180 s budget often enough to fall back
-  to first-fit on **11 of 72** instances and to leave a worst LP gap of **36.4 %**, so adding a
-  per-host column dimension needs a scoping decision first (column generation, or a budgeted pilot on
-  the two smallest instances) rather than a bigger number of variables.
+  used to sit on this list is now finding 10 (`scripts/08_sweep.py`), and the host-level model is now
+  finding 12 (`scripts/09_host_level.py`) — as a *pilot*: the aggregate and host optima are compared
+  on the busiest 2-hour window of each committed instance (29–244 jobs), because the full instance
+  at 22 hosts does not fit a solve budget. What the pilot settles: fragmentation is cheap at the
+  optimum (0.02 %–0.68 % of the flow objective) and invisible to the LP bound, but patching an
+  aggregate plan into an executable one costs 1.27×–3.15× the mean wait, and the aggregate
+  relaxation flatters the *deployable rule* more than the optimiser (the rule waits 1.69×–2.08× the
+  host-level optimum, versus 1.00×–1.64× the aggregate one). What it does not settle: the full
+  instances at host level, a host-aware rule with a better placement heuristic than greedy
+  largest-slack, preemption/migration, and a host-level *rolling* MILP comparable to the committed
+  ILP-rolling row.
 * **The solver baselines are not run-to-run reproducible.** `milp` stops on a wall-clock limit, so
   the same instance can land on a different incumbent. The 72-instance grid measured this against the
   committed tables: the 54 deterministic rows (FIFO / EASY / 7 priority rules) replay to
   `0.00e+00` maximum relative deviation, the 12 solver rows deviate by up to **22 %** — and the
   deviation is *noted*, never averaged away or asserted as agreement. Any claim here that depends on
-  an ILP number carries that much fuzz; the priority-rule claims do not.
+  an ILP number carries that much fuzz; the priority-rule claims do not. The host-level pilot is
+  explicit about the same issue: the aggregate optimum is re-solved with `gap = 0` so optimality is
+  proven (or the dual bound is reported), and the bill is published as an interval. Re-running the
+  committed ILP-flow rows confirms it at full scale — 5 of 6 reproduce exactly, and the sixth
+  (P100 ρ=0.85) lands on a **2.02 % better** incumbent, because both runs stopped on the wall
+  clock rather than on the gap (`results/host_level_ilp_check.csv`).
 * The priority rules are evaluated on the same 72 instances as everything else, and the aging
   thresholds (1 / 2 / 4 h) were chosen by inspection rather than tuned on a held-out window. They
   establish that the mean-wait gain is not solver-specific; they do not establish the best threshold.

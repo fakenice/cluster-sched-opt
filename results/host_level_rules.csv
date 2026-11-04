@@ -1,0 +1,7 @@
+instance,pool,rho,pilot_jobs,machines,rule,aggregate_rule_mean_wait_s,host_rule_mean_wait_s,host_rule_host_violations,host_rule_over_aggregate_rule,aggregate_ilp_mean_wait_s,host_ilp_mean_wait_s,ilp_wait_over_rule_aggregate,ilp_wait_over_rule_host,rule_over_ilp_host
+P100_rho0.41,P100,0.4054,29,22,priority-gpu,530.8,717.0,0,1.351,323.9,344.6,0.61,0.481,2.081
+P100_rho0.64,P100,0.6389,41,22,priority-gpu,499.0,645.3,0,1.293,352.6,381.9,0.707,0.592,1.69
+P100_rho0.85,P100,0.8469,54,22,priority-gpu,590.9,913.1,0,1.545,457.6,535.4,0.774,0.586,1.706
+MISC_rho0.39,MISC,0.3903,109,5,priority-gpu,312.3,538.0,0,1.723,312.3,317.8,1.0,0.591,1.693
+MISC_rho0.52,MISC,0.5241,166,5,priority-gpu,509.9,871.3,0,1.709,430.4,455.7,0.844,0.523,1.912
+MISC_rho0.72,MISC,0.7236,244,5,priority-gpu,947.2,1552.1,0,1.639,748.0,900.5,0.79,0.58,1.724

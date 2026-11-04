@@ -42,7 +42,8 @@ LOOKAHEAD_S = 2 * 3600      # rolling-horizon: jobs that far ahead are visible
 COMMIT_S = 60 * 60          # decisions this far ahead are frozen (also the re-plan period)
 
 
-def _candidate_slots(inst: sc.Instance, subset: np.ndarray, min_start: np.ndarray | None):
+def _candidate_slots(inst: sc.Instance, subset: np.ndarray, min_start: np.ndarray | None,
+                     cand_window: int | None = None):
     cands = []
     for j in subset:
         lo = int(inst.earliest[j])
@@ -51,17 +52,55 @@ def _candidate_slots(inst: sc.Instance, subset: np.ndarray, min_start: np.ndarra
         hi = int(inst.latest[j])
         if hi < lo:                     # cannot finish inside the horizon: pin at lo
             hi = min(lo, inst.n_slots - 1)
+        if cand_window is not None:    # optional restriction, used by the host-level pilot
+            hi = min(hi, lo + int(cand_window) - 1)
         cands.append(np.arange(lo, hi + 1))
     return cands
+
+
+def solver_gap_fields(res) -> tuple[float | None, float | None]:
+    """(relative gap, dual bound) of a MILP solve.
+
+    scipy renamed the attribute in 1.18 (`mip_rel_gap` -> `mip_gap`); the old name is
+    read as a fallback so the code works on both. The dual bound is what makes an
+    "optimal" claim checkable: HiGHS reports status 7 (Optimal) both when it proves
+    optimality *and* when it stops inside the requested `mip_rel_gap`, so the message
+    alone cannot tell the two apart.
+    """
+    gap = None
+    for name in ("mip_gap", "mip_rel_gap"):
+        val = getattr(res, name, None)
+        if val is None:
+            continue
+        try:
+            v = float(np.asarray(val, dtype=float).item())
+        except (TypeError, ValueError):
+            continue
+        if np.isfinite(v):
+            gap = v
+            break
+    dual = getattr(res, "mip_dual_bound", None)
+    try:
+        dual_val = float(np.asarray(dual, dtype=float).item()) if dual is not None and \
+            np.isfinite(np.asarray(dual, dtype=float)) else None
+    except (TypeError, ValueError):
+        dual_val = None
+    return gap, dual_val
 
 
 def solve_ilp(inst: sc.Instance, subset: np.ndarray, objective: str = "flow",
               binary: bool = True, time_limit: float = 120.0, gap: float = 0.02,
               occ_base: np.ndarray | None = None, min_start: np.ndarray | None = None,
-              weights: np.ndarray | None = None, slack_s: float = 1800.0):
-    """Return (starts for subset, info dict). occ_base carries committed occupancy."""
+              weights: np.ndarray | None = None, slack_s: float = 1800.0,
+              cand_window: int | None = None):
+    """Return (starts for subset, info dict). occ_base carries committed occupancy.
+
+    `cand_window` restricts every job to the first N candidate slots after its release.
+    It is None by default, i.e. the committed study's search space is untouched; the
+    host-level pilot uses it to give the aggregate and the host model the *same*
+    restricted instance, so the two bounds can be compared."""
     n_jobs = len(subset)
-    cands = _candidate_slots(inst, subset, min_start)
+    cands = _candidate_slots(inst, subset, min_start, cand_window)
     offsets = np.concatenate([[0], np.cumsum([len(c) for c in cands])[:-1]])
     nx = int(sum(len(c) for c in cands))
     extra = 1 if objective == "makespan" else (n_jobs if objective == "tardiness" else 0)
@@ -172,6 +211,7 @@ def solve_ilp(inst: sc.Instance, subset: np.ndarray, objective: str = "flow",
         obj_val = float(fun) if fun is not None and np.isfinite(np.asarray(fun, dtype=float)) else None
     except (TypeError, ValueError):
         obj_val = None
+    mip_gap, dual_bound = solver_gap_fields(res)
     info = {
         "solver_status": status, "message": str(getattr(res, "message", "")),
         "solver_feasible": bool(has_solution),
@@ -179,8 +219,8 @@ def solve_ilp(inst: sc.Instance, subset: np.ndarray, objective: str = "flow",
         "n_columns": ncols, "n_rows": int(A_rows), "n_nnz": int(A.nnz),
         "solve_seconds": round(time.time() - t0, 2),
         "objective_value": obj_val,
-        "mip_gap": float(np.asarray(res.mip_rel_gap).item()) if getattr(res, "mip_rel_gap", None) is not None
-                     and np.isfinite(np.asarray(res.mip_rel_gap, dtype=float)) else None,
+        "mip_gap": mip_gap,
+        "dual_bound": dual_bound,
     }
     return starts, info
 

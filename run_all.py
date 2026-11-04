@@ -9,10 +9,15 @@
                                       #   its window_rank=1/seed=20261013 cell reproduces the
                                       #   committed six instances as a positive control
     python run_all.py --stage sweep --sweep-no-ilp   # sweep with list policies only (~10 min)
+    python run_all.py --stage host    # + 09_host_level.py: the host-level (per-machine)
+                                      #   audit, the online policies re-run on real hosts and
+                                      #   the offline MILP with one column per machine
+                                      #   (~1 h: the MILP stage runs with gap = 0)
 
 08_sweep.py is excluded from the default `all` run: it re-runs the same policies on other
 windows and seeds, which is a robustness check on the six committed instances rather than a
-step that produces them.
+step that produces them. 09_host_level.py is excluded for the same reason (and because its
+MILP stage proves optimality, which is minutes rather than seconds).
 """
 from __future__ import annotations
 
@@ -60,12 +65,16 @@ def run(script: str) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true", help="download the public trace archives")
-    ap.add_argument("--stage", choices=["fetch", "ingest", "instance", "solve", "backlog", "priority", "sweep", "report", "notebook", "all"], default="all")
+    ap.add_argument("--stage", choices=["fetch", "ingest", "instance", "solve", "backlog", "priority", "host", "sweep", "report", "notebook", "all"], default="all")
     ap.add_argument("--sweep", action="store_true",
                     help="include 08_sweep.py in --stage all (72 instances, ~1-2 h with --jobs 6)")
     ap.add_argument("--sweep-jobs", type=int, default=6, help="parallel instances for 08_sweep.py")
     ap.add_argument("--sweep-no-ilp", action="store_true",
                     help="sweep with list policies only (no MILP; ~10 min instead of ~1-2 h)")
+    ap.add_argument("--host-pilot-hours", type=float, default=2.0,
+                    help="busiest window (hours) used by the host-level MILP pilot")
+    ap.add_argument("--host-time-limit", type=float, default=300.0,
+                    help="per-solve budget (s) for the host-level MILP stage")
     args = ap.parse_args()
 
     if args.fetch or args.stage == "fetch":
@@ -94,8 +103,20 @@ def main() -> None:
                 run(stages[name])
     elif args.stage == "sweep":
         run_sweep(args)
+    elif args.stage == "host":
+        run_host(args)
     else:
         run(stages[args.stage])
+
+
+def run_host(args) -> None:
+    extra = ["--stage", "all",
+             "--pilot-window-hours", str(args.host_pilot_hours),
+             "--time-limit", str(args.host_time_limit)]
+    print(f"\n### python scripts/09_host_level.py {' '.join(extra)}")
+    r = subprocess.run([sys.executable, "09_host_level.py", *extra], cwd=str(ROOT / "scripts"))
+    if r.returncode != 0:
+        raise SystemExit(f"09_host_level.py failed with exit {r.returncode}")
 
 
 def run_sweep(args) -> None:

@@ -1,0 +1,45 @@
+# scripts/09_host_level.py --stage milp --pilot-window-hours 2 --cand-window 12 --time-limit 300
+# (run per pool: --pools MISC, then --pools P100; the two outputs are merged into
+#  results/host_level_milp.csv, in the order of the committed instances)
+# bill = [host dual bound - aggregate optimum, host incumbent - aggregate optimum];
+#        the lower end is 0 when the dual bound does not certify a positive bill
+#
+### stage milp
+  P100_rho0.41: jobs=29 multi-host=8  agg LP 385237.5 | agg OPT 385800.0 (gap 0.0, dual 385800.0) | host LP 385237.5 | host OPT 386400.0 (gap 0.0, dual 386400.0) | bill [600.0, 600.0] s
+  P100_rho0.64: jobs=41 multi-host=11  agg LP 528902.5 | agg OPT 529200.0 (gap 0.0, dual 529200.0) | host LP 528902.5 | host OPT 530400.0 (gap 0.0, dual 530400.0) | bill [1200.0, 1200.0] s
+  P100_rho0.85: jobs=54 multi-host=14  agg LP 738633.5 | agg OPT 741000.0 (gap 0.0, dual 741000.0) | host LP 738633.5 | host OPT 745199.9999999931 (gap 0.0032206119162549, dual 742800.0) | bill [1800.0, 4200.0] s
+  MISC_rho0.39: jobs=109 multi-host=1  agg LP 2448762.0 | agg OPT 2449800.0 (gap 0.0, dual 2449800.0) | host LP 2448762.0 | host OPT 2450400.0 (gap 0.0, dual 2450400.0) | bill [600.0, 600.0] s
+  MISC_rho0.52: jobs=166 multi-host=1  agg LP 3650490.0 | agg OPT 3652200.0 (gap 0.0, dual 3652200.0) | host LP 3650490.0 | host OPT 3656399.999999977 (gap 0.0009845749917891, dual 3652800.0) | bill [600.0, 4200.0] s
+  MISC_rho0.72: jobs=244 multi-host=2  agg LP 5471068.960548885 | agg OPT 5479200.0 (gap 0.0, dual 5479200.0) | host LP 5471068.960548886 | host OPT 5516400.0 (gap 0.0081574940178377, dual 5471400.0) | bill [0.0, 37200.0] s
+
+wrote 6 rows -> results/host_level_milp.csv
+
+# scripts/09_host_level.py --stage lpcheck --time-limit 300
+# re-derives the committed aggregate LP lower bounds on the same six instances
+# and compares them with results/metrics.csv (lp_lower_bound_s)
+
+### stage lpcheck (re-derive the committed LP lower bounds)
+  P100_rho0.41     committed 1084417.0  recomputed 1084417.000000  rel_diff 0.0  reproduced=True
+  P100_rho0.64     committed 1649529.5833333333  recomputed 1649529.583333  rel_diff 0.0  reproduced=True
+  P100_rho0.85     committed 2451311.75  recomputed 2451311.750000  rel_diff 0.0  reproduced=True
+  MISC_rho0.39     committed 3220956.742857143  recomputed 3220956.742857  rel_diff 0.0  reproduced=True
+  MISC_rho0.52     committed 4839955.4231832605  recomputed 4839955.423183  rel_diff 0.0  reproduced=True
+  MISC_rho0.72     committed 7221170.974464553  recomputed 7221170.974465  rel_diff 0.0  reproduced=True
+
+wrote 6 rows -> results/host_level_lp_check.csv
+
+# scripts/09_host_level.py --stage ilpcheck
+# re-solves the committed ILP-flow rows with the same tolerances (opt.run_offline)
+# and compares them with results/metrics.csv (milp_objective_sum_completion_s)
+# P100_rho0.85 stops on the wall clock in both runs, so its incumbent is not
+# reproducible; the committed value is kept as published.
+
+### stage ilpcheck (re-solve the committed ILP-flow rows)
+  P100_rho0.41     committed    1094400.0  recomputed    1094400.0  rel_dev 0.0  gap 0.0043859649122807015
+  P100_rho0.64     committed    1686600.0  recomputed    1686600.0  rel_dev 0.0  gap 0.017431519032372823
+  P100_rho0.85     committed    2855400.0  recomputed    2797800.0  rel_dev -0.020172  gap 0.11408964186146257
+  MISC_rho0.39     committed    3250200.0  recomputed    3250200.0  rel_dev 0.0  gap 0.006645744877238324
+  MISC_rho0.52     committed    4901400.0  recomputed    4901400.0  rel_dev 0.0  gap 0.010894846370424777
+  MISC_rho0.72     committed    7287000.0  recomputed    7287000.0  rel_dev 0.0  gap 0.007904487443392342
+
+wrote 6 rows -> results/host_level_ilp_check.csv
