@@ -56,8 +56,14 @@ def horizon_and_slot(n_jobs: int) -> tuple[float, int]:
     return hours, (300 if n_jobs <= 80 else 600)
 
 
-def pick_window(df: pd.DataFrame, pool: str, block_hours: float = BLOCK_HOURS):
-    """The busiest contiguous window of one GPU pool, ranked by GPU-card-hours."""
+def pick_window(df: pd.DataFrame, pool: str, block_hours: float = BLOCK_HOURS, rank: int = 1):
+    """A contiguous window of one GPU pool, ranked by GPU-card-hours.
+
+    `rank=1` is the busiest window and is what the committed study uses. `rank=k` returns the
+    k-th busiest, so the conclusions can be re-measured on windows that were not selected for
+    being extreme -- 08_sweep.py uses this to test whether the policy ranking is a property of
+    the scheduler or an artefact of one lucky six hours.
+    """
     s_all = df[(df["gpu_type_main"] == pool) & (df["gpu_cards"] > 0)].copy()
     if s_all.empty:
         raise SystemExit(f"no GPU jobs for pool {pool}")
@@ -76,7 +82,11 @@ def pick_window(df: pd.DataFrame, pool: str, block_hours: float = BLOCK_HOURS):
     ranks = ranks[ranks["n"] >= MIN_JOBS]
     if ranks.empty:
         raise SystemExit(f"no window with >= {MIN_JOBS} jobs in pool {pool}")
-    t0 = float(ranks["demand"].idxmax() * block_hours * 3600.0)
+    # stable sort keeps the ascending-bin tie-break, so rank=1 == the old idxmax()
+    ordered = ranks.sort_values("demand", ascending=False, kind="stable").index.to_list()
+    if rank < 1 or rank > len(ordered):
+        raise SystemExit(f"pool {pool}: window rank {rank} out of range (1..{len(ordered)})")
+    t0 = float(ordered[rank - 1] * block_hours * 3600.0)
     win = s[(s["submit_time"] >= t0) & (s["submit_time"] < t0 + block_hours * 3600.0)].copy()
     stats = {
         "pool_gpu_jobs_total": int(n_pool),
@@ -87,6 +97,10 @@ def pick_window(df: pd.DataFrame, pool: str, block_hours: float = BLOCK_HOURS):
         "pool_gpu_jobs_dropped_by_service_cap": int(n_capped),
         "window_jobs_after_filters": int(len(win)),
         "window_demand_gpu_hours": round(float(win["gpu_hours"].sum()), 1),
+        "window_rank_by_demand": int(rank),
+        "n_eligible_windows": int(len(ordered)),
+        "window_demand_rank_share_of_busiest": round(
+            float(ranks.loc[ordered[rank - 1], "demand"] / ranks.loc[ordered[0], "demand"]), 4),
     }
     return win, t0, stats
 
@@ -99,8 +113,17 @@ def machine_floor(jobs: pd.DataFrame, gpu_per_m: float, cores_per_m: float, mem_
     )
 
 
-def build_pool(pool: str, n_high: int, seed: int, out_dir: Path) -> list[dict]:
-    df = pd.read_csv(PROC / "jobs.csv")
+def build_pool(pool: str, n_high: int, seed: int, out_dir: Path,
+               df: pd.DataFrame | None = None, window_rank: int = 1,
+               prefix: str = "instance") -> list[dict]:
+    """Build the three load tiers of one pool.
+
+    `df` may be a preloaded jobs table (the sweep builds 54 instances and will not re-read a
+    94 MB CSV per instance); `window_rank` and `prefix` let the sweep write its own instance
+    files without touching the committed ones. Defaults reproduce the committed study exactly.
+    """
+    if df is None:
+        df = pd.read_csv(PROC / "jobs.csv")
     pools = pd.read_csv(PROC / "pools.csv")
     row = pools[pools["gpu_type"] == pool]
     if row.empty or float(row["cap_gpu_cards"].iloc[0]) == 0:
@@ -110,7 +133,7 @@ def build_pool(pool: str, n_high: int, seed: int, out_dir: Path) -> list[dict]:
     mem_per_m = float(row["cap_mem_gb"].iloc[0]) / float(row["machines"].iloc[0])
     avail = int(row["machines"].iloc[0])
 
-    win, t0, stats = pick_window(df, pool)
+    win, t0, stats = pick_window(df, pool, rank=window_rank)
     rng = np.random.default_rng(seed)
     take = min(n_high, len(win))
     idx = rng.choice(win.index.to_numpy(), size=take, replace=False)
@@ -137,7 +160,7 @@ def build_pool(pool: str, n_high: int, seed: int, out_dir: Path) -> list[dict]:
         achieved = demand / (cards * horizon_h)
         jobs = jobs.assign(job_id=np.arange(len(jobs)),
                            arrival_rel=jobs["submit_time"] - t0, service=jobs["run_obs"])
-        fname = out_dir / f"instance_{pool}_{str(rho).replace('.', '')}_{len(jobs)}.csv"
+        fname = out_dir / f"{prefix}_{pool}_{str(rho).replace('.', '')}_{len(jobs)}.csv"
         jobs[["job_id", "job_name", "user", "arrival_rel", "service", "cpu_cores",
               "mem_gb", "gpu_cards", "gpu_type_main", "n_tasks", "n_instances"]].to_csv(fname, index=False)
         n_slots = int(round(horizon_h * 3600 / slot_s))
@@ -177,15 +200,23 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=20261013)
     ap.add_argument("--service-cap-hours", type=float, default=SERVICE_CAP_HOURS)
     ap.add_argument("--req-cap-quantile", type=float, default=REQ_CAP_QUANTILE)
+    ap.add_argument("--window-rank", type=int, default=1,
+                    help="1 = busiest 6h window (the committed study), k = k-th busiest")
+    ap.add_argument("--prefix", default="instance", help="instance filename prefix")
+    ap.add_argument("--out-dir", default="",
+                    help="write instances + instance_meta.json here instead of data/processed")
     args = ap.parse_args()
 
     SERVICE_CAP_HOURS = args.service_cap_hours
     REQ_CAP_QUANTILE = args.req_cap_quantile
 
+    out_dir = Path(args.out_dir) if args.out_dir else PROC
+    out_dir.mkdir(parents=True, exist_ok=True)
     metas = []
     for pool in args.pools.split(","):
         n_high = args.jobs or POOL_JOBS_HIGH.get(pool, 150)
-        ms = build_pool(pool, n_high, args.seed, PROC)
+        ms = build_pool(pool, n_high, args.seed, out_dir, window_rank=args.window_rank,
+                        prefix=args.prefix)
         metas.extend(ms)
         for m in ms:
             print(f"{pool:6s} rho {m['target_rho']:<5} jobs={m['n_jobs']:4d} "
@@ -194,7 +225,7 @@ def main() -> None:
                   f"slots={m['n_slots']} binaries~{m['ilp_binary_count_estimate']:,} "
                   f"(load floor {m['cluster_sizing']['machines_for_load_target']}, "
                   f"fit floor {m['cluster_sizing']['machines_for_largest_request']})")
-    (PROC / "instance_meta.json").write_text(json.dumps(metas, indent=2, ensure_ascii=False), encoding="utf-8")
+    (out_dir / "instance_meta.json").write_text(json.dumps(metas, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 if __name__ == "__main__":

@@ -162,7 +162,42 @@ vs FIFO, per-policy range over the six instances:
    deployable recipe is "size priority + aging + a max-wait cap", not "run an ILP".
    `results/priority_baselines.json`, `results/metrics_priority.csv`.
 
-One seed, one 6-hour window per pool: these are effect sizes, not statistical estimates.
+10. **The finding survives a 72-instance robustness grid, but the original window was the
+    friendliest one.** `scripts/08_sweep.py` replays the whole policy set over 4 window ranks
+    (busiest / 2nd / 3rd / median-demand) × 3 sampling seeds × 2 pools × 3 load tiers = 72
+    instances; the committed six are a subset and act as the built-in positive control. Direction
+    holds everywhere: pure size priority is strictly faster than FIFO on mean wait in
+    **70 of 72** instances, ties on 2 and is never worse (**−96 % … 0 %**, P90 −97 % … +36 %,
+    max wait −9 % … **+252 %**); it leaves
+    **0 card·h** of reclaimable idle in all 504 of its rows, with 0 capacity-violating slots.
+    The *magnitude* does not: the best deployable rule captures a median **92 %** of ILP-flow's
+    mean-wait gain across the 71 instances where the ratio is defined (≥50 % in 90 %, ≥77 % — the
+    old study's lower bound — in 75 %, >100 % in 25 %), but the busiest-window subset the original
+    study used has median 96 % and **no** instance below 50 %, while other windows reach 0 %.
+    So the quoted "77–114 %" was read off the most favourable window; the honest statement is
+    "usually ≥90 %, occasionally far less, and offline ILP beats every deployable rule on 53 of 72
+    instances". `results/sweep_metrics.csv`, `results/sweep_summary.json`.
+11. **Reclaimable idle and fragmentation idle are different problems, and the priority rule only
+    solves the first.** `idle-with-backlog` splits into *head-of-line* idle (cards free, a queued
+    job would fit on GPU **and** CPU **and** memory, the policy just doesn't start it — reclaimable
+    by scheduling) and *fragmentation* idle (no waiting job fits — a packing problem). Priority
+    rules: 0 of 504 rows with any reclaimable idle, by construction. FIFO/EASY/ILP: 274 of 288
+    rows nonzero. Verified slot-by-slot rather than asserted, because "column not computed" and
+    "genuinely zero" look identical in a table: on the highest-achieved-ρ instance
+    (`P100_w3_s20261103_rho0.85`) FIFO has 66 idle-with-backlog slots of which 63 are reclaimable,
+    `priority-gpu` has 63 of which **0** are — total idle falls 82.29 → 59.54 card·h and mean queue
+    depth 33.2 → 12.6, but what remains is fragmentation. That is also why the 7 low-capture
+    instances lose: the offline ILP leaves *more* backlog idle than the rule on 7/7 of them, and
+    40–94 % (median 67 %) of that idle is the reclaimable kind — measured, i.e. the solver had
+    queued work it could have started and did not. Reading that as "it is hoarding capacity for a
+    large gang it can see coming" is an interpretation the model does not output; the observable
+    facts are the hoarded idle and the lower wait. **Size priority replaces rolling re-optimisation;
+    it cannot replace an optimum that needs future information.**
+
+Statistical status: the committed study is one seed and one window per pool, so its numbers are
+effect sizes; the 72-instance grid in finding 10 is what turns the *direction* into a
+distribution. No bootstrapped confidence interval is claimed for either — the grid gives spread
+across problem instances, not sampling error within one.
 <!-- FINDINGS:END -->
 
 ## 4. What could go wrong, and what catches it
@@ -186,6 +221,13 @@ This section is the part I would want to read before trusting any of the numbers
   `capacity_violation_slots`, `gpu_overcommit_slots` and `max_gpu_overcommit_cards` for every row.
   `03_optimize.py` prints a feasibility line per policy and refuses to hide a violation.
   (`results/run_03_attempt1.log` is that broken run, kept as evidence.)
+  The grid stress-tests the *other* escape hatch and reports what it finds: 6 of 792 rows have jobs
+  that fit nowhere even in the padded tail, and on 1 of them (`MISC_w2_s20261103_rho0.85`,
+  ILP-rolling) those jobs are placed at their arrival slot so they cannot silently disappear —
+  which makes that single row a capacity-violating schedule (4 slots, peak GPU allocation 105.9 %).
+  It is labelled as such by `capacity_violation_slots` / `unplaceable_jobs`, it is confined to
+  ILP-rolling (ILP-flow and all nine online policies have 0 in every row), and no headline claim
+  reads that row.
 * **The horizon is a planning window, not a cluster shutdown.** Jobs an online policy cannot admit in
   time are placed in a documented *tail* (`sched_core.tail_slots`) instead of being clamped into the
   window; `clamp_starts` is now an index guard only. The cost is visible as
@@ -194,29 +236,47 @@ This section is the part I would want to read before trusting any of the numbers
 * **The control group was too weak, and that changed the conclusion.** FIFO and EASY are both
   head-of-line-blocking policies, so "ILP beats FIFO by 71–88 %" mostly measures the cost of the
   blocking, not the value of optimisation. Adding request-only size-priority rules (script 07)
-  reproduces 77–114 % of that gain with no solver and no future knowledge; the ILP's unique
-  contribution is the remaining tail/robustness, not the average wait. Any scheduling paper that
+  reproduces most of that gain with no solver and no future knowledge — 77–114 % on the six committed
+  windows, median 92 % across the 72-instance grid (finding 10) — so the ILP's unique contribution is
+  the remaining tail/robustness, not the average wait. Any scheduling paper that
   reports only FIFO as the baseline is leaving this check out.
+* **A zero in a column can mean "not computed", and that is not the same finding.** The priority
+  rules report `idle_addressable_backlog_card_hours = 0` on all 504 of their rows, which is either a
+  real property of a greedy-fit rule or a gap in the pipeline — and the table cannot tell you which.
+  `08_sweep.py --report-only` therefore recomputes the split slot by slot on the highest-ρ instance
+  and asserts it: if the rule ever left reclaimable idle, the assertion fires instead of the number
+  shipping. It does not (`priority-gpu`: 63 idle-with-backlog slots, 0 reclaimable).
 * **Aggregate capacity is a relaxation.** Real GPUs live in discrete hosts, so every loaded slot is
   re-checked with first-fit-decrease against the actual machines (gang placement, host count = max over
   the GPU / CPU / memory dimensions). `packing_feasibility_rate` and `worst_fragmentation_loss` report
-  the price of that relaxation instead of assuming it away.
-* **One seed, one window per pool.** These are effect-size demonstrations, not statistical estimates.
+  the price of that relaxation instead of assuming it away. The sweep quantified the other side of it:
+  the best online rule removes every reclaimable card·h and still leaves 59.54 card·h of fragmentation
+  idle on the busiest instance, so the relaxation and the rule fail on the *same* dimension.
+* **One seed, one window per pool — for the committed six.** That is why `scripts/08_sweep.py`
+  exists: the grid replays everything over 4 window ranks × 3 seeds and reports the spread
+  (finding 10). What it does *not* provide is sampling error within an instance — the spread is
+  across 72 different problems, so the grid rules out "this only works on the window I picked" but
+  is not a confidence interval, and the six committed numbers are still effect sizes.
 
 ## 5. Layout
 
 ```
-run_all.py                one-command pipeline (fetch -> ingest -> instance -> solve -> backlog -> priority -> report -> notebook)
+run_all.py                one-command pipeline (fetch -> ingest -> instance -> solve -> backlog -> priority -> report -> notebook;
+                          --sweep adds the multi-window/multi-seed robustness grid before report)
 scripts/00_probe.py       inspect the raw archives (no header row, so names are assigned here)
 scripts/01_ingest.py      task -> job aggregation, pools, observed runtimes
 scripts/02_instance.py    busy-window choice, exclusions, host partition, nested load sweep
+                          (--window-rank k = the k-th busiest window instead of the busiest)
 scripts/sched_core.py     instance/occupancy/policies/metrics/packing check (shared, so nothing drifts)
 scripts/03_optimize.py    time-indexed MILP + LP bound + rolling-horizon replay
 scripts/04_report.py      tables, figures, summary.json
 scripts/05_notebook.py    generates AND executes the notebook
 scripts/06_backlog_idle.py idle-with-backlog recomputed from saved schedules (no solver rerun)
 scripts/07_priority_baselines.py request-only size/aging priorities replayed online (no solver)
+scripts/08_sweep.py       the same policy set over 4 window ranks x 3 seeds x 2 pools x 3 load
+                          tiers; the committed six instances are a subset and act as a positive control
 data/processed/           instances + instance_meta.json   (committed)
+data/processed/sweep/     sweep instances + their meta     (committed: they define the grid)
 results/                  metrics, tables, figures, schedules (committed)
 notebook/                 executed analysis
 一页结论.md               one-page conclusion (Chinese)
@@ -233,7 +293,21 @@ claim in this README on trust.
 * Idle means *unallocated*, not *unused SMs*: the per-instance sensor table is not part of this
   experiment, so a job holding a card idle still counts as occupying it.
 * The natural extensions are a host-level assignment model (columns per machine) to pay for
-  fragmentation properly, many windows and seeds for error bars, and preemptive/migrative variants.
-* The priority rules are evaluated on the same six windows as everything else, and the aging
+  fragmentation properly, and preemptive/migrative variants. The multi-window / multi-seed grid that
+  used to sit on this list is now finding 10 (`scripts/08_sweep.py`). The host-level model is the one
+  left standing, and the sweep sharpened *why*: the priority rule removes 100 % of reclaimable idle
+  but none of the fragmentation idle (59.54 card·h left on the verification instance), so the next
+  gain is in the packing dimension, not in the ordering. It is also the one that does not obviously
+  fit this machine: the *aggregate* model already exhausts its 180 s budget often enough to fall back
+  to first-fit on **11 of 72** instances and to leave a worst LP gap of **36.4 %**, so adding a
+  per-host column dimension needs a scoping decision first (column generation, or a budgeted pilot on
+  the two smallest instances) rather than a bigger number of variables.
+* **The solver baselines are not run-to-run reproducible.** `milp` stops on a wall-clock limit, so
+  the same instance can land on a different incumbent. The 72-instance grid measured this against the
+  committed tables: the 54 deterministic rows (FIFO / EASY / 7 priority rules) replay to
+  `0.00e+00` maximum relative deviation, the 12 solver rows deviate by up to **22 %** — and the
+  deviation is *noted*, never averaged away or asserted as agreement. Any claim here that depends on
+  an ILP number carries that much fuzz; the priority-rule claims do not.
+* The priority rules are evaluated on the same 72 instances as everything else, and the aging
   thresholds (1 / 2 / 4 h) were chosen by inspection rather than tuned on a held-out window. They
   establish that the mean-wait gain is not solver-specific; they do not establish the best threshold.
