@@ -1,0 +1,168 @@
+=== P100_rho0.41  jobs=71 slots=84 Δ=600s cards=44 machines=22
+  FIFO                     mean_wait=    34.9m p90=    69.5m thr=  7.98/h idle_fix= 57.0% idle_busy= 32.4% miss= 60.6% pack=0.717 overcap_slots=0 past_horizon=0
+  EASY-backfill            mean_wait=    28.2m p90=    56.4m thr=  7.98/h idle_fix= 57.0% idle_busy= 32.4% miss= 50.7% pack=0.7358 overcap_slots=0 past_horizon=0
+  ILP-flow(offline)        mean_wait=     9.5m p90=    16.1m thr=  7.69/h idle_fix= 57.0% idle_busy= 34.8% miss=  4.2% pack=0.8545 overcap_slots=0 past_horizon=0
+  ILP-makespan(offline)    mean_wait=   119.2m p90=   246.1m thr=  6.14/h idle_fix= 57.0% idle_busy= 48.0% miss= 77.5% pack=0.8033 overcap_slots=0 past_horizon=0
+  ILP-rolling              mean_wait=    10.1m p90=     9.7m thr=  7.55/h idle_fix= 57.0% idle_busy= 36.0% miss=  2.8% pack=0.8929 overcap_slots=0 past_horizon=0
+=== P100_rho0.64  jobs=106 slots=84 Δ=600s cards=44 machines=22
+  FIFO                     mean_wait=   108.9m p90=   168.1m thr=  8.78/h idle_fix= 31.2% idle_busy= 20.2% miss= 92.5% pack=0.7083 overcap_slots=0 past_horizon=0
+  EASY-backfill            mean_wait=    83.9m p90=   155.4m thr=  9.03/h idle_fix= 31.2% idle_busy= 18.0% miss= 71.7% pack=0.6429 overcap_slots=0 past_horizon=0
+  ILP-flow(offline)        mean_wait=    15.8m p90=    17.7m thr=  8.01/h idle_fix= 31.2% idle_busy= 27.3% miss=  5.7% pack=0.8481 overcap_slots=0 past_horizon=0
+  ILP-makespan(offline)    mean_wait=   179.4m p90=   468.5m thr=  7.91/h idle_fix= 31.2% idle_busy= 28.2% miss= 72.6% pack=0.8987 overcap_slots=0 past_horizon=0
+  ILP-rolling              mean_wait=    19.1m p90=    22.2m thr=  8.32/h idle_fix= 31.2% idle_busy= 24.4% miss=  7.5% pack=0.8421 overcap_slots=0 past_horizon=0
+=== P100_rho0.85  jobs=150 slots=84 Δ=600s cards=44 machines=22
+  FIFO                     mean_wait=   240.0m p90=   378.4m thr=  9.95/h idle_fix= 16.0% idle_busy= 15.4% miss= 96.0% pack=0.7778 overcap_slots=0 past_horizon=4
+  EASY-backfill            mean_wait=   217.8m p90=   364.1m thr= 10.06/h idle_fix= 14.8% idle_busy= 14.5% miss= 86.7% pack=0.7528 overcap_slots=0 past_horizon=4
+  ILP-flow(offline)        mean_wait=    49.8m p90=   206.4m thr= 11.05/h idle_fix=  8.9% idle_busy=  6.1% miss= 26.0% pack=0.5802 overcap_slots=0 past_horizon=0
+  ILP-makespan(offline)    mean_wait=   262.3m p90=   508.5m thr= 11.05/h idle_fix=  8.9% idle_busy=  6.1% miss= 80.7% pack=0.6049 overcap_slots=0 past_horizon=0
+  ILP-rolling              mean_wait=   317.5m p90=   618.4m thr=  5.72/h idle_fix= 75.3% idle_busy= 51.4% miss= 50.7% pack=0.886 overcap_slots=0 past_horizon=75 deferred=75
+=== MISC_rho0.39  jobs=188 slots=84 Δ=600s cards=40 machines=5
+  FIFO                     mean_wait=    35.2m p90=    61.5m thr= 15.91/h idle_fix= 57.9% idle_busy= 50.2% miss= 64.9% pack=0.7714 overcap_slots=0 past_horizon=0
+  EASY-backfill            mean_wait=    24.9m p90=    47.4m thr= 16.14/h idle_fix= 57.9% idle_busy= 49.5% miss= 50.5% pack=0.7391 overcap_slots=0 past_horizon=0
+  ILP-flow(offline)        mean_wait=     8.7m p90=     9.5m thr= 14.48/h idle_fix= 57.9% idle_busy= 54.6% miss=  1.6% pack=0.9351 overcap_slots=0 past_horizon=0
+  ILP-makespan(offline)    mean_wait=   140.5m p90=   359.7m thr= 13.44/h idle_fix= 57.9% idle_busy= 57.9% miss= 69.7% pack=0.878 overcap_slots=0 past_horizon=0
+  ILP-rolling              mean_wait=     9.3m p90=    15.9m thr= 16.14/h idle_fix= 57.9% idle_busy= 49.5% miss=  4.3% pack=0.6957 overcap_slots=0 past_horizon=0
+=== MISC_rho0.52  jobs=282 slots=84 Δ=600s cards=40 machines=5
+  FIFO                     mean_wait=    71.1m p90=   122.7m thr= 21.44/h idle_fix= 43.3% idle_busy= 39.6% miss= 77.3% pack=0.6667 overcap_slots=0 past_horizon=0
+  EASY-backfill            mean_wait=    63.9m p90=   111.5m thr= 21.44/h idle_fix= 43.3% idle_busy= 39.6% miss= 67.4% pack=0.7051 overcap_slots=0 past_horizon=0
+  ILP-flow(offline)        mean_wait=    13.8m p90=    24.4m thr= 20.91/h idle_fix= 43.3% idle_busy= 41.1% miss=  7.1% pack=0.725 overcap_slots=0 past_horizon=0
+  ILP-makespan(offline)    mean_wait=   153.6m p90=   422.6m thr= 20.17/h idle_fix= 43.3% idle_busy= 43.2% miss= 74.8% pack=0.7711 overcap_slots=0 past_horizon=0
+  ILP-rolling              mean_wait=    18.4m p90=    41.6m thr= 22.00/h idle_fix= 43.3% idle_busy= 38.1% miss= 16.0% pack=0.5526 overcap_slots=0 past_horizon=0
+=== MISC_rho0.72  jobs=400 slots=84 Δ=600s cards=40 machines=5
+  FIFO                     mean_wait=   173.7m p90=   254.8m thr= 24.27/h idle_fix= 28.1% idle_busy= 33.6% miss= 82.8% pack=0.4286 overcap_slots=0 past_horizon=24
+  EASY-backfill            mean_wait=   170.0m p90=   254.8m thr= 24.27/h idle_fix= 28.1% idle_busy= 33.6% miss= 80.0% pack=0.4184 overcap_slots=0 past_horizon=24
+  ILP-flow(offline)        mean_wait=    21.6m p90=    47.3m thr= 28.60/h idle_fix= 21.8% idle_busy= 21.8% miss= 13.2% pack=0.1687 overcap_slots=0 past_horizon=0
+  ILP-makespan(offline)    mean_wait=   196.0m p90=   458.6m thr= 28.60/h idle_fix= 21.8% idle_busy= 21.8% miss= 76.8% pack=0.2771 overcap_slots=0 past_horizon=0
+  ILP-rolling              mean_wait=    22.5m p90=    44.0m thr= 28.60/h idle_fix= 21.8% idle_busy= 21.8% miss= 14.0% pack=0.1446 overcap_slots=0 past_horizon=0
+
+feasibility check: every reported schedule respects GPU/CPU/mem capacity in every slot
+
+wrote 30 policy rows -> results/metrics.csv
+  MISC_rho0.39     EASY-backfill            backlog-idle=    58.6 card-h addressable=    29.6 ( 50.4% of it) peak=1.00
+  MISC_rho0.39     FIFO                     backlog-idle=    66.4 card-h addressable=    65.1 ( 98.1% of it) peak=1.00
+  MISC_rho0.39     ILP-flow(offline)        backlog-idle=   150.6 card-h addressable=    34.4 ( 22.8% of it) peak=0.97
+  MISC_rho0.39     ILP-makespan(offline)    backlog-idle=   298.5 card-h addressable=   298.5 (100.0% of it) peak=0.86
+  MISC_rho0.39     ILP-rolling              backlog-idle=    59.8 card-h addressable=    10.7 ( 17.8% of it) peak=0.99
+  MISC_rho0.52     EASY-backfill            backlog-idle=    61.0 card-h addressable=    34.7 ( 56.8% of it) peak=1.00
+  MISC_rho0.52     FIFO                     backlog-idle=    70.6 card-h addressable=    53.6 ( 75.9% of it) peak=1.00
+  MISC_rho0.52     ILP-flow(offline)        backlog-idle=    97.3 card-h addressable=    36.6 ( 37.6% of it) peak=1.00
+  MISC_rho0.52     ILP-makespan(offline)    backlog-idle=   220.6 card-h addressable=   220.2 ( 99.8% of it) peak=0.98
+  MISC_rho0.52     ILP-rolling              backlog-idle=    45.6 card-h addressable=    15.7 ( 34.5% of it) peak=1.00
+  MISC_rho0.72     EASY-backfill            backlog-idle=   103.6 card-h addressable=    84.5 ( 81.6% of it) peak=1.00
+  MISC_rho0.72     FIFO                     backlog-idle=   105.9 card-h addressable=    86.6 ( 81.8% of it) peak=1.00
+  MISC_rho0.72     ILP-flow(offline)        backlog-idle=    28.5 card-h addressable=     8.2 ( 28.7% of it) peak=1.00
+  MISC_rho0.72     ILP-makespan(offline)    backlog-idle=   112.5 card-h addressable=   111.9 ( 99.4% of it) peak=1.00
+  MISC_rho0.72     ILP-rolling              backlog-idle=    26.9 card-h addressable=     7.1 ( 26.5% of it) peak=1.00
+  P100_rho0.41     EASY-backfill            backlog-idle=    11.3 card-h addressable=     8.9 ( 78.6% of it) peak=1.00
+  P100_rho0.41     FIFO                     backlog-idle=    13.1 card-h addressable=    11.8 ( 90.2% of it) peak=1.00
+  P100_rho0.41     ILP-flow(offline)        backlog-idle=    17.8 card-h addressable=     5.4 ( 30.4% of it) peak=0.99
+  P100_rho0.41     ILP-makespan(offline)    backlog-idle=   218.0 card-h addressable=   218.0 (100.0% of it) peak=1.00
+  P100_rho0.41     ILP-rolling              backlog-idle=    18.0 card-h addressable=     2.0 ( 11.1% of it) peak=1.00
+  P100_rho0.64     EASY-backfill            backlog-idle=    43.7 card-h addressable=    27.0 ( 61.7% of it) peak=1.00
+  P100_rho0.64     FIFO                     backlog-idle=    57.5 card-h addressable=    56.3 ( 97.9% of it) peak=1.00
+  P100_rho0.64     ILP-flow(offline)        backlog-idle=    59.8 card-h addressable=    41.7 ( 69.8% of it) peak=1.00
+  P100_rho0.64     ILP-makespan(offline)    backlog-idle=   155.9 card-h addressable=   155.3 ( 99.6% of it) peak=1.00
+  P100_rho0.64     ILP-rolling              backlog-idle=   105.7 card-h addressable=    53.3 ( 50.5% of it) peak=1.00
+  P100_rho0.85     EASY-backfill            backlog-idle=    53.1 card-h addressable=    51.7 ( 97.3% of it) peak=1.00
+  P100_rho0.85     FIFO                     backlog-idle=    63.8 card-h addressable=    63.0 ( 98.8% of it) peak=1.00
+  P100_rho0.85     ILP-flow(offline)        backlog-idle=    22.1 card-h addressable=    10.9 ( 49.3% of it) peak=1.00
+  P100_rho0.85     ILP-makespan(offline)    backlog-idle=    31.3 card-h addressable=    30.4 ( 97.1% of it) peak=1.00
+  P100_rho0.85     ILP-rolling              backlog-idle=   441.7 card-h addressable=   432.3 ( 97.9% of it) peak=1.00
+
+updated metrics.csv (30 rows) with backlog/idle columns
+=== P100_rho0.41  FIFO 34.9m  ILP-flow 9.5m
+  priority-gpu             wait    10.3m  vs FIFO   -70.3%  captured   96.7%  miss   2.8%
+  priority-cpu             wait    14.2m  vs FIFO   -59.4%  captured   81.7%  miss   8.5%
+  priority-mem             wait    10.3m  vs FIFO   -70.3%  captured   96.7%  miss   2.8%
+  priority-gpu-age1h          wait    14.6m  vs FIFO   -58.2%  captured   80.0%  miss  11.3%
+  priority-gpu-age2h          wait    10.8m  vs FIFO   -69.1%  captured   95.0%  miss   2.8%
+  priority-gpu-age4h          wait    10.3m  vs FIFO   -70.3%  captured   96.7%  miss   2.8%
+  priority-short  (oracle) wait     9.9m  vs FIFO   -71.5%  captured   98.3%  miss   2.8%
+=== P100_rho0.64  FIFO 108.9m  ILP-flow 15.8m
+  priority-gpu             wait    29.2m  vs FIFO   -73.1%  captured   85.5%  miss   9.4%
+  priority-cpu             wait    22.7m  vs FIFO   -79.1%  captured   92.5%  miss   9.4%
+  priority-mem             wait    30.5m  vs FIFO   -72.0%  captured   84.2%  miss   9.4%
+  priority-gpu-age1h          wait    35.5m  vs FIFO   -67.4%  captured   78.8%  miss  30.2%
+  priority-gpu-age2h          wait    29.2m  vs FIFO   -73.1%  captured   85.5%  miss  10.4%
+  priority-gpu-age4h          wait    27.6m  vs FIFO   -74.7%  captured   87.3%  miss   9.4%
+  priority-short  (oracle) wait    20.4m  vs FIFO   -81.3%  captured   95.0%  miss   8.5%
+=== P100_rho0.85  FIFO 240.0m  ILP-flow 49.8m
+  priority-gpu             wait    36.0m  vs FIFO   -85.0%  captured  107.2%  miss  13.3%
+  priority-cpu             wait    34.1m  vs FIFO   -85.8%  captured  108.2%  miss  11.3%
+  priority-mem             wait    43.6m  vs FIFO   -81.8%  captured  103.2%  miss  12.0%
+  priority-gpu-age1h          wait    52.6m  vs FIFO   -78.1%  captured   98.5%  miss  46.0%
+  priority-gpu-age2h          wait    45.8m  vs FIFO   -80.9%  captured  102.1%  miss  41.3%
+  priority-gpu-age4h          wait    34.2m  vs FIFO   -85.8%  captured  108.2%  miss  14.0%
+  priority-short  (oracle) wait    25.8m  vs FIFO   -89.3%  captured  112.6%  miss  17.3%
+=== MISC_rho0.39  FIFO 35.2m  ILP-flow 8.7m
+  priority-gpu             wait    11.8m  vs FIFO   -66.6%  captured   88.4%  miss  11.2%
+  priority-cpu             wait    11.5m  vs FIFO   -67.2%  captured   89.2%  miss  10.6%
+  priority-mem             wait    10.8m  vs FIFO   -69.3%  captured   92.0%  miss   9.6%
+  priority-gpu-age1h          wait    11.5m  vs FIFO   -67.2%  captured   89.2%  miss  10.6%
+  priority-gpu-age2h          wait    11.7m  vs FIFO   -66.8%  captured   88.6%  miss  11.2%
+  priority-gpu-age4h          wait    11.8m  vs FIFO   -66.6%  captured   88.4%  miss  11.2%
+  priority-short  (oracle) wait    11.8m  vs FIFO   -66.6%  captured   88.4%  miss  13.3%
+=== MISC_rho0.52  FIFO 71.1m  ILP-flow 13.8m
+  priority-gpu             wait    26.4m  vs FIFO   -62.9%  captured   78.0%  miss  34.0%
+  priority-cpu             wait    26.7m  vs FIFO   -62.4%  captured   77.3%  miss  24.5%
+  priority-mem             wait    22.9m  vs FIFO   -67.8%  captured   84.1%  miss  20.6%
+  priority-gpu-age1h          wait    38.9m  vs FIFO   -45.2%  captured   56.1%  miss  42.9%
+  priority-gpu-age2h          wait    28.8m  vs FIFO   -59.5%  captured   73.8%  miss  35.1%
+  priority-gpu-age4h          wait    26.4m  vs FIFO   -62.9%  captured   78.0%  miss  34.0%
+  priority-short  (oracle) wait    25.1m  vs FIFO   -64.7%  captured   80.2%  miss  23.0%
+=== MISC_rho0.72  FIFO 173.7m  ILP-flow 21.6m
+  priority-gpu             wait    33.7m  vs FIFO   -80.6%  captured   92.1%  miss  27.5%
+  priority-cpu             wait    33.6m  vs FIFO   -80.7%  captured   92.2%  miss  27.3%
+  priority-mem             wait    33.3m  vs FIFO   -80.9%  captured   92.4%  miss  31.2%
+  priority-gpu-age1h          wait    40.4m  vs FIFO   -76.8%  captured   87.7%  miss  31.2%
+  priority-gpu-age2h          wait    36.8m  vs FIFO   -78.8%  captured   90.0%  miss  27.8%
+  priority-gpu-age4h          wait    34.2m  vs FIFO   -80.3%  captured   91.8%  miss  27.5%
+  priority-short  (oracle) wait    28.4m  vs FIFO   -83.6%  captured   95.5%  miss  21.5%
+{
+  "instances": 6,
+  "deployable_policies": [
+    "priority-cpu",
+    "priority-gpu",
+    "priority-gpu-age1h",
+    "priority-gpu-age2h",
+    "priority-gpu-age4h",
+    "priority-mem"
+  ],
+  "best_deployable_per_instance": {
+    "P100_rho0.41": "priority-gpu",
+    "P100_rho0.64": "priority-cpu",
+    "P100_rho0.85": "priority-cpu",
+    "MISC_rho0.39": "priority-mem",
+    "MISC_rho0.52": "priority-mem",
+    "MISC_rho0.72": "priority-mem"
+  },
+  "captured_ilp_gain_range_deployable": [
+    0.5606,
+    1.0823
+  ],
+  "captured_ilp_gain_range_priority_only": [
+    0.7735,
+    1.0823
+  ],
+  "p90_change_range_deployable": [
+    -0.8638,
+    -0.2054
+  ],
+  "p90_change_range_priority_only": [
+    -0.8638,
+    -0.463
+  ],
+  "max_wait_change_range_deployable": [
+    -0.0884,
+    1.9454
+  ],
+  "max_wait_change_range_priority_only": [
+    0.0914,
+    1.9454
+  ],
+  "max_wait_multiplier_max_priority_only": 2.945,
+  "oracle_short_captured_ilp_gain_range": [
+    0.802,
+    1.1261
+  ]
+}

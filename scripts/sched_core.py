@@ -78,8 +78,14 @@ def tail_slots(inst: "Instance") -> int:
     which fabricates both a short makespan and a schedule that uses more cards than the
     pool owns. Placements are therefore allowed to overflow into a documented tail, and the
     overflow shows up honestly as `jobs_running_past_horizon` plus a longer makespan.
+
+    The tail is sized so that *serial* service of every job always fits: even if nothing
+    runs inside the horizon, draining the whole queue one job at a time after the last
+    release cannot exhaust the window. A smaller fixed tail could fill up, and the old
+    code then stacked the leftovers onto their release slots, fabricating capacity.
+    No extra resource is granted here -- only time.
     """
-    return int(2 * inst.p.max() + 12)
+    return int(inst.earliest.max()) + int(inst.p.sum())
 
 
 def window_slots(inst: "Instance") -> int:
@@ -95,6 +101,14 @@ class Occupancy:
         self.n = int(n_slots) if n_slots is not None else window_slots(inst)
         self.use = np.zeros((self.n, 3), dtype=float)
         self.cap = np.array([inst.capacity[r] for r in RESOURCES], dtype=float)
+        demand = inst.demand
+        if not np.all(np.isfinite(demand)) or np.any(demand < 0):
+            raise ValueError("resource demands must be finite and non-negative")
+        oversized = np.any(demand > self.cap[None, :] + 1e-9, axis=1)
+        if oversized.any():
+            j = int(np.where(oversized)[0][0])
+            raise ValueError(f"job {j} requests more than pool capacity: "
+                             f"{dict(zip(RESOURCES, demand[j]))} > {dict(zip(RESOURCES, self.cap))}")
 
     def fits(self, j: int, s: int) -> bool:
         p = int(self.inst.p[j])
@@ -177,6 +191,8 @@ def run_priority_online(inst: Instance, key: str, aging_slots: int | None = None
     by_arrival = np.argsort(arrival, kind="stable")
 
     for s in range(horizon):
+        if (starts >= 0).all():
+            break
         waiting = [int(j) for j in by_arrival
                    if earliest[j] <= s and starts[j] < 0]
         if not waiting:
@@ -195,13 +211,13 @@ def run_priority_online(inst: Instance, key: str, aging_slots: int | None = None
                 starts[j] = s
 
     if (starts < 0).any():
-        extra, _ = first_fit_leftovers(inst, occ, np.where(starts < 0)[0])
+        extra, unplaceable = first_fit_leftovers(inst, occ, np.where(starts < 0)[0])
+        if unplaceable:
+            raise ValueError(f"priority policy left {len(unplaceable)} jobs unplaceable "
+                             "even in the serial-service tail")
         miss = starts < 0
         starts[miss] = extra[miss]
-    still = starts < 0
-    if still.any():
-        starts[still] = earliest[still]
-    return np.minimum(starts, horizon - 1).astype(int)
+    return starts
 
 
 def run_fifo(inst: Instance, backfill: bool = False, order: np.ndarray | None = None) -> np.ndarray:
@@ -229,8 +245,8 @@ def run_fifo(inst: Instance, backfill: bool = False, order: np.ndarray | None = 
     while i < len(queue):
         h = int(queue[i])
         head_slot = occ.earliest_fit(h, floor_slot=int(earliest[h]))
-        if head_slot is None:                      # no room even in the padded window
-            head_slot = int(earliest[h])           # kept honest by capacity_violation_slots
+        if head_slot is None:
+            raise ValueError(f"FIFO head job {h} does not fit even in the serial-service tail")
         if not backfill:
             # head-of-line blocking: nobody may overtake the job queued ahead of it
             last_start = 0
@@ -242,7 +258,7 @@ def run_fifo(inst: Instance, backfill: bool = False, order: np.ndarray | None = 
                 if s is None:
                     s = occ.earliest_fit(j, floor_slot=int(earliest[j]))
                     if s is None:
-                        s = int(earliest[j])
+                        raise ValueError(f"FIFO job {j} does not fit even in the serial-service tail")
                 occ.reserve(j, s)
                 starts[j] = s
                 last_start = s
@@ -267,13 +283,13 @@ def run_fifo(inst: Instance, backfill: bool = False, order: np.ndarray | None = 
 
     # any job the main loop never reached: place it by first fit, capacity-aware
     if (starts < 0).any():
-        extra, _ = first_fit_leftovers(inst, occ, np.where(starts < 0)[0])
+        extra, unplaceable = first_fit_leftovers(inst, occ, np.where(starts < 0)[0])
+        if unplaceable:
+            raise ValueError(f"FIFO left {len(unplaceable)} jobs unplaceable "
+                             "even in the serial-service tail")
         miss = starts < 0
         starts[miss] = extra[miss]
-    still = starts < 0
-    if still.any():                    # saturated beyond even the padded window (rare)
-        starts[still] = earliest[still]
-    return np.minimum(starts, window_slots(inst) - 1).astype(int)
+    return starts
 
 
 # --------------------------------------------------------------------------- metrics
@@ -303,6 +319,11 @@ def metrics(inst: Instance, starts: np.ndarray) -> dict:
     occ = Occupancy(inst)                       # horizon + documented tail
     for j in range(len(starts)):
         occ.reserve(j, int(starts[j]))
+    viol = occ.violations()
+    if viol["capacity_violation_slots"]:
+        raise ValueError(f"schedule violates capacity in {viol['capacity_violation_slots']} slots "
+                         f"(max GPU overcommit {viol['max_gpu_overcommit_cards']} cards); "
+                         "refusing to report metrics for an infeasible schedule")
     used_card_hours = float(occ.use[:, 0].sum()) * d / 3600.0
     used_in_horizon = float(occ.use[:inst.n_slots, 0].sum()) * d / 3600.0
     horizon_usage = occ.use[:inst.n_slots]
@@ -330,7 +351,7 @@ def metrics(inst: Instance, starts: np.ndarray) -> dict:
         "mem_peak_util": round(float(horizon_usage[:, 2].max() / inst.capacity["mem_gb"]), 4),
         "gpu_slot_util": round(float(horizon_usage[:, 0].mean() / cap_cards), 4),
         "deadline_miss_rate": None,
-        **occ.violations(),
+        **viol,
     }
 
 
@@ -349,11 +370,27 @@ def add_deadlines(inst: Instance, starts: np.ndarray, slack_minutes: float = 30.
 
 # --------------------------------------------------------------------------- packing
 def clamp_starts(inst: Instance, starts: np.ndarray) -> np.ndarray:
-    """Index guard only: keep every job inside the modelled window (horizon + tail) so the
-    occupancy arrays never run past their rows. Deliberately *not* a way to hide late
-    placements — clamping to the horizon would turn an infeasible schedule into a silent one."""
-    hi = np.maximum(0, window_slots(inst) - inst.p)
-    return np.clip(starts, 0, hi).astype(int)
+    """Validate a complete start vector; never repair it.
+
+    Kept under the old name for callers, but clipping was a silent lie: it turned
+    negative, pre-release or out-of-window starts into plausible-looking ones. An
+    invalid schedule is now a ValueError, not a metric row.
+    """
+    starts = np.asarray(starts)
+    n = len(inst.jobs)
+    if starts.ndim != 1 or starts.shape != (n,):
+        raise ValueError(f"starts must be a vector of length {n}, got shape {starts.shape}")
+    if not np.issubdtype(starts.dtype, np.integer):
+        raise ValueError(f"starts must have integer dtype, got {starts.dtype}")
+    earliest = inst.earliest
+    hi = window_slots(inst) - inst.p
+    if np.any(starts < earliest):
+        j = int(np.where(starts < earliest)[0][0])
+        raise ValueError(f"job {j} starts at {starts[j]} before its release slot {earliest[j]}")
+    if np.any(starts > hi):
+        j = int(np.where(starts > hi)[0][0])
+        raise ValueError(f"job {j} starts at {starts[j]}, past the last legal slot {hi[j]}")
+    return starts
 
 
 def _job_chunks(inst: Instance, j: int, cores_pm: float, mem_pm: float) -> list[tuple[float, float, float]]:

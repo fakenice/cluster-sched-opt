@@ -243,9 +243,14 @@ plt.show()"""))
 
     cells.append(code("""summary = json.loads((ROOT / "results" / "summary.json").read_text(encoding="utf-8"))
 rows = []
+# only the per-instance sections are {policy: {metric: value}}; the aggregate sections
+# ("priority_baselines", "sweep") have a different shape and must not be flattened here.
 for key, pols in summary.items():
+    if not isinstance(pols, dict) or "@" not in key:
+        continue
     for pol, d in pols.items():
-        rows.append({"instance": key, "policy": pol, **d})
+        if isinstance(d, dict):
+            rows.append({"instance": key, "policy": pol, **d})
 pd.DataFrame(rows).round(2).to_string(index=False)"""))
 
     nb.cells = cells

@@ -326,34 +326,34 @@
       "gap_vs_lp_percent": null
     },
     "ILP-rolling": {
-      "mean_wait_change_pct": 29.3,
+      "mean_wait_change_pct": 32.3,
       "p90_wait_change_pct": 63.4,
-      "throughput_change_pct": -36.1,
-      "gpu_idle_fixed_window_change_pp": 49.0,
-      "gpu_idle_busy_period_change_pp": 30.5,
-      "idle_addressable_backlog_change_pp": 49.7,
-      "idle_addressable_backlog_card_hours": 369.0,
-      "idle_with_backlog_card_hours": 378.33,
-      "deadline_miss_change_pp": -46.0,
-      "packing_feasibility_rate": 0.8829,
+      "throughput_change_pct": -42.6,
+      "gpu_idle_fixed_window_change_pp": 59.2,
+      "gpu_idle_busy_period_change_pp": 36.0,
+      "idle_addressable_backlog_change_pp": 59.9,
+      "idle_addressable_backlog_card_hours": 432.33,
+      "idle_with_backlog_card_hours": 441.67,
+      "deadline_miss_change_pp": -45.3,
+      "packing_feasibility_rate": 0.886,
       "deferred_jobs_past_horizon": 75,
       "capacity_violation_slots": 0,
       "gap_vs_lp_percent": null
     },
     "ILP-flow(offline)": {
-      "mean_wait_change_pct": -75.5,
-      "p90_wait_change_pct": -37.0,
+      "mean_wait_change_pct": -79.3,
+      "p90_wait_change_pct": -45.5,
       "throughput_change_pct": 11.1,
       "gpu_idle_fixed_window_change_pp": -7.1,
       "gpu_idle_busy_period_change_pp": -9.3,
-      "idle_addressable_backlog_change_pp": -6.7,
-      "idle_addressable_backlog_card_hours": 21.5,
-      "idle_with_backlog_card_hours": 24.29,
-      "deadline_miss_change_pp": -66.0,
-      "packing_feasibility_rate": 0.6173,
+      "idle_addressable_backlog_change_pp": -8.5,
+      "idle_addressable_backlog_card_hours": 10.92,
+      "idle_with_backlog_card_hours": 22.12,
+      "deadline_miss_change_pp": -70.0,
+      "packing_feasibility_rate": 0.5802,
       "deferred_jobs_past_horizon": null,
       "capacity_violation_slots": 0,
-      "gap_vs_lp_percent": 14.15
+      "gap_vs_lp_percent": 11.63
     },
     "ILP-makespan(offline)": {
       "mean_wait_change_pct": 9.3,
@@ -391,11 +391,11 @@
     },
     "captured_ilp_gain_range_deployable": [
       0.5606,
-      1.1365
+      1.0823
     ],
     "captured_ilp_gain_range_priority_only": [
       0.7735,
-      1.1365
+      1.0823
     ],
     "p90_change_range_deployable": [
       -0.8638,
@@ -416,7 +416,7 @@
     "max_wait_multiplier_max_priority_only": 2.945,
     "oracle_short_captured_ilp_gain_range": [
       0.802,
-      1.1825
+      1.1261
     ]
   },
   "sweep": {
@@ -479,7 +479,7 @@
       },
       "104": {
         "n": 9,
-        "median": 0.6615,
+        "median": 0.6356,
         "min": 0.1548,
         "max": 0.9509
       },
@@ -532,9 +532,9 @@
       "fifo-easy-ilp": {
         "n_rows": 288,
         "rows_with_nonzero_addressable": 274,
-        "idle_with_backlog_card_hours_max": 866.39,
-        "idle_addressable_backlog_card_hours_max": 863.33,
-        "addressable_share_of_backlog_idle_median": 0.674
+        "idle_with_backlog_card_hours_max": 911.39,
+        "idle_addressable_backlog_card_hours_max": 908.33,
+        "addressable_share_of_backlog_idle_median": 0.6715
       },
       "priority-rules": {
         "n_rows": 504,
@@ -549,58 +549,65 @@
       "gap_vs_lp_percent_max": 36.44,
       "fallback_to_first_fit_count": 11,
       "solve_seconds_range": [
-        0.5,
+        0.3,
         180.2
       ]
     },
     "ilp_rolling": {
       "n": 72,
       "solve_seconds_range": [
-        16.0,
-        382.6
+        12.5,
+        238.5
       ],
       "epochs_without_incumbent_total": 166,
       "deferred_jobs_past_horizon_total": 2548
     },
-    "wall_seconds": null,
-    "build_seconds": null,
+    "wall_seconds": 3426.4,
+    "build_seconds": 3.9,
     "grid": {
       "pools": [
-        "MISC",
-        "P100"
+        "P100",
+        "MISC"
       ],
-      "window_ranks": [
-        1,
-        2,
-        3,
-        104,
-        125
-      ],
+      "window_ranks": "1,2,3,median",
       "seeds": [
         20261013,
         20261103,
         20261104
       ],
       "n_instance_files": 72,
-      "regenerated_by": "--report-only"
+      "ilp": true
     },
     "positive_control": {
       "status": "ok",
       "n_deterministic_rows_compared": 54,
       "n_solver_rows_compared": 12,
       "policies_not_in_committed_tables": [],
-      "deterministic_worst_relative_deviation": 0.0,
+      "deterministic_worst_relative_deviation": 1.4779844015322418e-15,
       "deterministic_reproduce_exactly": true,
-      "deterministic_worst_via_ilp_derived_column": 0.0007921837866384128,
-      "solver_worst_relative_deviation": 0.22001370801919123,
+      "deterministic_worst_via_ilp_derived_column": 0.04282115869017634,
+      "solver_worst_relative_deviation": 0.3663003663003663,
       "solver_rows": [
         {
           "instance": "P100_rho0.85",
           "policy": "ILP-flow(offline)",
           "source": "metrics.csv",
-          "worst_relative_deviation": 0.22001370801919123,
-          "worst_raw": 0.22001370801919123,
-          "worst_raw_column": "median_wait_s",
+          "worst_relative_deviation": 0.3663003663003663,
+          "worst_raw": 0.3663003663003663,
+          "worst_raw_column": "idle_addressable_backlog_card_hours",
+          "worst_fifo_derived": 0.0,
+          "worst_fifo_derived_column": null,
+          "worst_ilp_derived": 0.0,
+          "worst_ilp_derived_column": null,
+          "deterministic": false
+        },
+        {
+          "instance": "MISC_rho0.39",
+          "policy": "ILP-flow(offline)",
+          "source": "metrics.csv",
+          "worst_relative_deviation": 2.391605432213364e-15,
+          "worst_raw": 2.391605432213364e-15,
+          "worst_raw_column": "deadline_miss_rate",
           "worst_fifo_derived": 0.0,
           "worst_fifo_derived_column": null,
           "worst_ilp_derived": 0.0,
@@ -611,9 +618,9 @@
           "instance": "P100_rho0.41",
           "policy": "ILP-flow(offline)",
           "source": "metrics.csv",
-          "worst_relative_deviation": 0.0,
-          "worst_raw": 0.0,
-          "worst_raw_column": "mean_wait_s",
+          "worst_relative_deviation": 1.4779844015322418e-15,
+          "worst_raw": 1.4779844015322418e-15,
+          "worst_raw_column": "deadline_miss_rate",
           "worst_fifo_derived": 0.0,
           "worst_fifo_derived_column": null,
           "worst_ilp_derived": 0.0,
@@ -624,9 +631,9 @@
           "instance": "P100_rho0.41",
           "policy": "ILP-rolling",
           "source": "metrics.csv",
-          "worst_relative_deviation": 0.0,
-          "worst_raw": 0.0,
-          "worst_raw_column": "mean_wait_s",
+          "worst_relative_deviation": 1.4779844015322418e-15,
+          "worst_raw": 1.4779844015322418e-15,
+          "worst_raw_column": "deadline_miss_rate",
           "worst_fifo_derived": 0.0,
           "worst_fifo_derived_column": null,
           "worst_ilp_derived": 0.0,
@@ -637,9 +644,9 @@
           "instance": "P100_rho0.64",
           "policy": "ILP-flow(offline)",
           "source": "metrics.csv",
-          "worst_relative_deviation": 0.0,
-          "worst_raw": 0.0,
-          "worst_raw_column": "mean_wait_s",
+          "worst_relative_deviation": 1.1032841307212505e-15,
+          "worst_raw": 1.1032841307212505e-15,
+          "worst_raw_column": "deadline_miss_rate",
           "worst_fifo_derived": 0.0,
           "worst_fifo_derived_column": null,
           "worst_ilp_derived": 0.0,
@@ -647,25 +654,12 @@
           "deterministic": false
         },
         {
-          "instance": "P100_rho0.64",
-          "policy": "ILP-rolling",
+          "instance": "MISC_rho0.52",
+          "policy": "ILP-flow(offline)",
           "source": "metrics.csv",
-          "worst_relative_deviation": 0.0,
-          "worst_raw": 0.0,
-          "worst_raw_column": "mean_wait_s",
-          "worst_fifo_derived": 0.0,
-          "worst_fifo_derived_column": null,
-          "worst_ilp_derived": 0.0,
-          "worst_ilp_derived_column": null,
-          "deterministic": false
-        },
-        {
-          "instance": "P100_rho0.85",
-          "policy": "ILP-rolling",
-          "source": "metrics.csv",
-          "worst_relative_deviation": 0.0,
-          "worst_raw": 0.0,
-          "worst_raw_column": "mean_wait_s",
+          "worst_relative_deviation": 5.870304242705518e-16,
+          "worst_raw": 5.870304242705518e-16,
+          "worst_raw_column": "deadline_miss_rate",
           "worst_fifo_derived": 0.0,
           "worst_fifo_derived_column": null,
           "worst_ilp_derived": 0.0,
@@ -675,41 +669,15 @@
       ],
       "note": "Deterministic policies replay identical rows; their raw and FIFO-relative columns must match to 1e-9. `captured_ilp_wait_gain` is divided by the ILP-flow wait and is therefore compared but not asserted: `milp` stops on a wall-clock limit, so the incumbent can differ between runs of the same instance. That deviation is reported, not hidden."
     },
-    "addressable_claim_verification": {
-      "instance": "P100_w3_s20261103_rho0.85",
-      "file": "instance_w3_s20261103_P100_085_150.csv",
-      "per_policy": {
-        "FIFO": {
-          "unplaced_jobs": 0,
-          "slots_with_backlog_and_free_gpu": 66,
-          "addressable_slots": 63,
-          "fragmentation_only_slots": 3,
-          "max_free_cards_while_backlogged": 18.0,
-          "idle_with_backlog_card_hours": 82.29,
-          "idle_with_backlog_share": 0.07,
-          "idle_addressable_backlog_card_hours": 81.59,
-          "idle_addressable_backlog_share": 0.0694,
-          "addressable_share_of_backlog_idle": 0.991,
-          "gpu_peak_allocated_share": 1.0,
-          "slots_with_backlog": 68,
-          "mean_queue_depth": 33.19
-        },
-        "priority-gpu": {
-          "unplaced_jobs": 0,
-          "slots_with_backlog_and_free_gpu": 63,
-          "addressable_slots": 0,
-          "fragmentation_only_slots": 63,
-          "max_free_cards_while_backlogged": 15.0,
-          "idle_with_backlog_card_hours": 59.54,
-          "idle_with_backlog_share": 0.0506,
-          "idle_addressable_backlog_card_hours": 0.0,
-          "idle_addressable_backlog_share": 0.0,
-          "addressable_share_of_backlog_idle": 0.0,
-          "gpu_peak_allocated_share": 1.0,
-          "slots_with_backlog": 68,
-          "mean_queue_depth": 12.643
-        }
-      }
+    "validation": {
+      "ok": true,
+      "n_rows": 792,
+      "n_instances": 72,
+      "duplicate_rows": [],
+      "missing_policies": [],
+      "capacity_violation_rows": [],
+      "unplaceable_rows": [],
+      "non_finite_mean_wait_rows": 0
     }
   }
 }

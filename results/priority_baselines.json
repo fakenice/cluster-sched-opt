@@ -226,7 +226,7 @@
     },
     "P100_rho0.85": {
       "fifo_wait_s": 14401.14,
-      "ilp_flow_wait_s": 3529.14,
+      "ilp_flow_wait_s": 2985.14,
       "policies": {
         "priority-gpu": {
           "oracle": false,
@@ -241,7 +241,7 @@
           "throughput_jobs_per_hour": 9.632880231189125,
           "idle_addressable_backlog_card_hours": 0.0,
           "capacity_violation_slots": 0,
-          "captured_ilp_wait_gain": 1.1262
+          "captured_ilp_wait_gain": 1.0725
         },
         "priority-cpu": {
           "oracle": false,
@@ -256,7 +256,7 @@
           "throughput_jobs_per_hour": 10.177541558294696,
           "idle_addressable_backlog_card_hours": 0.0,
           "capacity_violation_slots": 0,
-          "captured_ilp_wait_gain": 1.1365
+          "captured_ilp_wait_gain": 1.0823
         },
         "priority-mem": {
           "oracle": false,
@@ -271,7 +271,7 @@
           "throughput_jobs_per_hour": 9.333195063776834,
           "idle_addressable_backlog_card_hours": 0.0,
           "capacity_violation_slots": 0,
-          "captured_ilp_wait_gain": 1.0839
+          "captured_ilp_wait_gain": 1.0322
         },
         "priority-gpu-age1h": {
           "oracle": false,
@@ -286,7 +286,7 @@
           "throughput_jobs_per_hour": 9.430996541967936,
           "idle_addressable_backlog_card_hours": 0.0,
           "capacity_violation_slots": 0,
-          "captured_ilp_wait_gain": 1.0342
+          "captured_ilp_wait_gain": 0.9849
         },
         "priority-gpu-age2h": {
           "oracle": false,
@@ -301,7 +301,7 @@
           "throughput_jobs_per_hour": 9.237401211125936,
           "idle_addressable_backlog_card_hours": 0.0,
           "capacity_violation_slots": 0,
-          "captured_ilp_wait_gain": 1.0721
+          "captured_ilp_wait_gain": 1.021
         },
         "priority-gpu-age4h": {
           "oracle": false,
@@ -316,7 +316,7 @@
           "throughput_jobs_per_hour": 9.632880231189125,
           "idle_addressable_backlog_card_hours": 0.0,
           "capacity_violation_slots": 0,
-          "captured_ilp_wait_gain": 1.1361
+          "captured_ilp_wait_gain": 1.082
         },
         "priority-short": {
           "oracle": true,
@@ -331,7 +331,7 @@
           "throughput_jobs_per_hour": 9.530869427088849,
           "idle_addressable_backlog_card_hours": 0.0,
           "capacity_violation_slots": 0,
-          "captured_ilp_wait_gain": 1.1825
+          "captured_ilp_wait_gain": 1.1261
         }
       }
     },
@@ -689,11 +689,11 @@
     },
     "captured_ilp_gain_range_deployable": [
       0.5606,
-      1.1365
+      1.0823
     ],
     "captured_ilp_gain_range_priority_only": [
       0.7735,
-      1.1365
+      1.0823
     ],
     "p90_change_range_deployable": [
       -0.8638,
@@ -714,7 +714,7 @@
     "max_wait_multiplier_max_priority_only": 2.945,
     "oracle_short_captured_ilp_gain_range": [
       0.802,
-      1.1825
+      1.1261
     ]
   }
 }

@@ -35,7 +35,7 @@
       "wait_change_vs_fifo": -0.6283,
       "p90_change_vs_fifo": -0.78,
       "max_change_vs_fifo": 0.7226,
-      "deadline_miss_rate": 0.0106382978723404,
+      "deadline_miss_rate": 0.010638297872340425,
       "captured_ilp_wait_gain": 0.8711,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -50,11 +50,11 @@
       "n_jobs": 282,
       "best_deployable_policy": "priority-cpu",
       "fifo_mean_wait_s": 4480.620567375887,
-      "mean_wait_s": 978.4929078014184,
+      "mean_wait_s": 978.4929078014185,
       "wait_change_vs_fifo": -0.7816,
       "p90_change_vs_fifo": -0.685,
       "max_change_vs_fifo": 0.5003,
-      "deadline_miss_rate": 0.1205673758865248,
+      "deadline_miss_rate": 0.12056737588652482,
       "captured_ilp_wait_gain": 1.0123,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -87,12 +87,12 @@
       "achieved_rho": 0.3259,
       "n_jobs": 188,
       "best_deployable_policy": "priority-cpu",
-      "fifo_mean_wait_s": 9334.6914893617,
+      "fifo_mean_wait_s": 9334.691489361701,
       "mean_wait_s": 1285.7553191489362,
       "wait_change_vs_fifo": -0.8623,
       "p90_change_vs_fifo": -0.8254,
       "max_change_vs_fifo": 0.4917,
-      "deadline_miss_rate": 0.2659574468085106,
+      "deadline_miss_rate": 0.26595744680851063,
       "captured_ilp_wait_gain": 0.9204,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -144,12 +144,12 @@
       "achieved_rho": 0.2522,
       "n_jobs": 188,
       "best_deployable_policy": "priority-cpu",
-      "fifo_mean_wait_s": 1017.1595744680852,
+      "fifo_mean_wait_s": 1017.1595744680851,
       "mean_wait_s": 765.031914893617,
       "wait_change_vs_fifo": -0.2479,
       "p90_change_vs_fifo": -0.2082,
       "max_change_vs_fifo": 0.3438,
-      "deadline_miss_rate": 0.2287234042553191,
+      "deadline_miss_rate": 0.22872340425531915,
       "captured_ilp_wait_gain": 0.4051,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -163,12 +163,12 @@
       "achieved_rho": 0.3549,
       "n_jobs": 282,
       "best_deployable_policy": "priority-cpu",
-      "fifo_mean_wait_s": 2829.2695035460997,
+      "fifo_mean_wait_s": 2829.2695035460993,
       "mean_wait_s": 1514.3758865248226,
       "wait_change_vs_fifo": -0.4647,
       "p90_change_vs_fifo": -0.3028,
       "max_change_vs_fifo": 0.2363,
-      "deadline_miss_rate": 0.3439716312056737,
+      "deadline_miss_rate": 0.34397163120567376,
       "captured_ilp_wait_gain": 0.7262,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -201,12 +201,12 @@
       "achieved_rho": 0.3903,
       "n_jobs": 188,
       "best_deployable_policy": "priority-mem",
-      "fifo_mean_wait_s": 2112.484042553192,
+      "fifo_mean_wait_s": 2112.4840425531916,
       "mean_wait_s": 647.5904255319149,
       "wait_change_vs_fifo": -0.6934,
       "p90_change_vs_fifo": -0.5561,
       "max_change_vs_fifo": 0.0914,
-      "deadline_miss_rate": 0.0957446808510638,
+      "deadline_miss_rate": 0.09574468085106383,
       "captured_ilp_wait_gain": 0.9198,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -225,7 +225,7 @@
       "wait_change_vs_fifo": -0.6781,
       "p90_change_vs_fifo": -0.7208,
       "max_change_vs_fifo": 1.1473,
-      "deadline_miss_rate": 0.2056737588652482,
+      "deadline_miss_rate": 0.20567375886524822,
       "captured_ilp_wait_gain": 0.841,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -263,7 +263,7 @@
       "wait_change_vs_fifo": -0.7251,
       "p90_change_vs_fifo": -0.8657,
       "max_change_vs_fifo": 0.8417,
-      "deadline_miss_rate": 0.0053191489361702,
+      "deadline_miss_rate": 0.005319148936170213,
       "captured_ilp_wait_gain": 1.2305,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -278,7 +278,7 @@
       "n_jobs": 282,
       "best_deployable_policy": "priority-gpu",
       "fifo_mean_wait_s": 23169.429078014186,
-      "mean_wait_s": 990.7056737588651,
+      "mean_wait_s": 990.7056737588653,
       "wait_change_vs_fifo": -0.9572,
       "p90_change_vs_fifo": -0.9351,
       "max_change_vs_fifo": 0.0762,
@@ -316,11 +316,11 @@
       "n_jobs": 188,
       "best_deployable_policy": "priority-mem",
       "fifo_mean_wait_s": 2310.904255319149,
-      "mean_wait_s": 980.0531914893616,
+      "mean_wait_s": 980.0531914893617,
       "wait_change_vs_fifo": -0.5759,
       "p90_change_vs_fifo": -0.4979,
       "max_change_vs_fifo": 0.5348,
-      "deadline_miss_rate": 0.1117021276595744,
+      "deadline_miss_rate": 0.11170212765957446,
       "captured_ilp_wait_gain": 0.7008,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -372,7 +372,7 @@
       "achieved_rho": 0.3433,
       "n_jobs": 188,
       "best_deployable_policy": "priority-mem",
-      "fifo_mean_wait_s": 3693.702127659575,
+      "fifo_mean_wait_s": 3693.7021276595747,
       "mean_wait_s": 601.1489361702128,
       "wait_change_vs_fifo": -0.8373,
       "p90_change_vs_fifo": -0.8643,
@@ -396,7 +396,7 @@
       "wait_change_vs_fifo": -0.8614,
       "p90_change_vs_fifo": -0.8469,
       "max_change_vs_fifo": 0.4646,
-      "deadline_miss_rate": 0.1489361702127659,
+      "deadline_miss_rate": 0.14893617021276595,
       "captured_ilp_wait_gain": 0.9575,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -453,7 +453,7 @@
       "wait_change_vs_fifo": -0.4385,
       "p90_change_vs_fifo": 0.385,
       "max_change_vs_fifo": 0.9551,
-      "deadline_miss_rate": 0.2446808510638297,
+      "deadline_miss_rate": 0.24468085106382978,
       "captured_ilp_wait_gain": 0.5291,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -491,7 +491,7 @@
       "wait_change_vs_fifo": -0.3206,
       "p90_change_vs_fifo": -0.3265,
       "max_change_vs_fifo": 2.5229,
-      "deadline_miss_rate": 0.0053191489361702,
+      "deadline_miss_rate": 0.005319148936170213,
       "captured_ilp_wait_gain": 0.9012,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -506,11 +506,11 @@
       "n_jobs": 282,
       "best_deployable_policy": "priority-cpu",
       "fifo_mean_wait_s": 5318.482269503546,
-      "mean_wait_s": 2552.5248226950357,
+      "mean_wait_s": 2552.5248226950353,
       "wait_change_vs_fifo": -0.5201,
       "p90_change_vs_fifo": -0.317,
       "max_change_vs_fifo": 1.1171,
-      "deadline_miss_rate": 0.4361702127659574,
+      "deadline_miss_rate": 0.43617021276595747,
       "captured_ilp_wait_gain": 0.7307,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -548,7 +548,7 @@
       "wait_change_vs_fifo": -0.6079,
       "p90_change_vs_fifo": -0.7659,
       "max_change_vs_fifo": 0.4973,
-      "deadline_miss_rate": 0.0744680851063829,
+      "deadline_miss_rate": 0.07446808510638298,
       "captured_ilp_wait_gain": 0.9739,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -605,7 +605,7 @@
       "wait_change_vs_fifo": -0.7969,
       "p90_change_vs_fifo": -0.8036,
       "max_change_vs_fifo": 0.8879,
-      "deadline_miss_rate": 0.1542553191489361,
+      "deadline_miss_rate": 0.15425531914893617,
       "captured_ilp_wait_gain": 0.9135,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -624,7 +624,7 @@
       "wait_change_vs_fifo": -0.6311,
       "p90_change_vs_fifo": -0.5339,
       "max_change_vs_fifo": 0.5671,
-      "deadline_miss_rate": 0.4361702127659574,
+      "deadline_miss_rate": 0.43617021276595747,
       "captured_ilp_wait_gain": 0.7772,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -677,11 +677,11 @@
       "n_jobs": 282,
       "best_deployable_policy": "priority-cpu",
       "fifo_mean_wait_s": 8668.152482269503,
-      "mean_wait_s": 3319.216312056737,
+      "mean_wait_s": 3319.2163120567375,
       "wait_change_vs_fifo": -0.6171,
       "p90_change_vs_fifo": -0.4029,
       "max_change_vs_fifo": 0.5827,
-      "deadline_miss_rate": 0.301418439716312,
+      "deadline_miss_rate": 0.30141843971631205,
       "captured_ilp_wait_gain": 0.76,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -733,12 +733,12 @@
       "achieved_rho": 0.4461,
       "n_jobs": 68,
       "best_deployable_policy": "priority-gpu-age1h",
-      "fifo_mean_wait_s": 3169.058823529412,
-      "mean_wait_s": 945.529411764706,
+      "fifo_mean_wait_s": 3169.0588235294117,
+      "mean_wait_s": 945.5294117647059,
       "wait_change_vs_fifo": -0.7016,
       "p90_change_vs_fifo": -0.7059,
       "max_change_vs_fifo": 0.1885,
-      "deadline_miss_rate": 0.1176470588235294,
+      "deadline_miss_rate": 0.11764705882352941,
       "captured_ilp_wait_gain": 0.9509,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -758,7 +758,7 @@
       "p90_change_vs_fifo": -0.5726,
       "max_change_vs_fifo": 0.0997,
       "deadline_miss_rate": 0.6666666666666666,
-      "captured_ilp_wait_gain": 0.6615,
+      "captured_ilp_wait_gain": 0.6268,
       "idle_addressable_backlog_card_hours": 0.0
     },
     {
@@ -771,12 +771,12 @@
       "achieved_rho": 0.5543,
       "n_jobs": 45,
       "best_deployable_policy": "priority-gpu-age1h",
-      "fifo_mean_wait_s": 1681.022222222222,
+      "fifo_mean_wait_s": 1681.0222222222221,
       "mean_wait_s": 1094.3555555555556,
       "wait_change_vs_fifo": -0.349,
       "p90_change_vs_fifo": -0.8738,
       "max_change_vs_fifo": 0.4294,
-      "deadline_miss_rate": 0.0888888888888888,
+      "deadline_miss_rate": 0.08888888888888889,
       "captured_ilp_wait_gain": 0.7586,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -790,12 +790,12 @@
       "achieved_rho": 0.6077,
       "n_jobs": 68,
       "best_deployable_policy": "priority-cpu",
-      "fifo_mean_wait_s": 2765.308823529412,
-      "mean_wait_s": 965.3088235294116,
+      "fifo_mean_wait_s": 2765.3088235294117,
+      "mean_wait_s": 965.3088235294117,
       "wait_change_vs_fifo": -0.6509,
       "p90_change_vs_fifo": -0.9313,
       "max_change_vs_fifo": 0.256,
-      "deadline_miss_rate": 0.0441176470588235,
+      "deadline_miss_rate": 0.04411764705882353,
       "captured_ilp_wait_gain": 0.9401,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -815,7 +815,7 @@
       "p90_change_vs_fifo": -0.5726,
       "max_change_vs_fifo": 0.0997,
       "deadline_miss_rate": 0.6666666666666666,
-      "captured_ilp_wait_gain": 0.6295,
+      "captured_ilp_wait_gain": 0.5943,
       "idle_addressable_backlog_card_hours": 0.0
     },
     {
@@ -872,7 +872,7 @@
       "p90_change_vs_fifo": -0.5726,
       "max_change_vs_fifo": 0.0997,
       "deadline_miss_rate": 0.6666666666666666,
-      "captured_ilp_wait_gain": 0.6451,
+      "captured_ilp_wait_gain": 0.6356,
       "idle_addressable_backlog_card_hours": 0.0
     },
     {
@@ -890,7 +890,7 @@
       "wait_change_vs_fifo": -0.7031,
       "p90_change_vs_fifo": -0.8638,
       "max_change_vs_fifo": 1.1533,
-      "deadline_miss_rate": 0.028169014084507,
+      "deadline_miss_rate": 0.028169014084507043,
       "captured_ilp_wait_gain": 0.9667,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -905,11 +905,11 @@
       "n_jobs": 106,
       "best_deployable_policy": "priority-cpu",
       "fifo_mean_wait_s": 6532.254716981132,
-      "mean_wait_s": 1364.330188679245,
+      "mean_wait_s": 1364.3301886792453,
       "wait_change_vs_fifo": -0.7911,
       "p90_change_vs_fifo": -0.8344,
       "max_change_vs_fifo": 1.624,
-      "deadline_miss_rate": 0.0943396226415094,
+      "deadline_miss_rate": 0.09433962264150944,
       "captured_ilp_wait_gain": 0.925,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -928,8 +928,8 @@
       "wait_change_vs_fifo": -0.858,
       "p90_change_vs_fifo": -0.845,
       "max_change_vs_fifo": 0.9754,
-      "deadline_miss_rate": 0.1133333333333333,
-      "captured_ilp_wait_gain": 1.1373,
+      "deadline_miss_rate": 0.11333333333333333,
+      "captured_ilp_wait_gain": 1.1286,
       "idle_addressable_backlog_card_hours": 0.0
     },
     {
@@ -947,7 +947,7 @@
       "wait_change_vs_fifo": -0.8801,
       "p90_change_vs_fifo": -0.9225,
       "max_change_vs_fifo": 0.0955,
-      "deadline_miss_rate": 0.0845070422535211,
+      "deadline_miss_rate": 0.08450704225352113,
       "captured_ilp_wait_gain": 0.9839,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -966,7 +966,7 @@
       "wait_change_vs_fifo": -0.8816,
       "p90_change_vs_fifo": -0.8978,
       "max_change_vs_fifo": 0.1612,
-      "deadline_miss_rate": 0.1037735849056603,
+      "deadline_miss_rate": 0.10377358490566038,
       "captured_ilp_wait_gain": 0.9717,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -985,7 +985,7 @@
       "wait_change_vs_fifo": -0.8657,
       "p90_change_vs_fifo": -0.8949,
       "max_change_vs_fifo": 0.3636,
-      "deadline_miss_rate": 0.1266666666666666,
+      "deadline_miss_rate": 0.12666666666666668,
       "captured_ilp_wait_gain": 0.9584,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1004,7 +1004,7 @@
       "wait_change_vs_fifo": -0.7966,
       "p90_change_vs_fifo": -0.8785,
       "max_change_vs_fifo": 0.6236,
-      "deadline_miss_rate": 0.0422535211267605,
+      "deadline_miss_rate": 0.04225352112676056,
       "captured_ilp_wait_gain": 0.9621,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1037,12 +1037,12 @@
       "achieved_rho": 0.8322,
       "n_jobs": 150,
       "best_deployable_policy": "priority-cpu",
-      "fifo_mean_wait_s": 12964.786666666669,
+      "fifo_mean_wait_s": 12964.786666666667,
       "mean_wait_s": 1652.7866666666666,
       "wait_change_vs_fifo": -0.8725,
       "p90_change_vs_fifo": -0.9691,
       "max_change_vs_fifo": 0.425,
-      "deadline_miss_rate": 0.0533333333333333,
+      "deadline_miss_rate": 0.05333333333333334,
       "captured_ilp_wait_gain": 1.4729,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1061,7 +1061,7 @@
       "wait_change_vs_fifo": -0.8266,
       "p90_change_vs_fifo": -0.9086,
       "max_change_vs_fifo": 1.0854,
-      "deadline_miss_rate": 0.028169014084507,
+      "deadline_miss_rate": 0.028169014084507043,
       "captured_ilp_wait_gain": 1.0016,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1095,7 +1095,7 @@
       "n_jobs": 150,
       "best_deployable_policy": "priority-mem",
       "fifo_mean_wait_s": 12448.413333333334,
-      "mean_wait_s": 4024.413333333333,
+      "mean_wait_s": 4024.4133333333334,
       "wait_change_vs_fifo": -0.6767,
       "p90_change_vs_fifo": -0.3603,
       "max_change_vs_fifo": 0.6116,
@@ -1133,11 +1133,11 @@
       "n_jobs": 106,
       "best_deployable_policy": "priority-cpu",
       "fifo_mean_wait_s": 1090.1037735849056,
-      "mean_wait_s": 1027.839622641509,
+      "mean_wait_s": 1027.8396226415093,
       "wait_change_vs_fifo": -0.0571,
       "p90_change_vs_fifo": 0.0,
       "max_change_vs_fifo": 0.0,
-      "deadline_miss_rate": 0.1886792452830188,
+      "deadline_miss_rate": 0.18867924528301888,
       "captured_ilp_wait_gain": 0.234,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1170,12 +1170,12 @@
       "achieved_rho": 0.4842,
       "n_jobs": 71,
       "best_deployable_policy": "priority-cpu",
-      "fifo_mean_wait_s": 2636.859154929577,
+      "fifo_mean_wait_s": 2636.8591549295775,
       "mean_wait_s": 2357.9859154929577,
       "wait_change_vs_fifo": -0.1058,
       "p90_change_vs_fifo": 0.0,
       "max_change_vs_fifo": 0.0098,
-      "deadline_miss_rate": 0.4366197183098591,
+      "deadline_miss_rate": 0.43661971830985913,
       "captured_ilp_wait_gain": 0.1634,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1232,7 +1232,7 @@
       "wait_change_vs_fifo": -0.1338,
       "p90_change_vs_fifo": -0.4132,
       "max_change_vs_fifo": 0.9451,
-      "deadline_miss_rate": 0.056338028169014,
+      "deadline_miss_rate": 0.056338028169014086,
       "captured_ilp_wait_gain": 0.5294,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1247,11 +1247,11 @@
       "n_jobs": 106,
       "best_deployable_policy": "priority-gpu",
       "fifo_mean_wait_s": 6064.075471698113,
-      "mean_wait_s": 2265.962264150944,
+      "mean_wait_s": 2265.9622641509436,
       "wait_change_vs_fifo": -0.6263,
       "p90_change_vs_fifo": -0.6702,
       "max_change_vs_fifo": 0.1293,
-      "deadline_miss_rate": 0.160377358490566,
+      "deadline_miss_rate": 0.16037735849056603,
       "captured_ilp_wait_gain": 0.8153,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1270,7 +1270,7 @@
       "wait_change_vs_fifo": -0.6657,
       "p90_change_vs_fifo": -0.2693,
       "max_change_vs_fifo": 0.1566,
-      "deadline_miss_rate": 0.1933333333333333,
+      "deadline_miss_rate": 0.19333333333333333,
       "captured_ilp_wait_gain": 1.5359,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1289,7 +1289,7 @@
       "wait_change_vs_fifo": -0.5377,
       "p90_change_vs_fifo": -0.7543,
       "max_change_vs_fifo": 0.7241,
-      "deadline_miss_rate": 0.0422535211267605,
+      "deadline_miss_rate": 0.04225352112676056,
       "captured_ilp_wait_gain": 0.9146,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1303,12 +1303,12 @@
       "achieved_rho": 0.6328,
       "n_jobs": 106,
       "best_deployable_policy": "priority-gpu",
-      "fifo_mean_wait_s": 7911.650943396226,
+      "fifo_mean_wait_s": 7911.6509433962265,
       "mean_wait_s": 2641.8396226415093,
       "wait_change_vs_fifo": -0.6661,
       "p90_change_vs_fifo": -0.5435,
       "max_change_vs_fifo": 0.1323,
-      "deadline_miss_rate": 0.2264150943396226,
+      "deadline_miss_rate": 0.22641509433962265,
       "captured_ilp_wait_gain": 0.8181,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1365,7 +1365,7 @@
       "wait_change_vs_fifo": -0.6707,
       "p90_change_vs_fifo": -0.6163,
       "max_change_vs_fifo": 0.1858,
-      "deadline_miss_rate": 0.1415094339622641,
+      "deadline_miss_rate": 0.14150943396226415,
       "captured_ilp_wait_gain": 0.8733,
       "idle_addressable_backlog_card_hours": 0.0
     },
@@ -1384,7 +1384,7 @@
       "wait_change_vs_fifo": -0.7008,
       "p90_change_vs_fifo": -0.5339,
       "max_change_vs_fifo": 0.162,
-      "deadline_miss_rate": 0.2266666666666666,
+      "deadline_miss_rate": 0.22666666666666666,
       "captured_ilp_wait_gain": 1.4525,
       "idle_addressable_backlog_card_hours": 0.0
     }
@@ -1428,7 +1428,7 @@
     },
     "104": {
       "n": 9,
-      "median": 0.6615,
+      "median": 0.6356,
       "min": 0.1548,
       "max": 0.9509
     },
@@ -1481,9 +1481,9 @@
     "fifo-easy-ilp": {
       "n_rows": 288,
       "rows_with_nonzero_addressable": 274,
-      "idle_with_backlog_card_hours_max": 866.39,
-      "idle_addressable_backlog_card_hours_max": 863.33,
-      "addressable_share_of_backlog_idle_median": 0.674
+      "idle_with_backlog_card_hours_max": 911.39,
+      "idle_addressable_backlog_card_hours_max": 908.33,
+      "addressable_share_of_backlog_idle_median": 0.6715
     },
     "priority-rules": {
       "n_rows": 504,
@@ -1498,58 +1498,65 @@
     "gap_vs_lp_percent_max": 36.44,
     "fallback_to_first_fit_count": 11,
     "solve_seconds_range": [
-      0.5,
+      0.3,
       180.2
     ]
   },
   "ilp_rolling": {
     "n": 72,
     "solve_seconds_range": [
-      16.0,
-      382.6
+      12.5,
+      238.5
     ],
     "epochs_without_incumbent_total": 166,
     "deferred_jobs_past_horizon_total": 2548
   },
-  "wall_seconds": null,
-  "build_seconds": null,
+  "wall_seconds": 3426.4,
+  "build_seconds": 3.9,
   "grid": {
     "pools": [
-      "MISC",
-      "P100"
+      "P100",
+      "MISC"
     ],
-    "window_ranks": [
-      1,
-      2,
-      3,
-      104,
-      125
-    ],
+    "window_ranks": "1,2,3,median",
     "seeds": [
       20261013,
       20261103,
       20261104
     ],
     "n_instance_files": 72,
-    "regenerated_by": "--report-only"
+    "ilp": true
   },
   "positive_control": {
     "status": "ok",
     "n_deterministic_rows_compared": 54,
     "n_solver_rows_compared": 12,
     "policies_not_in_committed_tables": [],
-    "deterministic_worst_relative_deviation": 0.0,
+    "deterministic_worst_relative_deviation": 1.4779844015322418e-15,
     "deterministic_reproduce_exactly": true,
-    "deterministic_worst_via_ilp_derived_column": 0.0007921837866384128,
-    "solver_worst_relative_deviation": 0.22001370801919123,
+    "deterministic_worst_via_ilp_derived_column": 0.04282115869017634,
+    "solver_worst_relative_deviation": 0.3663003663003663,
     "solver_rows": [
       {
         "instance": "P100_rho0.85",
         "policy": "ILP-flow(offline)",
         "source": "metrics.csv",
-        "worst_relative_deviation": 0.22001370801919123,
-        "worst_raw": 0.22001370801919123,
-        "worst_raw_column": "median_wait_s",
+        "worst_relative_deviation": 0.3663003663003663,
+        "worst_raw": 0.3663003663003663,
+        "worst_raw_column": "idle_addressable_backlog_card_hours",
+        "worst_fifo_derived": 0.0,
+        "worst_fifo_derived_column": null,
+        "worst_ilp_derived": 0.0,
+        "worst_ilp_derived_column": null,
+        "deterministic": false
+      },
+      {
+        "instance": "MISC_rho0.39",
+        "policy": "ILP-flow(offline)",
+        "source": "metrics.csv",
+        "worst_relative_deviation": 2.391605432213364e-15,
+        "worst_raw": 2.391605432213364e-15,
+        "worst_raw_column": "deadline_miss_rate",
         "worst_fifo_derived": 0.0,
         "worst_fifo_derived_column": null,
         "worst_ilp_derived": 0.0,
@@ -1560,9 +1567,9 @@
         "instance": "P100_rho0.41",
         "policy": "ILP-flow(offline)",
         "source": "metrics.csv",
-        "worst_relative_deviation": 0.0,
-        "worst_raw": 0.0,
-        "worst_raw_column": "mean_wait_s",
+        "worst_relative_deviation": 1.4779844015322418e-15,
+        "worst_raw": 1.4779844015322418e-15,
+        "worst_raw_column": "deadline_miss_rate",
         "worst_fifo_derived": 0.0,
         "worst_fifo_derived_column": null,
         "worst_ilp_derived": 0.0,
@@ -1573,9 +1580,9 @@
         "instance": "P100_rho0.41",
         "policy": "ILP-rolling",
         "source": "metrics.csv",
-        "worst_relative_deviation": 0.0,
-        "worst_raw": 0.0,
-        "worst_raw_column": "mean_wait_s",
+        "worst_relative_deviation": 1.4779844015322418e-15,
+        "worst_raw": 1.4779844015322418e-15,
+        "worst_raw_column": "deadline_miss_rate",
         "worst_fifo_derived": 0.0,
         "worst_fifo_derived_column": null,
         "worst_ilp_derived": 0.0,
@@ -1586,9 +1593,9 @@
         "instance": "P100_rho0.64",
         "policy": "ILP-flow(offline)",
         "source": "metrics.csv",
-        "worst_relative_deviation": 0.0,
-        "worst_raw": 0.0,
-        "worst_raw_column": "mean_wait_s",
+        "worst_relative_deviation": 1.1032841307212505e-15,
+        "worst_raw": 1.1032841307212505e-15,
+        "worst_raw_column": "deadline_miss_rate",
         "worst_fifo_derived": 0.0,
         "worst_fifo_derived_column": null,
         "worst_ilp_derived": 0.0,
@@ -1596,25 +1603,12 @@
         "deterministic": false
       },
       {
-        "instance": "P100_rho0.64",
-        "policy": "ILP-rolling",
+        "instance": "MISC_rho0.52",
+        "policy": "ILP-flow(offline)",
         "source": "metrics.csv",
-        "worst_relative_deviation": 0.0,
-        "worst_raw": 0.0,
-        "worst_raw_column": "mean_wait_s",
-        "worst_fifo_derived": 0.0,
-        "worst_fifo_derived_column": null,
-        "worst_ilp_derived": 0.0,
-        "worst_ilp_derived_column": null,
-        "deterministic": false
-      },
-      {
-        "instance": "P100_rho0.85",
-        "policy": "ILP-rolling",
-        "source": "metrics.csv",
-        "worst_relative_deviation": 0.0,
-        "worst_raw": 0.0,
-        "worst_raw_column": "mean_wait_s",
+        "worst_relative_deviation": 5.870304242705518e-16,
+        "worst_raw": 5.870304242705518e-16,
+        "worst_raw_column": "deadline_miss_rate",
         "worst_fifo_derived": 0.0,
         "worst_fifo_derived_column": null,
         "worst_ilp_derived": 0.0,
@@ -1624,40 +1618,14 @@
     ],
     "note": "Deterministic policies replay identical rows; their raw and FIFO-relative columns must match to 1e-9. `captured_ilp_wait_gain` is divided by the ILP-flow wait and is therefore compared but not asserted: `milp` stops on a wall-clock limit, so the incumbent can differ between runs of the same instance. That deviation is reported, not hidden."
   },
-  "addressable_claim_verification": {
-    "instance": "P100_w3_s20261103_rho0.85",
-    "file": "instance_w3_s20261103_P100_085_150.csv",
-    "per_policy": {
-      "FIFO": {
-        "unplaced_jobs": 0,
-        "slots_with_backlog_and_free_gpu": 66,
-        "addressable_slots": 63,
-        "fragmentation_only_slots": 3,
-        "max_free_cards_while_backlogged": 18.0,
-        "idle_with_backlog_card_hours": 82.29,
-        "idle_with_backlog_share": 0.07,
-        "idle_addressable_backlog_card_hours": 81.59,
-        "idle_addressable_backlog_share": 0.0694,
-        "addressable_share_of_backlog_idle": 0.991,
-        "gpu_peak_allocated_share": 1.0,
-        "slots_with_backlog": 68,
-        "mean_queue_depth": 33.19
-      },
-      "priority-gpu": {
-        "unplaced_jobs": 0,
-        "slots_with_backlog_and_free_gpu": 63,
-        "addressable_slots": 0,
-        "fragmentation_only_slots": 63,
-        "max_free_cards_while_backlogged": 15.0,
-        "idle_with_backlog_card_hours": 59.54,
-        "idle_with_backlog_share": 0.0506,
-        "idle_addressable_backlog_card_hours": 0.0,
-        "idle_addressable_backlog_share": 0.0,
-        "addressable_share_of_backlog_idle": 0.0,
-        "gpu_peak_allocated_share": 1.0,
-        "slots_with_backlog": 68,
-        "mean_queue_depth": 12.643
-      }
-    }
+  "validation": {
+    "ok": true,
+    "n_rows": 792,
+    "n_instances": 72,
+    "duplicate_rows": [],
+    "missing_policies": [],
+    "capacity_violation_rows": [],
+    "unplaceable_rows": [],
+    "non_finite_mean_wait_rows": 0
   }
 }

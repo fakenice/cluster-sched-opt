@@ -299,13 +299,23 @@ This section is the part I would want to read before trusting any of the numbers
   `capacity_violation_slots`, `gpu_overcommit_slots` and `max_gpu_overcommit_cards` for every row.
   `03_optimize.py` prints a feasibility line per policy and refuses to hide a violation.
   (`results/run_03_attempt1.log` is that broken run, kept as evidence.)
-  The grid stress-tests the *other* escape hatch and reports what it finds: 6 of 792 rows have jobs
-  that fit nowhere even in the padded tail, and on 1 of them (`MISC_w2_s20261103_rho0.85`,
-  ILP-rolling) those jobs are placed at their arrival slot so they cannot silently disappear —
-  which makes that single row a capacity-violating schedule (4 slots, peak GPU allocation 105.9 %).
-  It is labelled as such by `capacity_violation_slots` / `unplaceable_jobs`, it is confined to
-  ILP-rolling (ILP-flow and all nine online policies have 0 in every row), and no headline claim
-  reads that row.
+  The grid stress-tests the *other* escape hatch and reports what it finds. An earlier version of
+  this section said "6 of 792 rows have jobs that fit nowhere, and 1 (`MISC_w2_s20261103_rho0.85`,
+  ILP-rolling) is placed at its arrival slot as a capacity-violating schedule (peak GPU 105.9 %)".
+  That was not a property of the workload — it was the bug: a fixed tail too small for the leftover
+  jobs, and a fallback that stacked the leftovers onto their release slots to make them "fit",
+  inventing capacity (and flattering ILP-rolling's mean wait). Both are now fixed at the source. The
+  tail is sized for *serial* service of the whole queue (`sched_core.tail_slots` =
+  `max(release) + Σp`, so a legal instance can never run out of room), and `03_optimize.py` defers
+  any job it cannot admit inside the horizon into that documented tail — counted as
+  `deferred_jobs_past_horizon` — and **raises** if anything is still unplaceable rather than stacking
+  it. The rerun of all 792 grid rows now has `capacity_violation_slots = 0`, `gpu_overcommit_slots = 0`
+  and `unplaceable_jobs = 0` on every policy (`results/sweep_summary.json → validation`, zero rows in
+  each violation bucket). The honest consequence is visible on the instance that used to violate:
+  ILP-rolling now defers 329 jobs into the tail and its mean wait rises to 34717 s — *above* FIFO's
+  32464 s — i.e. the previously-hidden overload shows up as waiting instead of as a fabricated
+  schedule. No headline claim reads ILP-rolling's descriptive wait; captured-gain uses ILP-flow
+  (offline), which is unaffected.
 * **The horizon is a planning window, not a cluster shutdown.** Jobs an online policy cannot admit in
   time are placed in a documented *tail* (`sched_core.tail_slots`) instead of being clamped into the
   window; `clamp_starts` is now an index guard only. The cost is visible as

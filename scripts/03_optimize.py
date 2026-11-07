@@ -50,8 +50,10 @@ def _candidate_slots(inst: sc.Instance, subset: np.ndarray, min_start: np.ndarra
         if min_start is not None:
             lo = max(lo, int(min_start[j]))
         hi = int(inst.latest[j])
-        if hi < lo:                     # cannot finish inside the horizon: pin at lo
-            hi = min(lo, inst.n_slots - 1)
+        # hi < lo means the job cannot finish inside the planning horizon from its
+        # release (or the commitment floor). It gets *no* candidate: the solver must
+        # report that honestly, and an online caller defers the job to the tail.
+        # Pinning it at lo used to place it in slots the capacity rows never cover.
         if cand_window is not None:    # optional restriction, used by the host-level pilot
             hi = min(hi, lo + int(cand_window) - 1)
         cands.append(np.arange(lo, hi + 1))
@@ -101,6 +103,17 @@ def solve_ilp(inst: sc.Instance, subset: np.ndarray, objective: str = "flow",
     restricted instance, so the two bounds can be compared."""
     n_jobs = len(subset)
     cands = _candidate_slots(inst, subset, min_start, cand_window)
+    empty = [int(subset[k]) for k in range(n_jobs) if len(cands[k]) == 0]
+    if empty:
+        # A job with no legal candidate makes its assignment row (empty sum = 1)
+        # impossible. Report it instead of building a model whose argmax would
+        # fabricate a start.
+        return None, {"solver_status": None,
+                      "message": f"no legal candidate slots for jobs {empty} "
+                                 "(release/horizon/commitment floor leave no feasible start)",
+                      "solver_feasible": False, "objective": objective, "binary": binary,
+                      "n_columns": 0, "n_rows": 0, "n_nnz": 0, "solve_seconds": 0.0,
+                      "objective_value": None, "mip_gap": None, "dual_bound": None}
     offsets = np.concatenate([[0], np.cumsum([len(c) for c in cands])[:-1]])
     nx = int(sum(len(c) for c in cands))
     extra = 1 if objective == "makespan" else (n_jobs if objective == "tardiness" else 0)
@@ -200,12 +213,15 @@ def solve_ilp(inst: sc.Instance, subset: np.ndarray, objective: str = "flow",
     # be turned into "every job starts at its release slot", which would overcommit capacity.
     has_solution = x is not None and status in (0, 1) and np.all(np.isfinite(x))
     starts = None
-    if has_solution:
+    if has_solution and binary:
         x = np.asarray(x, dtype=float)
         starts = np.zeros(n_jobs, dtype=int)
         for k in range(n_jobs):
             block = x[offsets[k]:offsets[k] + len(cands[k])]
-            starts[k] = int(cands[k][int(np.argmax(block))]) if len(block) else int(inst.earliest[subset[k]])
+            starts[k] = int(cands[k][int(np.argmax(block))])
+    # An LP solution splits jobs fractionally across slots; argmax of that is not a
+    # schedule. The relaxation is reported as a bound only (objective_value stays).
+    feasible = bool(has_solution and binary)
     fun = getattr(res, "fun", None)
     try:
         obj_val = float(fun) if fun is not None and np.isfinite(np.asarray(fun, dtype=float)) else None
@@ -214,7 +230,7 @@ def solve_ilp(inst: sc.Instance, subset: np.ndarray, objective: str = "flow",
     mip_gap, dual_bound = solver_gap_fields(res)
     info = {
         "solver_status": status, "message": str(getattr(res, "message", "")),
-        "solver_feasible": bool(has_solution),
+        "solver_feasible": feasible,
         "objective": objective, "binary": binary,
         "n_columns": ncols, "n_rows": int(A_rows), "n_nnz": int(A.nnz),
         "solve_seconds": round(time.time() - t0, 2),
@@ -232,11 +248,18 @@ def run_offline(inst: sc.Instance, objective: str, **kw):
     kw.setdefault("time_limit", 180.0 if len(subset) > 200 else 120.0)
     kw.setdefault("gap", 0.05 if len(subset) > 200 else 0.02)
     starts, info = solve_ilp(inst, subset, objective=objective, **kw)
+    if not kw.get("binary", True):
+        # LP relaxation: a lower bound, never a schedule and never a first-fit fallback.
+        info["solver_fell_back_to_first_fit"] = False
+        info["unplaceable_jobs"] = 0
+        return starts, info
     if starts is None:
         # No incumbent inside the budget: fall back to a *feasible* first-fit schedule and say
         # so, rather than reporting a schedule the solver never produced.
         occ = sc.Occupancy(inst)
         starts, unplaceable = sc.first_fit_leftovers(inst, occ, subset)
+        if unplaceable:
+            raise ValueError(f"ILP-{objective} fallback left {len(unplaceable)} jobs unplaceable")
         info["solver_fell_back_to_first_fit"] = True
         info["unplaceable_jobs"] = len(unplaceable)
         print(f"    ! ILP-{objective}: no incumbent ({info['message']}); first-fit fallback used "
@@ -299,8 +322,11 @@ def run_rolling(inst: sc.Instance, lookahead_s: float = LOOKAHEAD_S, commit_s: f
     if leftover.size:
         starts[leftover] = extra[leftover]
     still = np.array(unplaceable, dtype=int)
-    if still.size:                       # saturated even with the tail: visible, not silent
-        starts[still] = inst.earliest[still]
+    if still.size:
+        # The tail is sized for serial service of the whole queue, so this should be
+        # unreachable for a legal instance. Fail loudly rather than stack jobs at release.
+        raise ValueError(f"rolling scheduler left {still.size} jobs unplaceable "
+                         "even in the serial-service tail")
     return starts, {"rolling_horizon_iterations": iters,
                     "rolling_solve_seconds": round(solve_secs, 2),
                     "rolling_epochs_without_incumbent": epochs_without_incumbent,
@@ -347,7 +373,7 @@ def main() -> None:
             met = sc.metrics(inst, starts)
             met.update(sc.add_deadlines(inst, starts))
             met.update(sc.packing_check(inst, starts))
-            inf = schedules.get((tag, name), [None, {}])[1] if name in schedules else {}
+            inf = schedules.get((tag, name), (None, {}))[1]
             extra = {}
             if name == "ILP-flow(offline)":
                 milp_obj = schedules[(tag, "ILP-flow(offline)")][1]["objective_value"]

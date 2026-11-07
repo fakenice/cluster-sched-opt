@@ -251,6 +251,57 @@ def run_instance(job: dict) -> dict:
             "errors": errors, "rows": rows, "seconds": round(time.time() - t0, 1)}
 
 
+# --------------------------------------------------------------------------- result gate
+
+def expected_policies(do_ilp: bool) -> list[str]:
+    pols = ["FIFO", "EASY-backfill", *PRIORITY_POLICIES]
+    if do_ilp:
+        pols += ["ILP-flow(offline)", "ILP-rolling"]
+    return pols
+
+
+def validate_sweep(df: pd.DataFrame, expected: list[str]) -> dict:
+    """Refuse to call a table a result if it is incomplete or physically infeasible.
+
+    Checks, per row / per instance: duplicate (sweep_key, policy), every expected
+    policy present, zero capacity-violation slots, zero unplaceable jobs, finite
+    mean wait. Returns the offending rows so a failure can be diagnosed, not just
+    signalled.
+    """
+    dup = (df.groupby(["sweep_key", "policy"]).size()
+             .loc[lambda s: s > 1].reset_index(name="count"))
+    missing = []
+    for key, g in df.groupby("sweep_key"):
+        absent = sorted(set(expected) - set(g.policy))
+        if absent:
+            missing.append({"sweep_key": key, "missing": absent})
+    cap = df[df.capacity_violation_slots > 0]
+    unpl = df[df.unplaceable_jobs.fillna(0) > 0]
+    nonfinite = df[~np.isfinite(df.mean_wait_s)]
+    report = {
+        "ok": not (len(df) == 0 or len(dup) or missing or len(cap) or len(unpl) or len(nonfinite)),
+        "n_rows": int(len(df)), "n_instances": int(df.sweep_key.nunique()),
+        "duplicate_rows": dup.to_dict(orient="records"),
+        "missing_policies": missing,
+        "capacity_violation_rows": cap[["sweep_key", "policy", "capacity_violation_slots"]]
+            .to_dict(orient="records"),
+        "unplaceable_rows": unpl[["sweep_key", "policy", "unplaceable_jobs"]]
+            .to_dict(orient="records"),
+        "non_finite_mean_wait_rows": int(len(nonfinite)),
+    }
+    return report
+
+
+def completed_keys(df: pd.DataFrame, expected: list[str]) -> set[str]:
+    """Instances a --resume run may skip: full policy set, no duplicates. A partial
+    instance (one policy raised) must be rerun, not silently kept."""
+    done = set()
+    for key, g in df.groupby("sweep_key"):
+        if set(expected) <= set(g.policy) and not g.policy.duplicated().any():
+            done.add(key)
+    return done
+
+
 # --------------------------------------------------------------------------- summary
 
 def summarize(df: pd.DataFrame, do_ilp: bool) -> dict:
@@ -541,6 +592,21 @@ def _print_headline(summary: dict) -> None:
                                                     ensure_ascii=False))
 
 
+def _exit_for_validation(report: dict) -> int:
+    if report["ok"]:
+        print(f"validation: {report['n_rows']} rows / {report['n_instances']} instances, "
+              "complete policy sets, zero capacity violations, zero unplaceable jobs")
+        return 0
+    print("validation FAILED -- the table is not a usable result:")
+    for field in ("duplicate_rows", "missing_policies", "capacity_violation_rows",
+                  "unplaceable_rows"):
+        if report[field]:
+            print(f"  {field}: {json.dumps(report[field], ensure_ascii=False)}")
+    if report["non_finite_mean_wait_rows"]:
+        print(f"  non_finite_mean_wait_rows: {report['non_finite_mean_wait_rows']}")
+    return 1
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--pools", default="P100,MISC")
@@ -571,6 +637,7 @@ def main() -> int:
                            "n_instance_files": int(frame.sweep_key.nunique()),
                            "regenerated_by": "--report-only"}
         summary["positive_control"] = positive_control(frame)
+        summary["validation"] = validate_sweep(frame, expected_policies(do_ilp=not args.no_ilp))
         # the slot-level check needs an instance, not just the metric table
         meta_path = SWEEP / "instance_meta.json"
         if meta_path.exists():
@@ -589,7 +656,7 @@ def main() -> int:
         print(f"regenerated {OUT_JSON} from {len(frame)} rows / "
               f"{frame.sweep_key.nunique()} instances (no instances run)")
         _print_headline(summary)
-        return 0
+        return _exit_for_validation(summary["validation"])
 
     pools = [p.strip() for p in args.pools.split(",") if p.strip()]
     seeds = [int(s) for s in args.seeds.split(",") if s.strip()]
@@ -613,9 +680,10 @@ def main() -> int:
     old_rows: list[dict] = []
     if args.resume and OUT_CSV.exists():
         old = pd.read_csv(OUT_CSV)
-        done_keys = set(old.sweep_key.unique())
-        old_rows = old.to_dict(orient="records")
-        print(f"resume: {len(done_keys)} instances already in {OUT_CSV.name}", flush=True)
+        done_keys = completed_keys(old, expected_policies(do_ilp))
+        # partial instances are rerun, so their old rows must not survive into the table
+        old_rows = old[old.sweep_key.isin(done_keys)].to_dict(orient="records")
+        print(f"resume: {len(done_keys)} complete instances already in {OUT_CSV.name}", flush=True)
     todo = [j for j in jobs if j["meta"]["sweep_key"] not in done_keys]
     if args.limit:
         todo = todo[:args.limit]
@@ -675,6 +743,7 @@ def main() -> int:
     summary["grid"] = {"pools": pools, "window_ranks": args.window_ranks, "seeds": seeds,
                        "n_instance_files": len(metas), "ilp": do_ilp}
     summary["positive_control"] = positive_control(frame)
+    summary["validation"] = validate_sweep(frame, expected_policies(do_ilp))
     OUT_JSON.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
 
     print(f"\nwrote {OUT_CSV} ({len(frame)} rows, {frame.sweep_key.nunique()} instances) "
@@ -687,7 +756,7 @@ def main() -> int:
                                               ensure_ascii=False))
     print("priority-only ranges: " + json.dumps(summary["priority_only_ranges"],
                                                 ensure_ascii=False))
-    return 0
+    return _exit_for_validation(summary["validation"])
 
 
 if __name__ == "__main__":

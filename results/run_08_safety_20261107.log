@@ -1,0 +1,183 @@
+reading E:\Desktop\cluster-sched-opt\data\processed\jobs.csv ...
+built 72 instances in 4 s
+  P100_w1_s20261013_rho0.4           jobs=  71 machines= 22 rho=0.405 demand= 1748.4 card-h share_of_busiest=1.000
+  P100_w1_s20261013_rho0.6           jobs= 106 machines= 22 rho=0.639 demand= 1748.4 card-h share_of_busiest=1.000
+  P100_w1_s20261013_rho0.85          jobs= 150 machines= 22 rho=0.847 demand= 1748.4 card-h share_of_busiest=1.000
+  P100_w1_s20261103_rho0.4           jobs=  71 machines= 25 rho=0.489 demand= 1748.4 card-h share_of_busiest=1.000
+  P100_w1_s20261103_rho0.6           jobs= 106 machines= 25 rho=0.626 demand= 1748.4 card-h share_of_busiest=1.000
+  P100_w1_s20261103_rho0.85          jobs= 150 machines= 25 rho=0.833 demand= 1748.4 card-h share_of_busiest=1.000
+running 72 instances with 6 workers (ILP on)
+[1/72] P100_w1_s20261013_rho0.4 ok 64.9 s rows=11
+[2/72] P100_w1_s20261103_rho0.4 ok 67.2 s rows=11
+[3/72] P100_w1_s20261013_rho0.6 ok 111.6 s rows=11
+[4/72] P100_w1_s20261103_rho0.6 ok 121.7 s rows=11
+[5/72] P100_w1_s20261104_rho0.4 ok 72.1 s rows=11
+[6/72] P100_w1_s20261104_rho0.6 ok 112.4 s rows=11
+[7/72] P100_w2_s20261013_rho0.4 ok 68.1 s rows=11
+[8/72] P100_w2_s20261013_rho0.6 ok 101.6 s rows=11
+[9/72] P100_w1_s20261103_rho0.85 ok 241.6 s rows=11
+[10/72] P100_w2_s20261103_rho0.4 ok 60.7 s rows=11
+[11/72] P100_w2_s20261104_rho0.4 ok 66.8 s rows=11
+[12/72] P100_w1_s20261013_rho0.85 ok 320.6 s rows=11
+[13/72] P100_w2_s20261103_rho0.6 ok 89.6 s rows=11
+[14/72] P100_w2_s20261013_rho0.85 ok 157.5 s rows=11
+[15/72] P100_w3_s20261013_rho0.4 ok 58.6 s rows=11
+[16/72] P100_w1_s20261104_rho0.85 ok 299.8 s rows=11
+[17/72] P100_w2_s20261104_rho0.6 ok 102.9 s rows=11
+[18/72] P100_w3_s20261013_rho0.6 ok 101.5 s rows=11
+[19/72] P100_w2_s20261103_rho0.85 ok 200.8 s rows=11
+[20/72] P100_w3_s20261103_rho0.4 ok 55.6 s rows=11
+[21/72] P100_w2_s20261104_rho0.85 ok 164.7 s rows=11
+[22/72] P100_w3_s20261104_rho0.4 ok 59.5 s rows=11
+[23/72] P100_w3_s20261103_rho0.6 ok 101.7 s rows=11
+[24/72] P100_w104_s20261013_rho0.4 ok 35.5 s rows=11
+[25/72] P100_w3_s20261013_rho0.85 ok 169.1 s rows=11
+[26/72] P100_w3_s20261104_rho0.6 ok 100.8 s rows=11
+[27/72] P100_w104_s20261013_rho0.6 ok 64.4 s rows=11
+[28/72] P100_w104_s20261103_rho0.4 ok 41.5 s rows=11
+[29/72] P100_w3_s20261103_rho0.85 ok 172.4 s rows=11
+[30/72] P100_w104_s20261103_rho0.6 ok 61.8 s rows=11
+[31/72] P100_w104_s20261104_rho0.4 ok 45.4 s rows=11
+[32/72] P100_w3_s20261104_rho0.85 ok 167.0 s rows=11
+[33/72] P100_w104_s20261104_rho0.6 ok 72.3 s rows=11
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMip[34/72] P100_w104_s20261013_rho0.85 ok 231.0 s rows=11
+[35/72] MISC_w1_s20261013_rho0.4 ok 154.0 s rows=11
+[36/72] P100_w104_s20261103_rho0.85 ok 228.4 s rows=11
+[37/72] P100_w104_s20261104_rho0.85 ok 259.1 s rows=11
+[38/72] MISC_w1_s20261103_rho0.4 ok 136.5 s rows=11
+[39/72] MISC_w1_s20261013_rho0.6 ok 254.6 s rows=11
+[40/72] MISC_w1_s20261103_rho0.6 ok 223.7 s rows=11
+[41/72] MISC_w1_s20261104_rho0.4 ok 151.3 s rows=11
+[42/72] MISC_w1_s20261104_rho0.6 ok 260.9 s rows=11
+[43/72] MISC_w2_s20261013_rho0.4 ok 146.1 s rows=11
+[44/72] MISC_w1_s20261103_rho0.85 ok 390.2 s rows=11
+[45/72] MISC_w1_s20261013_rho0.85 ok 584.4 s rows=11
+[46/72] MISC_w2_s20261013_rho0.6 ok 262.0 s rows=11
+[47/72] MISC_w2_s20261103_rho0.4 ok 138.0 s rows=11
+[48/72] MISC_w2_s20261104_rho0.4 ok 145.3 s rows=11
+[49/72] MISC_w2_s20261103_rho0.6 ok 257.7 s rows=11
+[50/72] MISC_w1_s20261104_rho0.85 ok 616.8 s rows=11
+[51/72] MISC_w2_s20261104_rho0.6 ok 256.0 s rows=11
+[52/72] MISC_w3_s20261013_rho0.4 ok 150.4 s rows=11
+[53/72] MISC_w3_s20261103_rho0.4 ok 160.6 s rows=11
+[54/72] MISC_w2_s20261013_rho0.85 ok 673.3 s rows=11
+[55/72] MISC_w3_s20261013_rho0.6 ok 319.2 s rows=11
+[56/72] MISC_w3_s20261104_rho0.4 ok 145.6 s rows=11
+[57/72] MISC_w2_s20261103_rho0.85 ok 810.7 s rows=11
+[58/72] MISC_w3_s20261103_rho0.6 ok 337.1 s rows=11
+[59/72] MISC_w125_s20261013_rho0.4 ok 141.3 s rows=11
+[60/72] MISC_w3_s20261104_rho0.6 ok 305.9 s rows=11
+[61/72] MISC_w125_s20261013_rho0.6 ok 208.5 s rows=11
+[62/72] MISC_w2_s20261104_rho0.85 ok 1056.5 s rows=11
+[63/72] MISC_w3_s20261013_rho0.85 ok 1021.8 s rows=11
+[64/72] MISC_w125_s20261103_rho0.4 ok 150.5 s rows=11
+[65/72] MISC_w125_s20261013_rho0.85 ok 359.5 s rows=11
+[66/72] MISC_w125_s20261104_rho0.4 ok 128.0 s rows=11
+[67/72] MISC_w125_s20261103_rho0.6 ok 296.2 s rows=11
+[68/72] MISC_w125_s20261104_rho0.6 ok 228.9 s rows=11
+[69/72] MISC_w3_s20261104_rho0.85 ok 892.6 s rows=11
+[70/72] MISC_w3_s20261103_rho0.85 ok 1250.1 s rows=11
+[71/72] MISC_w125_s20261104_rho0.85 ok 395.2 s rows=11
+[72/72] MISC_w125_s20261103_rho0.85 ok 841.3 s rows=11
+    ! ILP-flow: no incumbent (Time limit reached. (HiGHS Status 13: model_status is Time limit reached; primal_status is None)); first-fit fallback used (8586 cols / 120.04s)
+SolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+HighsMipSolverData::transformNewIntegerFeasibleSolution tmpSolver.run();
+    ! ILP-flow: no incumbent (The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)); first-fit fallback used (7074 cols / 2.3s)
+    ! ILP-flow: no incumbent (The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)); first-fit fallback used (8378 cols / 2.08s)
+    ! ILP-flow: no incumbent (The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)); first-fit fallback used (7478 cols / 3.09s)
+    ! ILP-flow: no incumbent (The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)); first-fit fallback used (8329 cols / 1.83s)
+    ! ILP-flow: no incumbent (The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)); first-fit fallback used (22681 cols / 4.05s)
+    ! ILP-flow: no incumbent (The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)); first-fit fallback used (22696 cols / 5.39s)
+    ! ILP-flow: no incumbent (The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)); first-fit fallback used (22519 cols / 4.4s)
+    ! ILP-flow: no incumbent (The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)); first-fit fallback used (23050 cols / 2.43s)
+    ! ILP-flow: no incumbent (The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)); first-fit fallback used (8496 cols / 1.51s)
+    ! ILP-flow: no incumbent (The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)); first-fit fallback used (22959 cols / 5.16s)
+
+wrote E:\Desktop\cluster-sched-opt\results\sweep_metrics.csv (792 rows, 72 instances) and E:\Desktop\cluster-sched-opt\results\sweep_summary.json in 3426.4 s
+positive control: 54 deterministic rows, worst relative deviation on raw + FIFO-derived columns 1.48e-15 (exact=True); 12 solver rows, worst 0.366
+  note: `captured_ilp_wait_gain` on those deterministic rows deviates by up to 4.28e-02 -- that column divides by the ILP-flow wait, so it tracks the solver's incumbent, not the replay
+captured ILP mean-wait gain, best deployable rule per instance: {"n": 71, "min": 0.0, "median": 0.9231, "max": 4.0209, "frac_ge_0.50": 0.9014, "frac_ge_0.77": 0.7465, "frac_ge_1.00": 0.2535, "frac_negative": 0.0}
+by window rank: {"1": {"n": 18, "median": 0.9644, "min": 0.7008, "max": 1.4729}, "2": {"n": 17, "median": 0.9012, "min": 0.0, "max": 4.0209}, "3": {"n": 18, "median": 0.8934, "min": 0.5294, "max": 3.5906}, "104": {"n": 9, "median": 0.6356, "min": 0.1548, "max": 0.9509}, "125": {"n": 9, "median": 0.9457, "min": 0.4051, "max": 1.6902}}
+priority-only ranges: {"wait_change_vs_fifo": [-0.9572, 0.0], "p90_change_vs_fifo": [-0.9719, 0.3612], "max_change_vs_fifo": [-0.0905, 2.5229], "idle_addressable_backlog_card_hours_max": 0.0, "capacity_violation_slots_max": 0}
+captured ILP mean-wait gain, best deployable rule per instance: {"n": 71, "min": 0.0, "median": 0.9231, "max": 4.0209, "frac_ge_0.50": 0.9014, "frac_ge_0.77": 0.7465, "frac_ge_1.00": 0.2535, "frac_negative": 0.0}
+by window rank: {"1": {"n": 18, "median": 0.9644, "min": 0.7008, "max": 1.4729}, "2": {"n": 17, "median": 0.9012, "min": 0.0, "max": 4.0209}, "3": {"n": 18, "median": 0.8934, "min": 0.5294, "max": 3.5906}, "104": {"n": 9, "median": 0.6356, "min": 0.1548, "max": 0.9509}, "125": {"n": 9, "median": 0.9457, "min": 0.4051, "max": 1.6902}}
+priority-only ranges: {"wait_change_vs_fifo": [-0.9572, 0.0], "p90_change_vs_fifo": [-0.9719, 0.3612], "max_change_vs_fifo": [-0.0905, 2.5229], "idle_addressable_backlog_card_hours_max": 0.0, "capacity_violation_slots_max": 0}
+validation: 792 rows / 72 instances, complete policy sets, zero capacity violations, zero unplaceable jobs
