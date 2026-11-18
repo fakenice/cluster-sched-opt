@@ -448,7 +448,22 @@ claim in this README on trust.
   thresholds (1 / 2 / 4 h) were chosen by inspection rather than tuned on a held-out window. They
   establish that the mean-wait gain is not solver-specific; they do not establish the best threshold.
 
-## 7. How to cite
+## 7. External baselines (published numbers, source-verified)
+
+`docs/external_baselines.md` re-checks, against the papers themselves (2026-11-18),
+the published backfill/aging/size-priority numbers from the SP2-era literature —
+EASY-vs-conservative deltas that flip sign across months and metrics ("somewhat
+inconclusive", TPDS 2001), the −15/−16.5/−19.25 % wait reductions with the
+starvation warning (IPPS/SPDP 1999), load-dependence (JSSPP 2003) and up-to
+−28/−42/−33 % predictor-driven gains (TPDS 2007) — plus the published
+methodology cautions (metric-reversal, fragmentation pitfall, estimate-noise)
+that justify this study's multi-metric reporting. It also records the honest
+limits: SP2-vs-GPU and EASY-vs-FIFO baselines make external percentages
+order-of-magnitude evidence only; the deadline-violation anchor has no
+published same-definition counterpart; and several named papers' body numbers
+(Lifka, LIFT, HypoThermIA, TALON) could not be verified and stay title-level.
+
+## 8. How to cite
 
 The entry below cites **this repository** (code, replay instances, committed results). The
 underlying Alibaba PAI GPU trace has its own citation requirement — Weng et al., NSDI '22 —
@@ -463,7 +478,7 @@ see §1; reuse of the trace should cite both. Machine-readable metadata lives in
 }
 ```
 
-## 8. References
+## 9. References
 
 All four entries live in [`bibliography.bib`](bibliography.bib), checked against the publisher
 records on 2026-11-18:

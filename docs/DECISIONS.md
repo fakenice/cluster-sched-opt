@@ -9,7 +9,8 @@
    MILP vs FIFO/EASY backfill 对比全部在 capacity-feasible 的 replay 实例上做
    （`README.md` §设计；`docs/trace_provenance.md`）。
 2. **trace 引用义务双写**：本仓代码/结果可单独引用，但复用 Alibaba PAI GPU trace
-   必须同时引 Weng et al., NSDI '22（`README.md` §7 How to cite）。
+   必须同时引 Weng et al., NSDI '22（`README.md` §8 How to cite；2026-11-18 因新增
+   §7 External baselines 而顺延编号）。
 3. **idle 指标必须带分母**："固定窗口 GPU idle rate" 对任何策略都恰等于 `1 − ρ`，
    不能用于排序策略——据此改为三档并报
    （`gpu_idle_rate_fixed_window` / `gpu_idle_rate_busy_period` /
