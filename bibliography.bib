@@ -1,0 +1,55 @@
+% bibliography.bib -- works this repository cites or reuses.
+% Every entry was checked against the publisher page / official record on 2026-11-18;
+% fields that could not be verified first-hand are omitted rather than written from memory.
+
+@inproceedings{weng2022mlaas,
+  author    = {Qizhen Weng and Wencong Xiao and Yinghao Yu and Wei Wang and Cheng Wang and
+               Jian He and Yong Li and Liping Zhang and Wei Lin and Yu Ding},
+  title     = {{MLaaS} in the Wild: Workload Analysis and Scheduling in Large-Scale
+               Heterogeneous {GPU} Clusters},
+  booktitle = {19th USENIX Symposium on Networked Systems Design and Implementation (NSDI '22)},
+  year      = {2022},
+  pages     = {945--960},
+  isbn      = {978-1-939133-27-4},
+  publisher = {USENIX Association},
+  address   = {Renton, WA},
+  url       = {https://www.usenix.org/conference/nsdi22/presentation/weng},
+  note      = {Characterization study released together with cluster-trace-gpu-v2020,
+               the trace replayed by this repository. Cite this paper when reusing the trace.}
+}
+
+@misc{alibaba_clusterdata_gpu_v2020,
+  author       = {{Alibaba Group}},
+  title        = {Alibaba {PAI} cluster-trace-gpu-v2020},
+  howpublished = {\url{https://github.com/alibaba/clusterdata/tree/master/cluster-trace-gpu-v2020}},
+  note         = {Public two-month GPU-cluster trace (Jul--Aug 2020). The archives used here
+                  are pinned by sha256 against the checksums published in the trace README;
+                  see docs/trace_provenance.md for the exact snapshot, hashes and sizes.}
+}
+
+@article{huangfu2018highs,
+  author  = {Huangfu, Qi and Hall, James A. J.},
+  title   = {Parallelizing the dual revised simplex method},
+  journal = {Mathematical Programming Computation},
+  volume  = {10},
+  number  = {1},
+  pages   = {119--142},
+  year    = {2018},
+  doi     = {10.1007/s12532-017-0130-5},
+  note    = {The solver behind scipy.optimize.milp, used for the time-indexed ILP
+             (scripts/03_optimize.py, scripts/09_host_level.py).}
+}
+
+@incollection{lifka1995easy,
+  author    = {Lifka, David A.},
+  title     = {The {ANL/IBM} {SP} scheduling system},
+  booktitle = {Job Scheduling Strategies for Parallel Processing (JSSPP 1995)},
+  editor    = {Feitelson, Dror G. and Rudolph, Larry},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {949},
+  publisher = {Springer},
+  year      = {1995},
+  doi       = {10.1007/3-540-60153-8_35},
+  note      = {Origin of the backfilling policy replayed here as EASY backfill
+               (scripts/sched_core.py). Page numbers omitted rather than cited from memory.}
+}

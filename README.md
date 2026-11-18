@@ -10,21 +10,36 @@ own relaxations. **The main result is that a one-line online priority rule captu
 the optimiser's mean-wait gain at zero solve time; the optimiser's unique contribution is
 smaller than the headline "−71 to −88 %" suggests.**
 
-Everything runs from public data, one command, no cluster access:
+Everything runs from public data, one command, no cluster access.
+
+## 0. Quickstart
 
 ```bash
 pip install -r requirements.txt
-python run_all.py --fetch      # downloads the trace and checks its sha256, then runs every stage
+python run_all.py --fetch          # download the three archives, check sha256, run every stage
+python run_all.py                  # same pipeline from an existing data/raw (~2-10 min)
+python run_all.py --stage report   # re-render tables/figures from committed results/metrics.csv
+python -m unittest discover -s tests   # schedule-safety, sweep-validation, export-provenance tests
 ```
+
+Optional robustness grids (not part of the default run): `python run_all.py --sweep` replays the
+policy set on 72 instances (~1-2 h with `--sweep-jobs 6`; ~10 min with `--sweep-no-ilp`), and
+`python run_all.py --stage host` runs the host-level pilot (~1 h; its MILP stage proves
+optimality, which is minutes rather than seconds). Every artifact that evidences a claim in this
+README is committed (§5), so you can read `results/` before running anything. The exact trace
+snapshot (hashes, sizes, schema, re-check command) is documented in
+[`docs/trace_provenance.md`](docs/trace_provenance.md); citations are in
+[`bibliography.bib`](bibliography.bib).
 
 ## 1. Data
 
 [Alibaba PAI `cluster-trace-gpu-v2020`](https://github.com/alibaba/clusterdata) — 1,055,501 job
 records, 1,261,050 task records, 1,897 machines, 6,742 GPUs, Jul–Aug 2020. If you reuse it, cite
-Weng et al., *MLaaS in the Wild: Workload Analysis and Scheduling at Large Scale GPU Clusters*,
-**NSDI '22**.
+Weng et al., *MLaaS in the Wild: Workload Analysis and Scheduling in Large-Scale Heterogeneous
+GPU Clusters*, **NSDI '22**, pp. 945–960 (verified entry in [`bibliography.bib`](bibliography.bib)).
 
-`run_all.py --fetch` verifies the three archives against the checksums published in the trace README:
+`run_all.py --fetch` verifies the three archives against the checksums published in the trace README
+(full hashes, sizes and a no-network re-check command: [`docs/trace_provenance.md`](docs/trace_provenance.md)):
 
 | file | sha256 |
 |---|---|
@@ -391,6 +406,8 @@ data/processed/sweep/     sweep instances + their meta     (committed: they defi
 results/                  metrics, tables, figures, schedules (committed)
 notebook/                 executed analysis
 一页结论.md               one-page conclusion (Chinese)
+docs/trace_provenance.md  exact trace snapshot: hashes, sizes, schema, re-check command
+bibliography.bib          verified citations (trace paper, HiGHS, EASY backfill)
 ```
 
 `data/raw/` and `data/processed/jobs.csv` are gitignored because they are downloadable; **the
@@ -430,3 +447,31 @@ claim in this README on trust.
 * The priority rules are evaluated on the same 72 instances as everything else, and the aging
   thresholds (1 / 2 / 4 h) were chosen by inspection rather than tuned on a held-out window. They
   establish that the mean-wait gain is not solver-specific; they do not establish the best threshold.
+
+## 7. How to cite
+
+The entry below cites **this repository** (code, replay instances, committed results). The
+underlying Alibaba PAI GPU trace has its own citation requirement — Weng et al., NSDI '22 —
+see §1; reuse of the trace should cite both. Machine-readable metadata lives in
+`CITATION.cff` at the repo root (GitHub renders it in the sidebar).
+
+```bibtex
+@software{wu2026clusterschedopt,
+  author  = {Wu, Yiting},
+  title   = {cluster-sched-opt: Trace-driven GPU cluster scheduling - can an optimiser beat FIFO?},
+  url     = {https://github.com/fakenice/cluster-sched-opt}
+}
+```
+
+## 8. References
+
+All four entries live in [`bibliography.bib`](bibliography.bib), checked against the publisher
+records on 2026-11-18:
+
+- **Trace + its characterization study.** Weng et al., *MLaaS in the Wild: Workload Analysis and
+  Scheduling in Large-Scale Heterogeneous GPU Clusters*, NSDI '22, pp. 945–960; and the
+  `cluster-trace-gpu-v2020` release itself (snapshot pinned in `docs/trace_provenance.md`).
+- **Solver.** Huangfu & Hall, *Parallelizing the dual revised simplex method*, Mathematical
+  Programming Computation 10(1):119–142, 2018 — the HiGHS behind `scipy.optimize.milp`.
+- **Backfilling policy.** Lifka, *The ANL/IBM SP scheduling system*, JSSPP 1995 (LNCS 949) —
+  the origin of the backfill this repo replays as EASY.

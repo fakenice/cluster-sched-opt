@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: >-
+  If you use this repository or its published replay results, please cite it
+  using the metadata below (a BibTeX entry is also provided in the README).
+  The underlying Google cluster trace has its own citation requirement, see
+  README section 1.
+title: "cluster-sched-opt: Trace-driven GPU cluster scheduling - can an optimiser beat FIFO?"
+authors:
+  - family-names: Wu
+    given-names: Yiting
+repository-code: "https://github.com/fakenice/cluster-sched-opt"
+url: "https://github.com/fakenice/cluster-sched-opt"
