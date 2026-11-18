@@ -9,6 +9,9 @@ and map 1:1 to `git log`.
   of the setup; making it an experiment removes the "tuned once, never checked" smell)
 - Planned: head-to-head against a published cluster-scheduler result under aligned
   metrics (Weng et al., NSDI '22 — see `bibliography.bib`)
+- 2026-11-18 Added `docs/DECISIONS.md`: metric-denominator, solver-honesty and
+  protocol decisions logged only where the repo carries written evidence (commit
+  dates cited)
 
 ## [v1.0] - 2026-11-18
 
