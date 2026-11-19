@@ -13,6 +13,10 @@
                                       #   audit, the online policies re-run on real hosts and
                                       #   the offline MILP with one column per machine
                                       #   (~1 h: the MILP stage runs with gap = 0)
+    python run_all.py --stage aging   # + 10_aging_threshold.py: the aging-threshold grid
+                                      #   re-derived against held-out windows, on 08's 72
+                                      #   instances (~40 min; --aging-reuse-csv re-summarises
+                                      #   an existing replay in seconds)
 
 08_sweep.py is excluded from the default `all` run: it re-runs the same policies on other
 windows and seeds, which is a robustness check on the six committed instances rather than a
@@ -55,9 +59,10 @@ def fetch() -> None:
         print(f"  {name} sha256 OK")
 
 
-def run(script: str) -> None:
-    print(f"\n### python scripts/{script}")
-    r = subprocess.run([sys.executable, script], cwd=str(ROOT / "scripts"))
+def run(script: str, extra: list[str] | None = None) -> None:
+    extra = extra or []
+    print(f"\n### python scripts/{script} {' '.join(extra)}".rstrip())
+    r = subprocess.run([sys.executable, script, *extra], cwd=str(ROOT / "scripts"))
     if r.returncode != 0:
         raise SystemExit(f"{script} failed with exit {r.returncode}")
 
@@ -65,12 +70,15 @@ def run(script: str) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--fetch", action="store_true", help="download the public trace archives")
-    ap.add_argument("--stage", choices=["fetch", "ingest", "instance", "solve", "backlog", "priority", "host", "sweep", "report", "notebook", "all"], default="all")
+    ap.add_argument("--stage", choices=["fetch", "ingest", "instance", "solve", "backlog", "priority", "aging", "host", "sweep", "report", "notebook", "all"], default="all")
     ap.add_argument("--sweep", action="store_true",
                     help="include 08_sweep.py in --stage all (72 instances, ~1-2 h with --jobs 6)")
     ap.add_argument("--sweep-jobs", type=int, default=6, help="parallel instances for 08_sweep.py")
     ap.add_argument("--sweep-no-ilp", action="store_true",
                     help="sweep with list policies only (no MILP; ~10 min instead of ~1-2 h)")
+    ap.add_argument("--aging-reuse-csv", action="store_true",
+                    help="with --stage aging: rebuild results/aging_holdout.json from an "
+                         "existing results/aging_holdout.csv instead of re-replaying (~40 min saved)")
     ap.add_argument("--host-pilot-hours", type=float, default=2.0,
                     help="busiest window (hours) used by the host-level MILP pilot")
     ap.add_argument("--host-time-limit", type=float, default=300.0,
@@ -85,6 +93,7 @@ def main() -> None:
         "solve": "03_optimize.py",
         "backlog": "06_backlog_idle.py",
         "priority": "07_priority_baselines.py",
+        "aging": "10_aging_threshold.py",
         "report": "04_report.py",
         "notebook": "05_notebook.py",
     }
@@ -92,7 +101,8 @@ def main() -> None:
         order = ["ingest", "instance", "solve", "backlog", "priority"]
         # 08 is a robustness sweep over other windows and seeds, not part of the six
         # committed instances, so it only runs when asked for (it is also by far the
-        # longest stage).
+        # longest stage). 10 depends on 08's instances and replays all 72 of them,
+        # so it is opt-in for the same reason.
         if args.sweep:
             order.append("sweep")
         order += ["report", "notebook"]
@@ -103,6 +113,9 @@ def main() -> None:
                 run(stages[name])
     elif args.stage == "sweep":
         run_sweep(args)
+    elif args.stage == "aging":
+        run(stages["aging"],
+            ["--reuse-csv"] if args.aging_reuse_csv else [])
     elif args.stage == "host":
         run_host(args)
     else:

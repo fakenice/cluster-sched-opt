@@ -178,6 +178,8 @@ vs FIFO, per-policy range over the six instances:
    gangs starve. Aging (a job waiting 1–4 h jumps the queue) trades mean wait for the tail; 1 h aging
    at P100 ρ=0.85 still captures 103 % of the ILP gain but raises deadline misses to 46 %, so the
    deployable recipe is "size priority + aging + a max-wait cap", not "run an ILP".
+   That trade is real, but *which* threshold buys it was not measured here — finding 13 does, and
+   finds the choice does not transfer across windows.
    `results/priority_baselines.json`, `results/metrics_priority.csv`.
 
 10. **The finding survives a 72-instance robustness grid, but the original window was the
@@ -287,10 +289,41 @@ vs FIFO, per-policy range over the six instances:
     all six reproduce with relative difference 0.0), `results/host_level_ilp_check.csv` (the
     committed ILP-flow rows re-solved and compared — 5 of 6 identical, the sixth 2.02 % better).
 
+13. **The aging threshold was inspection-picked, and it does not transfer — aging is a tail
+    instrument, not a mean-wait one.** Finding 9's `1 / 2 / 4 h` trio came from looking at the
+    tuning set (the 6 committed instances: rank-1 window, base seed). `scripts/10_aging_threshold.py`
+    replays a dense grid — **0.5 / 1 / 2 / 3 / 4 / 6 h plus no aging**, each converted to slots at that
+    instance's own slot length so it stays the timer an operator would configure — on all 72 sweep
+    instances, and scores the 6 tuning cells separately from the **66 holdout** cells never used for
+    any committed decision. The replay is anchored: its FIFO and priority-gpu rows match
+    `results/sweep_metrics.csv` on **144 of 144** shared rows with max relative deviation **0.0**.
+
+    On **mean wait** the holdout answer is monotone and it is *no aging*: median regret vs the
+    per-cell oracle is +14.1 % at 0.5 h, **+9.9 % at 1 h**, +1.5 % at 2 h, +1.0 % at 3–4 h, 0.0 % at
+    6 h and at no-aging (mean regret +43.2 / +38.1 / +21.3 / +15.5 / +7.6 / +2.6 / +2.2 %). The
+    adjacent sign tests run one way in practice — 2 h beats 4 h in 50 of 66 cells, 4 h beats 3 h in
+    55 of 66, and 1 h loses to no-aging in 44 of 66.
+
+    On the **tail** the ordering inverts, which is aging's actual job: 1 h beats no-aging's max wait
+    in **42 of 66** holdout cells (17 ties, 7 worse; sign test p < 0.001) and its median max-wait
+    regret is **0.0 %** against no-aging's **14.3 %**. Aggressive aging also *costs deadline hits*:
+    median deadline-miss rate rises from 0.230 (no aging) to 0.329 at 1 h and 0.439 at 0.5 h.
+
+    And the tuning choice does not survive: the 6 cells pick 3 h on the margin, the 66 holdout cells
+    pick no-aging, and the tuning pick is the per-cell holdout argmin in only **5 of 66** cells
+    (7.6 %) — the same share as the committed 1 h. So this replaces the earlier caveat with a
+    measurement: aging's threshold is **window-specific and objective-specific**, it should be
+    configured against an explicit tail / max-wait SLO rather than a mean-wait one, and no threshold
+    in this grid is defensible as "the" optimum on held-out windows. What finding 9 established —
+    that the mean-wait gain is not solver-specific — is untouched; what it could not establish was
+    the threshold, and the grid now says why 6 cells cannot fix one.
+    `results/aging_holdout.csv`, `results/aging_holdout.json`.
+
 Statistical status: the committed study is one seed and one window per pool, so its numbers are
 effect sizes; the 72-instance grid in finding 10 is what turns the *direction* into a
 distribution. No bootstrapped confidence interval is claimed for either — the grid gives spread
-across problem instances, not sampling error within one.
+across problem instances, not sampling error within one. Finding 13's holdout split is a
+*generalisation* check on top of that: its percentages are counts of instances, not sampling error.
 <!-- FINDINGS:END -->
 
 ## 4. What could go wrong, and what catches it
@@ -401,6 +434,10 @@ scripts/09_host_level.py  host-level pilot: audit of the committed schedules, th
                           under real hosts, and the offline MILP with one column per machine
                           (results/host_level_*.csv; the lpcheck / ilpcheck stages re-derive the
                           committed LP bounds and ILP rows and compare them)
+scripts/10_aging_threshold.py  the aging-threshold grid (0.5–6 h + none) replayed on all 72 sweep
+                          instances, scored as 6 tuning cells vs 66 held-out cells
+                          (results/aging_holdout.csv/.json; --reuse-csv re-summarises a stored
+                          replay without re-simulating, and refuses a coverage-mismatched table)
 data/processed/           instances + instance_meta.json   (committed)
 data/processed/sweep/     sweep instances + their meta     (committed: they define the grid)
 results/                  metrics, tables, figures, schedules (committed)
@@ -444,9 +481,13 @@ claim in this README on trust.
   committed ILP-flow rows confirms it at full scale — 5 of 6 reproduce exactly, and the sixth
   (P100 ρ=0.85) lands on a **2.02 % better** incumbent, because both runs stopped on the wall
   clock rather than on the gap (`results/host_level_ilp_check.csv`).
-* The priority rules are evaluated on the same 72 instances as everything else, and the aging
-  thresholds (1 / 2 / 4 h) were chosen by inspection rather than tuned on a held-out window. They
-  establish that the mean-wait gain is not solver-specific; they do not establish the best threshold.
+* The priority rules are evaluated on the same 72 instances as everything else. Their aging
+  thresholds (1 / 2 / 4 h) were originally picked by inspection on the 6 tuning instances, and
+  finding 13 now measures what that cost: on the 66 held-out windows no threshold in a 0.5–6 h grid
+  transfers, mean wait prefers no aging at all, and only the max-wait tail prefers ~1 h. So the
+  trio establishes that the mean-wait gain is not solver-specific — which stands — and it does not
+  establish a deployable threshold, which now has a measured reason rather than an apology.
+  (`results/aging_holdout.json` → `tuning_to_holdout_transfer`.)
 
 ## 7. External baselines (published numbers, source-verified)
 

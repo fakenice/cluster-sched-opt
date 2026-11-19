@@ -1,0 +1,101 @@
+done instance_w1_s20261013_P100_04_71.csv
+done instance_w1_s20261013_P100_06_106.csv
+done instance_w1_s20261013_P100_085_150.csv
+done instance_w1_s20261103_P100_04_71.csv
+done instance_w1_s20261103_P100_06_106.csv
+done instance_w1_s20261103_P100_085_150.csv
+done instance_w1_s20261104_P100_04_71.csv
+done instance_w1_s20261104_P100_06_106.csv
+done instance_w1_s20261104_P100_085_150.csv
+done instance_w2_s20261013_P100_04_71.csv
+done instance_w2_s20261013_P100_06_106.csv
+done instance_w2_s20261013_P100_085_150.csv
+done instance_w2_s20261103_P100_04_71.csv
+done instance_w2_s20261103_P100_06_106.csv
+done instance_w2_s20261103_P100_085_150.csv
+done instance_w2_s20261104_P100_04_71.csv
+done instance_w2_s20261104_P100_06_106.csv
+done instance_w2_s20261104_P100_085_150.csv
+done instance_w3_s20261013_P100_04_71.csv
+done instance_w3_s20261013_P100_06_106.csv
+done instance_w3_s20261013_P100_085_150.csv
+done instance_w3_s20261103_P100_04_71.csv
+done instance_w3_s20261103_P100_06_106.csv
+done instance_w3_s20261103_P100_085_150.csv
+done instance_w3_s20261104_P100_04_71.csv
+done instance_w3_s20261104_P100_06_106.csv
+done instance_w3_s20261104_P100_085_150.csv
+done instance_w104_s20261013_P100_04_45.csv
+done instance_w104_s20261013_P100_06_68.csv
+done instance_w104_s20261013_P100_085_96.csv
+done instance_w104_s20261103_P100_04_45.csv
+done instance_w104_s20261103_P100_06_68.csv
+done instance_w104_s20261103_P100_085_96.csv
+done instance_w104_s20261104_P100_04_45.csv
+done instance_w104_s20261104_P100_06_68.csv
+done instance_w104_s20261104_P100_085_96.csv
+done instance_w1_s20261013_MISC_04_188.csv
+done instance_w1_s20261013_MISC_06_282.csv
+done instance_w1_s20261013_MISC_085_400.csv
+done instance_w1_s20261103_MISC_04_188.csv
+done instance_w1_s20261103_MISC_06_282.csv
+done instance_w1_s20261103_MISC_085_400.csv
+done instance_w1_s20261104_MISC_04_188.csv
+done instance_w1_s20261104_MISC_06_282.csv
+done instance_w1_s20261104_MISC_085_400.csv
+done instance_w2_s20261013_MISC_04_188.csv
+done instance_w2_s20261013_MISC_06_282.csv
+done instance_w2_s20261013_MISC_085_400.csv
+done instance_w2_s20261103_MISC_04_188.csv
+done instance_w2_s20261103_MISC_06_282.csv
+done instance_w2_s20261103_MISC_085_400.csv
+done instance_w2_s20261104_MISC_04_188.csv
+done instance_w2_s20261104_MISC_06_282.csv
+done instance_w2_s20261104_MISC_085_400.csv
+done instance_w3_s20261013_MISC_04_188.csv
+done instance_w3_s20261013_MISC_06_282.csv
+done instance_w3_s20261013_MISC_085_400.csv
+done instance_w3_s20261103_MISC_04_188.csv
+done instance_w3_s20261103_MISC_06_282.csv
+done instance_w3_s20261103_MISC_085_400.csv
+done instance_w3_s20261104_MISC_04_188.csv
+done instance_w3_s20261104_MISC_06_282.csv
+done instance_w3_s20261104_MISC_085_400.csv
+done instance_w125_s20261013_MISC_04_188.csv
+done instance_w125_s20261013_MISC_06_282.csv
+done instance_w125_s20261013_MISC_085_400.csv
+done instance_w125_s20261103_MISC_04_188.csv
+done instance_w125_s20261103_MISC_06_282.csv
+done instance_w125_s20261103_MISC_085_400.csv
+done instance_w125_s20261104_MISC_04_188.csv
+done instance_w125_s20261104_MISC_06_282.csv
+done instance_w125_s20261104_MISC_085_400.csv
+Traceback (most recent call last):
+  File "E:\Desktop\cluster-sched-opt\scripts\10_aging_threshold.py", line 213, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "E:\Desktop\cluster-sched-opt\scripts\10_aging_threshold.py", line 156, in main
+    argmin = argmin.merge(
+        pol.loc[idx_max, ["cell", "policy"]].rename(
+            columns={"policy": "argmin_max_wait"}), on=["cell", "role"])
+  File "C:\Users\bigcat\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\frame.py", line 12900, in merge
+    return merge(
+        self,
+    ...<10 lines>...
+        validate=validate,
+    )
+  File "C:\Users\bigcat\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\reshape\merge.py", line 385, in merge
+    op = _MergeOperation(
+        left_df,
+    ...<10 lines>...
+        validate=validate,
+    )
+  File "C:\Users\bigcat\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\reshape\merge.py", line 1018, in __init__
+    ) = self._get_merge_keys()
+        ~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\bigcat\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\reshape\merge.py", line 1620, in _get_merge_keys
+    right_keys.append(right._get_label_or_level_values(rk))
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^
+  File "C:\Users\bigcat\AppData\Local\Programs\Python\Python313\Lib\site-packages\pandas\core\generic.py", line 1776, in _get_label_or_level_values
+    raise KeyError(key)
+KeyError: 'role'

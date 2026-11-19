@@ -1,0 +1,592 @@
+{
+  "generated_by": "scripts/10_aging_threshold.py",
+  "note": "Dense aging-threshold grid replayed on every sweep instance. Tuning role = the committed rank-1/base-seed cells; holdout = every other cell. Regret is vs the per-cell oracle over the grid.",
+  "grid_hours": [
+    0.5,
+    1.0,
+    2.0,
+    3.0,
+    4.0,
+    6.0
+  ],
+  "instances": {
+    "tuning": 6,
+    "holdout": 66
+  },
+  "fifo_priority_control_vs_sweep": {
+    "checked_rows": 144,
+    "max_relative_deviation": 0.0
+  },
+  "per_cell_argmin": [
+    {
+      "cell": "MISC_w125_s20261013_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age0.5h",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "MISC_w125_s20261013_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w125_s20261013_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age2h"
+    },
+    {
+      "cell": "MISC_w125_s20261103_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age3h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w125_s20261103_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age2h",
+      "argmin_max_wait": "priority-gpu-age3h"
+    },
+    {
+      "cell": "MISC_w125_s20261103_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age6h",
+      "argmin_max_wait": "priority-gpu-age2h"
+    },
+    {
+      "cell": "MISC_w125_s20261104_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w125_s20261104_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w125_s20261104_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age6h",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "MISC_w1_s20261013_rho0.4",
+      "role": "tuning",
+      "argmin_mean_wait": "priority-gpu-age1h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w1_s20261013_rho0.6",
+      "role": "tuning",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w1_s20261013_rho0.85",
+      "role": "tuning",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "MISC_w1_s20261103_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "MISC_w1_s20261103_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "MISC_w1_s20261103_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "MISC_w1_s20261104_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age1h",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "MISC_w1_s20261104_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age1h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w1_s20261104_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w2_s20261013_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "MISC_w2_s20261013_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "MISC_w2_s20261013_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w2_s20261103_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "MISC_w2_s20261103_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age4h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w2_s20261103_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age2h"
+    },
+    {
+      "cell": "MISC_w2_s20261104_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w2_s20261104_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age6h",
+      "argmin_max_wait": "priority-gpu-age2h"
+    },
+    {
+      "cell": "MISC_w2_s20261104_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age2h"
+    },
+    {
+      "cell": "MISC_w3_s20261013_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w3_s20261013_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age6h",
+      "argmin_max_wait": "priority-gpu-age2h"
+    },
+    {
+      "cell": "MISC_w3_s20261013_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "MISC_w3_s20261103_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age2h",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "MISC_w3_s20261103_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age4h"
+    },
+    {
+      "cell": "MISC_w3_s20261103_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age2h"
+    },
+    {
+      "cell": "MISC_w3_s20261104_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age1h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "MISC_w3_s20261104_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "MISC_w3_s20261104_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age2h"
+    },
+    {
+      "cell": "P100_w104_s20261013_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w104_s20261013_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age0.5h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w104_s20261013_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age2h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w104_s20261103_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age0.5h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w104_s20261103_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w104_s20261103_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age2h",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "P100_w104_s20261104_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w104_s20261104_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age2h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w104_s20261104_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age2h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w1_s20261013_rho0.4",
+      "role": "tuning",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w1_s20261013_rho0.6",
+      "role": "tuning",
+      "argmin_mean_wait": "priority-gpu-age3h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w1_s20261013_rho0.85",
+      "role": "tuning",
+      "argmin_mean_wait": "priority-gpu-age3h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w1_s20261103_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w1_s20261103_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age3h",
+      "argmin_max_wait": "priority-gpu-age2h"
+    },
+    {
+      "cell": "P100_w1_s20261103_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age4h",
+      "argmin_max_wait": "priority-gpu-age3h"
+    },
+    {
+      "cell": "P100_w1_s20261104_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w1_s20261104_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w1_s20261104_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age2h",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "P100_w2_s20261013_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w2_s20261013_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w2_s20261013_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w2_s20261103_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w2_s20261103_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w2_s20261103_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w2_s20261104_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w2_s20261104_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age0.5h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w2_s20261104_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w3_s20261013_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age0.5h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w3_s20261013_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu"
+    },
+    {
+      "cell": "P100_w3_s20261013_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "P100_w3_s20261103_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age1h",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w3_s20261103_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "P100_w3_s20261103_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "P100_w3_s20261104_rho0.4",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu",
+      "argmin_max_wait": "priority-gpu-age0.5h"
+    },
+    {
+      "cell": "P100_w3_s20261104_rho0.6",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age2h",
+      "argmin_max_wait": "priority-gpu-age1h"
+    },
+    {
+      "cell": "P100_w3_s20261104_rho0.85",
+      "role": "holdout",
+      "argmin_mean_wait": "priority-gpu-age2h",
+      "argmin_max_wait": "priority-gpu-age1h"
+    }
+  ],
+  "holdout_regret_vs_oracle_mean_wait": {
+    "priority-gpu-age0.5h": {
+      "mean_regret_pct": 43.15,
+      "median_regret_pct": 14.107,
+      "max_regret_pct": 413.006,
+      "cells_where_worse_than_noaging": 47
+    },
+    "priority-gpu-age1h": {
+      "mean_regret_pct": 38.099,
+      "median_regret_pct": 9.866,
+      "max_regret_pct": 542.629,
+      "cells_where_worse_than_noaging": 44
+    },
+    "priority-gpu-age2h": {
+      "mean_regret_pct": 21.307,
+      "median_regret_pct": 1.478,
+      "max_regret_pct": 408.743,
+      "cells_where_worse_than_noaging": 28
+    },
+    "priority-gpu-age3h": {
+      "mean_regret_pct": 15.525,
+      "median_regret_pct": 1.035,
+      "max_regret_pct": 158.32,
+      "cells_where_worse_than_noaging": 25
+    },
+    "priority-gpu-age4h": {
+      "mean_regret_pct": 7.638,
+      "median_regret_pct": 1.035,
+      "max_regret_pct": 101.011,
+      "cells_where_worse_than_noaging": 20
+    },
+    "priority-gpu-age6h": {
+      "mean_regret_pct": 2.575,
+      "median_regret_pct": 0.0,
+      "max_regret_pct": 34.158,
+      "cells_where_worse_than_noaging": 11
+    },
+    "priority-gpu": {
+      "mean_regret_pct": 2.194,
+      "median_regret_pct": 0.0,
+      "max_regret_pct": 34.158,
+      "cells_where_worse_than_noaging": 0
+    }
+  },
+  "holdout_argmin_wins_mean_wait": {
+    "priority-gpu-age0.5h": 17,
+    "priority-gpu-age1h": 5,
+    "priority-gpu-age2h": 17,
+    "priority-gpu-age3h": 5,
+    "priority-gpu-age4h": 4,
+    "priority-gpu-age6h": 8,
+    "priority-gpu": 10
+  },
+  "holdout_sign_tests_mean_wait": {
+    "priority-gpu-age1h_vs_priority-gpu-age2h_mean_wait": {
+      "cells": 66,
+      "priority-gpu-age1h_better_in": 11,
+      "priority-gpu-age2h_better_in": 55
+    },
+    "priority-gpu-age2h_vs_priority-gpu-age4h_mean_wait": {
+      "cells": 66,
+      "priority-gpu-age2h_better_in": 16,
+      "priority-gpu-age4h_better_in": 50
+    },
+    "priority-gpu-age1h_vs_priority-gpu-age4h_mean_wait": {
+      "cells": 66,
+      "priority-gpu-age1h_better_in": 9,
+      "priority-gpu-age4h_better_in": 57
+    },
+    "priority-gpu-age2h_vs_priority-gpu-age3h_mean_wait": {
+      "cells": 66,
+      "priority-gpu-age2h_better_in": 17,
+      "priority-gpu-age3h_better_in": 49
+    },
+    "priority-gpu-age3h_vs_priority-gpu-age4h_mean_wait": {
+      "cells": 66,
+      "priority-gpu-age3h_better_in": 11,
+      "priority-gpu-age4h_better_in": 55
+    }
+  },
+  "holdout_tail_max_wait": {
+    "priority-gpu-age1h": {
+      "median_max_wait_regret_pct": 0.0,
+      "cells_argmin": 12
+    },
+    "priority-gpu-age2h": {
+      "median_max_wait_regret_pct": 2.25,
+      "cells_argmin": 11
+    },
+    "priority-gpu-age4h": {
+      "median_max_wait_regret_pct": 8.66,
+      "cells_argmin": 2
+    },
+    "priority-gpu": {
+      "median_max_wait_regret_pct": 14.34,
+      "cells_argmin": 0
+    },
+    "priority-gpu-age6h": {
+      "median_max_wait_regret_pct": 10.74,
+      "cells_argmin": 0
+    }
+  },
+  "tuning_to_holdout_transfer": {
+    "tuning_cells": 6,
+    "holdout_cells": 66,
+    "tuning_mean_relative_wait": {
+      "priority-gpu-age0.5h": 1.50728,
+      "priority-gpu-age1h": 1.34982,
+      "priority-gpu-age2h": 1.13253,
+      "priority-gpu-age3h": 1.00392,
+      "priority-gpu-age4h": 1.02918,
+      "priority-gpu-age6h": 1.04746,
+      "priority-gpu": 1.04746
+    },
+    "tuning_choice": "priority-gpu-age3h",
+    "tuning_per_cell_argmin": {
+      "MISC_w1_s20261013_rho0.4": "priority-gpu-age1h",
+      "MISC_w1_s20261013_rho0.6": "priority-gpu-age4h",
+      "MISC_w1_s20261013_rho0.85": "priority-gpu-age6h",
+      "P100_w1_s20261013_rho0.4": "priority-gpu-age3h",
+      "P100_w1_s20261013_rho0.6": "priority-gpu-age3h",
+      "P100_w1_s20261013_rho0.85": "priority-gpu-age3h"
+    },
+    "holdout_mean_relative_wait": {
+      "priority-gpu-age0.5h": 1.4315,
+      "priority-gpu-age1h": 1.38099,
+      "priority-gpu-age2h": 1.21307,
+      "priority-gpu-age3h": 1.15525,
+      "priority-gpu-age4h": 1.07638,
+      "priority-gpu-age6h": 1.02575,
+      "priority-gpu": 1.02194
+    },
+    "holdout_choice": "priority-gpu",
+    "tuning_choice_matches_holdout_choice": false,
+    "committed_headline": "priority-gpu-age1h",
+    "tuning_choice_holdout_win_share": 0.0758,
+    "committed_1h_holdout_win_share": 0.0758
+  }
+}
